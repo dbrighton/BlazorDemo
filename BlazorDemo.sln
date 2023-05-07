@@ -3,11 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shell.API", "API\Shell.API\Shell.API.csproj", "{38790DB0-FA05-4B1E-9609-CB6D463546BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shell.API", "API\Shell.API\Shell.API.csproj", "{38790DB0-FA05-4B1E-9609-CB6D463546BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{602B856B-0922-48B2-AFDD-AAC2F4B1D3F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{602B856B-0922-48B2-AFDD-AAC2F4B1D3F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shell.UI", "Shell.UI\Shell.UI.csproj", "{13E3E7F6-268D-4174-99EE-2CF0B475AAC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shell.UI", "Shell.UI\Shell.UI.csproj", "{13E3E7F6-268D-4174-99EE-2CF0B475AAC5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SoultionItmes", "SoultionItmes", "{17C32C2E-84AD-46F0-945F-43950BFAC005}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
