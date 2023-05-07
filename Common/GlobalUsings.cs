@@ -1,0 +1,5 @@
+﻿// Global using directives
+
+global using Common.Models;
+global using System.ComponentModel.DataAnnotations;
+global using System.Text;
