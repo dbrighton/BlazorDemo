@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.SignalR;
-
-namespace Common.Models
+﻿namespace Common.Models
 {
     /// <summary>
     /// Represents a base class for a game.

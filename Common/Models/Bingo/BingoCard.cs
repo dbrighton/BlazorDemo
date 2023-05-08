@@ -15,19 +15,7 @@ public class BingoCard
     /// </summary>
     public BingoCard()
     {
-        // Generate an array of unique integers between 1 and 75
-        var numbers = Enumerable.Range(1, 75).OrderBy(x => _random.Next()).ToArray();
-
-        Numbers = new int[NUM_ROWS, NUM_COLS];
-
-        // Assign the numbers to the card
-        for (int row = 0; row < NUM_ROWS; row++)
-        {
-            for (int col = 0; col < NUM_COLS; col++)
-            {
-                Numbers[row, col] = numbers[(col * NUM_ROWS) + row];
-            }
-        }
+        Numbers = GenerateBingoCard();
     }
 
     /// <summary>
@@ -35,48 +23,84 @@ public class BingoCard
     /// </summary>
     public int[,] Numbers { get; }
 
+    public string Id { get; set; }
+
     /// <summary>
-    /// Returns a string representation of the Bingo card.
+    /// Generates a Bingo card with unique numbers within the range of 1 to 75.
+    /// </summary>
+    /// <returns>The generated Bingo card.</returns>
+    private static int[,] GenerateBingoCard()
+    {
+        var numbers = GenerateNumbers();
+
+        var card = new int[NUM_ROWS, NUM_COLS];
+
+        // Assign the numbers to the card
+        for (int row = 0; row < NUM_ROWS; row++)
+        {
+            for (int col = 0; col < NUM_COLS; col++)
+            {
+                card[row, col] = numbers[(col * NUM_ROWS) + row];
+            }
+        }
+
+        return card;
+    }
+
+    /// <summary>
+    /// Generates an array of unique integers between 1 and 75.
+    /// </summary>
+    /// <returns>An array of unique integers between 1 and 75.</returns>
+    private static int[] GenerateNumbers()
+    {
+        var numbers = Enumerable.Range(1, 75).OrderBy(x => _random.Next()).ToArray();
+        return numbers;
+    }
+
+    /// <summary>
+    /// Returns a string representation of the Bingo card in ASCII art format.
     /// </summary>
     /// <returns>A string representation of the Bingo card.</returns>
     public override string ToString()
     {
         var sb = new StringBuilder();
+
         sb.AppendLine("+-----+-----+-----+-----+-----+");
+
         for (int row = 0; row < NUM_ROWS; row++)
         {
             sb.Append("|");
+
             for (int col = 0; col < NUM_COLS; col++)
             {
                 int number = Numbers[row, col];
+
                 sb.Append(number.ToString().PadLeft(2));
                 sb.Append(number == 0 ? "F" : " ");
+
                 sb.Append("|");
             }
+
             sb.AppendLine();
+
             sb.AppendLine("+-----+-----+-----+-----+-----+");
         }
+
         return sb.ToString();
     }
 
-    /// <summary>
-    /// Checks whether the card contains a specific number.
-    /// </summary>
-    /// <param name="currentNumber">The number to check for.</param>
-    /// <returns>True if the card contains the number, false otherwise.</returns>
+    public bool IsWinner(int[,] stateCalledBalls)
+    {
+        throw new NotImplementedException();
+    }
+
     public bool ContainsNumber(int currentNumber)
     {
-        for (int row = 0; row < NUM_ROWS; row++)
-        {
-            for (int col = 0; col < NUM_COLS; col++)
-            {
-                if (Numbers[row, col] == currentNumber)
-                {
-                    return true;
-                }
-            }
-        }
+        throw new NotImplementedException();
+    }
 
-        return false;
+    public bool IsWinner(List<int> stateCalledBalls)
+    {
+        throw new NotImplementedException();
     }
 }

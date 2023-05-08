@@ -1,6 +1,6 @@
 ﻿namespace BingoGameComponents;
 
-public partial class Component1
+public partial class BingoGameClientComponent
 {
-    
+  
 }

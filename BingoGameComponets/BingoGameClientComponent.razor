@@ -1,0 +1,96 @@
+﻿@using BingoGameComponents.Store
+@inherits FluxorComponent
+@inject IState<BingoCardState> BingoGameState
+
+<table id="bingo-card">
+    <tr>
+        <th>B</th>
+        <th>I</th>
+        <th>N</th>
+        <th>G</th>
+        <th>O</th>
+    </tr>
+    @for (int row = 0; row < 5; row++)
+    {
+        <tr @if (row == 2) { <text>class="center-cell"</text> }>
+            <td>@GetRandomValueFor('B')</td>
+            <td>@GetRandomValueFor('I')</td>
+            <td>
+                @if (row == 2)
+                {
+                    <span>Free</span>
+                }
+                else
+                {
+                    @GetRandomValueFor('N')
+                }
+            </td>
+            <td>@GetRandomValueFor('G')</td>
+            <td>@GetRandomValueFor('O')</td>
+        </tr>
+    }
+</table>
+
+
+@code {
+    private readonly Random _random = new Random();
+
+    private string GetClassForCell(int index)
+    {
+        return null;
+    }
+
+    private string GetIconForNumber(int number)
+    {
+        return number == 0 ? "bingo-icon-free" : "bingo-icon-number";
+    }
+
+    private int GetRandomValueFor(char column)
+    {
+        int minValue, maxValue;
+        switch (column)
+        {
+            case 'B':
+                minValue = 1;
+                maxValue = 15;
+                break;
+            case 'I':
+                minValue = 16;
+                maxValue = 30;
+                break;
+            case 'N':
+                minValue = 31;
+                maxValue = 45;
+                break;
+            case 'G':
+                minValue = 46;
+                maxValue = 60;
+                break;
+            case 'O':
+                minValue = 61;
+                maxValue = 75;
+                break;
+            default:
+                throw new ArgumentException("Invalid column value", nameof(column));
+        }
+
+        var card = BingoGameState.Value.BingoCard;
+        var usedValues = new HashSet<int>();
+        for (int row = 0; row < 5; row++)
+        {
+            for (int col = 0; col < 5; col++)
+            {
+                usedValues.Add(card.Numbers[row, col]);
+            }
+        }
+
+        int value;
+        do
+        {
+            value = _random.Next(minValue, maxValue + 1);
+        }
+        while (usedValues.Contains(value));
+
+        return value;
+    }
+}

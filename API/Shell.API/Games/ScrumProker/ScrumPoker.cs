@@ -1,4 +1,4 @@
-﻿namespace Shell.API.Games.ScrumPoker;
+﻿namespace Shell.API.Games.ScrumProker;
 
 public class ScrumPoker
 {

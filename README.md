@@ -1,5 +1,5 @@
 
-### Blazor Demo
+# Blazor Demo
 
 
 This is a demo of a Blazor app that uses Fluxor for state management and SignalR for real-time updates.
@@ -11,7 +11,7 @@ This is a demo of a Blazor app that uses Fluxor for state management and SignalR
 - C#
 - ASP.NET Core
 - SignalR
-- [Fluxor](https://github.com/mrpmorris/Fluxor)  Based off of  [Eric King's blog post](https://dev.to/mr_eking/advanced-blazor-state-management-using-fluxor-part-1-696)
+- [Fluxor](https://github.com/mrpmorris/Fluxor)  (see Eric King's [ blog post](https://dev.to/mr_eking/advanced-blazor-state-management-using-fluxor-part-1-696))
 
 ## Authors
 

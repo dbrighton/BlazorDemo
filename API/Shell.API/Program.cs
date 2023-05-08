@@ -1,3 +1,6 @@
+using Common.Models.Bingo;
+using Shell.API.Games.ScrumProker;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
