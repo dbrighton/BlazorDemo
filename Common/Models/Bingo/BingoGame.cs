@@ -34,6 +34,8 @@ namespace Shell.API.Games.Bingo
             _cards = new List<BingoCard>();
             _cage = new Cage();
             _nextNumber = 1;
+            
+            _logger.LogInformation("Bingo game created.");
         }
 
         /// <summary>
@@ -41,6 +43,7 @@ namespace Shell.API.Games.Bingo
         /// </summary>
         public BingoGameState GetState()
         {
+            _logger.LogInformation($"Getting state of Bingo game.");
             return new BingoGameState
             {
                 Players = _players,
@@ -55,6 +58,7 @@ namespace Shell.API.Games.Bingo
         /// <param name="player">The player to add.</param>
         public void AddPlayer(BingoPlayer player)
         {
+            _logger.LogInformation($"Adding player {player.Name} to Bingo game.");
             _players.Add(player);
         }
 
@@ -64,6 +68,7 @@ namespace Shell.API.Games.Bingo
         /// <param name="player">The player to remove.</param>
         public void RemovePlayer(BingoPlayer player)
         {
+            _logger.LogInformation($"Removing player {player.Name} from Bingo game.)");
             _players.Remove(player);
         }
 
@@ -73,6 +78,7 @@ namespace Shell.API.Games.Bingo
         /// <param name="card">The card to add.</param>
         public void AddCard(BingoCard card)
         {
+            _logger.LogInformation("Adding card to Bingo game.");
             _cards.Add(card);
         }
 
@@ -82,6 +88,7 @@ namespace Shell.API.Games.Bingo
         /// <param name="card">The card to remove.</param>
         public void RemoveCard(BingoCard card)
         {
+            _logger.LogInformation($"removing card {card.Id} from Bingo game.");
             _cards.Remove(card);
         }
 
@@ -91,6 +98,7 @@ namespace Shell.API.Games.Bingo
         /// <param name="delayMilliseconds">The delay in milliseconds between each number draw.</param>
         public async Task Start(int delayMilliseconds)
         {
+            _logger.LogInformation($"starting Bingo game.");
             // Initialize the game state
             _currentNumber = _cage.DrawNumber();
             _isRunning = true;
