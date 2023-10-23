@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -16,7 +16,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\BingoGameComponets\BingoGameComponents.csproj" />
     <ProjectReference Include="..\..\Common\Common.csproj" />
-    <ProjectReference Include="..\..\Shell.UI\Shell.UI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

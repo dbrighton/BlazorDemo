@@ -10,7 +10,7 @@
         <th>G</th>
         <th>O</th>
     </tr>
-    @for (int row = 0; row < 5; row++)
+  @*   @for (int row = 0; row < 5; row++)
     {
         <tr @if (row == 2) { <text>class="center-cell"</text> }>
             <td>@GetRandomValueFor('B')</td>
@@ -28,7 +28,7 @@
             <td>@GetRandomValueFor('G')</td>
             <td>@GetRandomValueFor('O')</td>
         </tr>
-    }
+    } *@
 </table>
 
 
