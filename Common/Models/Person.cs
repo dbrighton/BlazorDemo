@@ -29,4 +29,6 @@ public class Person
     /// The person's full name.
     /// </summary>
     public string Name => $"{FirstName} {LastName}";
+
+    public int Bet { get; set; }
 }
