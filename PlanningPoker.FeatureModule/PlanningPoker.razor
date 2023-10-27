@@ -1,0 +1,22 @@
+﻿@using Fluxor
+@using global::PlanningPoker.FeatureModule.Store
+
+@inherits FluxorComponent
+@inject IDispatcher Dispatcher;
+@inject IState<PokerState> PokerState;
+
+
+
+<h3>PlanningPoker</h3>
+
+@code {
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+      //  Dispatcher.Dispatch(new FetchDataAction());
+    }
+}
+
+@code {
+
+}
