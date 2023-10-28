@@ -12,22 +12,18 @@ public class ScrumPokerFeature : Feature<BingoState>
     }
 }
 
-public class PlaceBetAction {
 
-    public required string PlayerName { get; set; }
-    public int Bet { get; set; }
-}
 
-public static class  ScrumPokerReducers
+public static class  BingoReducers
 {
-    [ReducerMethod]
-    public static BingoState OnPlaceBetAction(BingoState state, PlaceBetAction action)
-    {
-        var player = state.Players.FirstOrDefault(p => p.Name == action.PlayerName);
-        if (player != null)
-        {
-            player.Bet = action.Bet;
-        }
-        return state with { Players = state.Players };
-    }
+    //[ReducerMethod]
+    //public static BingoState OnPlaceBetAction(BingoState state, PlaceBetAction action)
+    //{
+    //    var player = state.Players.FirstOrDefault(p => p.Name == action.PlayerName);
+    //    if (player != null)
+    //    {
+    //        player.Bet = action.Bet;
+    //    }
+    //    return state with { Players = state.Players };
+    //}
 }
