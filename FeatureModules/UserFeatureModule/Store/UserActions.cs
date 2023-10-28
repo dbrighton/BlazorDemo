@@ -1,6 +1,4 @@
 ﻿namespace UserFeatureModule.Store;
 
-public class UserActions
-{
-    
-}
+public record OnLoginAction(Person User,bool IsLoggedIn);
+public record OnLogoutAction(Person User,bool IsLoggedIn);

@@ -1,4 +1,7 @@
-﻿namespace Bingo.Store;
+﻿using BingoFeatureModule;
+using BingoFeatureModule.Server;
+
+namespace Bingo.Store;
 
 public class BingoGame : GameBase<BingoHub>
 {

@@ -1,6 +1,6 @@
 ﻿namespace BingoFeatureModule;
 
-public class Constants
+public static class Constants
 {
     
 }

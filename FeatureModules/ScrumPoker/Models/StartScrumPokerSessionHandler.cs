@@ -2,17 +2,17 @@
 
 public class StartScrumPokerSessionHandler : IRequestHandler<StartScrumPokerSessionRequest, Guid>
 {
-    private readonly IScrumPokerSessionStore _sessionStore;
+    private readonly IScrumPokerSession _session;
 
-    public StartScrumPokerSessionHandler(IScrumPokerSessionStore sessionStore)
+    public StartScrumPokerSessionHandler(IScrumPokerSession session)
     {
-        _sessionStore = sessionStore;
+        _session = session;
     }
 
     public async Task<Guid> Handle(StartScrumPokerSessionRequest request, CancellationToken cancellationToken)
     {
         var sessionId = Guid.NewGuid();
-        _sessionStore.CreateSession(sessionId);
+        _session.CreateSessionAsync(request.Session, cancellationToken);
         return sessionId;
     }
 }

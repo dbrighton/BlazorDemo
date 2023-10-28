@@ -1,6 +1,30 @@
-﻿namespace UserFeatureModule;
+﻿
 
-public class UserFeatureModule
+
+@inherits FluxorComponent
+@inject IDispatcher Dispatcher
+@inject IState<UserState> UserState
+
+@if (this.UserState.Value.IsLoggedIn)
 {
-    
+<div class="top-row px-4">
+        <button @onclick="OnLogout" class="btn  btn-primary">Logout</button>
+</div>
+}
+else
+{
+    <div class="top-row px-4">
+        <button @onclick="OnLogin" class="btn  btn-primary">Login</button>
+    </div>
+}
+
+@code {
+    private void OnLogin()
+    {
+       // this.Dispatcher.Dispatch(new LoginAction());
+    }
+    private void OnLogout()
+    {
+       // this.Dispatcher.Dispatch(new LogoutAction());
+    }
 }

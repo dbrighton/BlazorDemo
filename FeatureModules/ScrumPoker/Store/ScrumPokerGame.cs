@@ -1,4 +1,5 @@
 ﻿using ScrumPokerFeatureModule;
+using ScrumPokerFeatureModule.Server;
 
 namespace ScrumPoker.Store;
 

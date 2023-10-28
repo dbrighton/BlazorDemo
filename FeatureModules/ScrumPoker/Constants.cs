@@ -1,6 +1,6 @@
-﻿namespace ScrumPoker;
+﻿namespace ScrumPokerFeatureModule;
 
-public class Constants
+public static class Constants
 {
     
 }
