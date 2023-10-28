@@ -1,4 +1,4 @@
-﻿namespace Bingo.Store;
+﻿namespace BingoFeatureModule.Store;
 
 public record BingoState(List<Person> Players,List<Card> Cards);
 

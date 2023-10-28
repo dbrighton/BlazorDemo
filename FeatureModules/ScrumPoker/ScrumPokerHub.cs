@@ -1,4 +1,4 @@
-﻿namespace ScrumPoker;
+﻿namespace ScrumPokerFeatureModule;
 
 public class ScrumPokerHub:Hub
 {

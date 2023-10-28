@@ -1,12 +1,8 @@
 ﻿using Common.Models.Poker;
 using Fluxor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ScrumPoker.Store;
 
-namespace ScrumPoker.Store;
+namespace ScrumPokerFeatureModule.Store;
 
 public record PokerState(List<Person> Players, List<Card> Cards);
 

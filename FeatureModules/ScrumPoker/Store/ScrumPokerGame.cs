@@ -1,4 +1,6 @@
-﻿namespace ScrumPoker.Store;
+﻿using ScrumPokerFeatureModule;
+
+namespace ScrumPoker.Store;
 
 public class ScrumPokerGame : GameBase<ScrumPokerHub>
 {

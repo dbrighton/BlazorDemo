@@ -1,4 +1,6 @@
-﻿namespace Common.Models.Bingo;
+﻿using Microsoft.Extensions.Logging;
+
+namespace Common.Models.Bingo;
 
 /// <summary>
 /// SignalR hub for managing Bingo games.
