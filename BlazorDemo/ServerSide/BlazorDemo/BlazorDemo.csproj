@@ -6,4 +6,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Fluxor" Version="5.9.1" />
+    <PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1" />
+    <PackageReference Include="Fluxor.Blazor.Web.ReduxDevTools" Version="5.9.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Common.csproj" />
+    <ProjectReference Include="..\..\..\FeatureModules\Bingo\BingoFeatureModule.csproj" />
+    <ProjectReference Include="..\..\..\FeatureModules\ScrumPoker\ScrumPokerFeatureModule.csproj" />
+  </ItemGroup>
+
 </Project>

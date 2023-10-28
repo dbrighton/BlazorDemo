@@ -2,8 +2,26 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+<div><button @onclick="PlayBingo" class="btn  btn-primary">Play Bingo Poker</button></div>
+<div><button @onclick="PlayPoker" class="btn  btn-primary">Play Scrum Poker</button></div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+
+@code {
+
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }=null!;
+
+
+    private void PlayPoker()
+    {
+        this.NavigationManager.NavigateTo("/poker");
+    }
+
+    private void PlayBingo()
+    {
+        this.NavigationManager.NavigateTo("/bingo");
+    }
+
+}
