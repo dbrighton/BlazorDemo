@@ -2,15 +2,16 @@
 @inject IMatToaster ToasterService
 
 @code {
+  
 
-    protected override void OnInitialized()
+    protected override Task OnInitializedAsync()
     {
         SubscribeToAction<GenericErrorAction>(action => ToasterService.Add(action.Message, MatToastType.Danger, "Error"));
         SubscribeToAction<GenericWarningAction>(action => ToasterService.Add(action.Message, MatToastType.Warning, "Warning"));
         SubscribeToAction<GenericInfoAction>(action => ToasterService.Add(action.Message, MatToastType.Info, "Info"));
         SubscribeToAction<GenericSuccessAction>(action => ToasterService.Add(action.Message, MatToastType.Success));
 
-        base.OnInitialized();
+        return base.OnInitializedAsync();
     }
 
 }

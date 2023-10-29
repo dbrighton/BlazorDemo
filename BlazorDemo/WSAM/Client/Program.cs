@@ -16,6 +16,7 @@ builder.Services.AddFluxor(opt =>
         .UseReduxDevTools();
 #else
     opt.ScanAssemblies(
+        typeof(UserState).Assembly, 
         typeof(BingoState).Assembly,
         typeof(PokerState).Assembly);
 #endif

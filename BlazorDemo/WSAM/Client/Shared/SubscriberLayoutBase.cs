@@ -6,7 +6,7 @@ public class SubscriberLayoutBase : LayoutComponentBase, IDisposable
 {
     public bool Disposed { get; set; }
 
-    [Inject] public IActionSubscriber ActionSubscriber { get; set; }
+    [Inject] public IActionSubscriber ActionSubscriber { get; set; } = default!;
 
     public void Dispose()
     {
