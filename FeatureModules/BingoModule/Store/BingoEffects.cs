@@ -18,6 +18,12 @@ public class BingoEffects
     [EffectMethod(typeof(BingoHubStartAction))]
     public async Task Start(IDispatcher dispatcher)
     {
+        if (_hubConnection.State == HubConnectionState.Connected)
+        {
+            dispatcher.Dispatch(new BingoHubSetConnectedAction(true));
+            return;
+        }
+
         await _hubConnection.StartAsync();
 
         _hubConnection.Reconnecting += (ex) =>

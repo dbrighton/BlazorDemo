@@ -1,6 +1,6 @@
 ﻿namespace UserFeatureModule.Store;
 
-public record UserState(bool Connected,bool IsLoggedIn );
+public record UserState(bool HubConnected,bool IsLoggedIn );
 
 
 public class AuthHubFeature : Feature<UserState>

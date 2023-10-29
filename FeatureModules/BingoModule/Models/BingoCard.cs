@@ -1,4 +1,4 @@
-﻿namespace Common.Models.Bingo;
+﻿namespace BingoFeatureModule.Models;
 
 /// <summary>
 /// A class representing a Bingo card.

@@ -1,7 +1,6 @@
-﻿using ScrumPokerFeatureModule;
-using ScrumPokerFeatureModule.Server;
+﻿using ScrumPokerFeatureModule.Server;
 
-namespace ScrumPoker.Store;
+namespace ScrumPokerFeatureModule.Store;
 
 public class ScrumPokerGame : GameBase<ScrumPokerHub>
 {

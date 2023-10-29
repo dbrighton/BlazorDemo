@@ -1,11 +1,11 @@
-﻿using Common.Models.Poker;
+﻿
 
 namespace ScrumPokerFeatureModule.Store;
 
 public record PokerState(
-    List<Person> Players, 
-    List<Card> Cards,
-    bool Connected);
+    List<PokerPlayer> Players, 
+    List<ScrumPokerCard> Cards,
+    bool HubConnected);
 
 public class ScrumPokerFeature : Feature<PokerState>
 {
@@ -13,6 +13,6 @@ public class ScrumPokerFeature : Feature<PokerState>
 
     protected override PokerState GetInitialState()
     {
-        return new PokerState(new List<Person>(), new List<Card>(),false);
+        return new PokerState(new List<PokerPlayer>(), new List<ScrumPokerCard>(),false);
     }
 }

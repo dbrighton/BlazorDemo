@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace BingoFeatureModule.Server;
+﻿namespace BingoFeatureModule.Server;
 
 public class BingoGameService:IHostedService
 {

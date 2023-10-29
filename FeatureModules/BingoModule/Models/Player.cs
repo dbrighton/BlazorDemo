@@ -1,4 +1,5 @@
-﻿using Common.Models.Bingo;
+﻿
+namespace BingoFeatureModule.Models;
 
 /// <summary>
 /// Represents a player in a Bingo game.

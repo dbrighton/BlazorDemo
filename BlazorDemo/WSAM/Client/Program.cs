@@ -1,3 +1,5 @@
+using UserFeatureModule.Store;
+
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
@@ -8,6 +10,7 @@ builder.Services.AddFluxor(opt =>
 {
 #if DEBUG
     opt.ScanAssemblies(
+            typeof(UserState).Assembly, 
             typeof(BingoState).Assembly, 
             typeof(PokerState).Assembly)
         .UseReduxDevTools();
