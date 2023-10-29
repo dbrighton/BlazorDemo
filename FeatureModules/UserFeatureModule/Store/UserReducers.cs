@@ -1,9 +1,9 @@
 ﻿namespace UserFeatureModule.Store;
 
-public static class AuthHubReducers
+public static class AuthReducers
 {
     [ReducerMethod]
-    public static HubAuthSate OnSetConnected(HubAuthSate state, AuthHubSetConnectedAction action)
+    public static UserSate OnSetConnected(UserSate state, AuthHubSetConnectedAction action)
     {
         return state with { Connected = action.Connected };
     }

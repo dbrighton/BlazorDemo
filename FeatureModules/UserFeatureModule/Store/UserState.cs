@@ -1,28 +1,13 @@
 ﻿namespace UserFeatureModule.Store;
 
-public record UserState(Person User, bool IsLoggedIn);
+public record UserSate(bool Connected);
 
-partial class UserFeature : Feature<UserState>
+public class AuthHubFeature : Feature<UserSate>
 {
-    public override string GetName() => nameof(UserState);
+    public override string GetName() => nameof(UserSate);
 
-    protected override UserState GetInitialState()
+    protected override UserSate GetInitialState()
     {
-        return new UserState(new Person(), false);
-    }
-}
-
-public static class UserReducers
-{
-    [ReducerMethod]
-    public static UserState OnLoginAction(UserState state, OnLoginAction action)
-    {
-        return state with { User = action.User, IsLoggedIn = true };
-    }
-
-    [ReducerMethod]
-    public static UserState OnLogoutAction(UserState state, OnLogoutAction action)
-    {
-        return state with { User = new Person(), IsLoggedIn = false };
+        return new UserSate(false);
     }
 }

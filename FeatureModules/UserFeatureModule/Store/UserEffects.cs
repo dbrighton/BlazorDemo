@@ -3,9 +3,9 @@
 public class AuthHubEffects
 {
     private readonly HubConnection _hubConnection;
-    private readonly ILogger<HubConnection> _log;
+    private readonly ILogger<AuthHubEffects> _log;
 
-    public AuthHubEffects(ILogger<HubConnection>logger, NavigationManager navigationManager)
+    public AuthHubEffects(ILogger<AuthHubEffects>logger, NavigationManager navigationManager)
     {
         _log = logger;
 
@@ -43,7 +43,7 @@ public class AuthHubEffects
         }
         else
         {
-            _log.LogCritical("HubConnectionState:{state}",_hubConnection.State);
+            _log.LogCritical("HubConnectionState:{State}",_hubConnection.State);
             dispatcher.Dispatch(new AuthHubSetConnectedAction(false));
         }
     }
