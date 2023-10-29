@@ -2,7 +2,7 @@
 
 public record BingoState(List<Person> Players,List<Card> Cards);
 
-public class ScrumPokerFeature : Feature<BingoState>
+public class BingoFeature : Feature<BingoState>
 {
     public override string GetName()=>nameof(BingoState);
 

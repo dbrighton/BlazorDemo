@@ -1,5 +1,5 @@
-﻿namespace ScrumPoker;
+﻿namespace ScrumPokerFeatureModule;
 
-public partial class ScrumPoker
+public partial class ScrumPokerFeature
 {
 }

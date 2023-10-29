@@ -1,3 +1,6 @@
+
+using BingoFeature = BingoFeatureModule.BingoFeature;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,9 +20,9 @@ builder.Services.AddFluxor(opt =>
 {
 #if DEBUG
     opt.ScanAssemblies(
-            typeof(UserState).Assembly,
-            typeof(BingoState).Assembly,
-            typeof(PokerState).Assembly)
+            typeof(UserFeature).Assembly, 
+            typeof(BingoFeature).Assembly,
+            typeof(ScrumPokerFeature).Assembly)
         .UseReduxDevTools();
 #else
     opt.ScanAssemblies(
@@ -45,6 +48,7 @@ app.UseRouting();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
+app.MapHub<AuthHub>("/authHub");
 app.MapHub<BingoHub>("/bingoHub");
 app.MapHub<ScrumPokerHub>("/pokerHub");
 

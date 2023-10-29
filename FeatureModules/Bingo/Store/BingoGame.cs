@@ -1,7 +1,6 @@
-﻿using BingoFeatureModule;
-using BingoFeatureModule.Server;
+﻿using BingoFeatureModule.Server;
 
-namespace Bingo.Store;
+namespace BingoFeatureModule.Store;
 
 public class BingoGame : GameBase<BingoHub>
 {

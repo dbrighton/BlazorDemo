@@ -19,6 +19,12 @@ else
 }
 
 @code {
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Dispatcher.Dispatch(new AuthHubStartAction());
+    }
     private void OnLogin()
     {
        // this.Dispatcher.Dispatch(new LoginAction());

@@ -9,4 +9,6 @@ global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.Components.Web;
 global using ScrumPokerFeatureModule.Server;
 global using ScrumPokerFeatureModule.Store;
+global using UserFeatureModule;
+global using UserFeatureModule.Server;
 global using UserFeatureModule.Store;
