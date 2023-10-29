@@ -7,5 +7,4 @@ public static class PokerReducers
     {
         return state with { HubConnected = action.Connected };
     }
-    
 }

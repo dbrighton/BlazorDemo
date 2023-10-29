@@ -1,27 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Models\Bingo\**" />
-    <Compile Remove="Models\Poker\**" />
-    <EmbeddedResource Remove="Models\Bingo\**" />
-    <EmbeddedResource Remove="Models\Poker\**" />
-    <None Remove="Models\Bingo\**" />
-    <None Remove="Models\Poker\**" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="Models\Bingo\**"/>
+        <Compile Remove="Models\Poker\**"/>
+        <EmbeddedResource Remove="Models\Bingo\**"/>
+        <EmbeddedResource Remove="Models\Poker\**"/>
+        <None Remove="Models\Bingo\**"/>
+        <None Remove="Models\Poker\**"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MediatR" Version="12.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <ItemGroup>
+        <PackageReference Include="MediatR" Version="12.1.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
 
-  </ItemGroup>
-
+    </ItemGroup>
 
 
 </Project>

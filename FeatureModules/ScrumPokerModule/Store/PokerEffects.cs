@@ -2,8 +2,8 @@
 
 public class PokerEffects
 {
-    private readonly ILogger<PokerEffects> _log;
     private readonly HubConnection _hubConnection;
+    private readonly ILogger<PokerEffects> _log;
 
     public PokerEffects(ILogger<PokerEffects> logger, NavigationManager navigationManager)
     {
@@ -26,19 +26,19 @@ public class PokerEffects
 
         await _hubConnection.StartAsync();
 
-        _hubConnection.Reconnecting += (ex) =>
+        _hubConnection.Reconnecting += ex =>
         {
             dispatcher.Dispatch(new PokerHubSetConnectedAction(false));
             return Task.CompletedTask;
         };
 
-        _hubConnection.Reconnected += (connectionId) =>
+        _hubConnection.Reconnected += connectionId =>
         {
             dispatcher.Dispatch(new PokerHubSetConnectedAction(true));
             return Task.CompletedTask;
         };
 
-        _hubConnection.On<Person>("PersonLogin", (Person) =>
+        _hubConnection.On<Person>("PersonLogin", Person =>
         {
             // TODO: Dispatch action to update state
         });
@@ -46,11 +46,13 @@ public class PokerEffects
         if (_hubConnection.State == HubConnectionState.Connected)
         {
             dispatcher.Dispatch(new PokerHubSetConnectedAction(true));
+            dispatcher.Dispatch(new GenericSuccessAction("Poker Hub Connected"));
         }
         else
         {
             _log.LogCritical("HubConnectionState:{State}", _hubConnection.State);
             dispatcher.Dispatch(new PokerHubSetConnectedAction(false));
+            dispatcher.Dispatch(new GenericErrorAction("Poker Hub Not Connected!"));
         }
     }
 }

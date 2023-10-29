@@ -1,5 +1,5 @@
 ﻿namespace UserFeatureModule.Server;
 
-public class AuthHub:Hub
+public class AuthHub : Hub
 {
 }

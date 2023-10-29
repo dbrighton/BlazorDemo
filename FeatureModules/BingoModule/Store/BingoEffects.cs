@@ -2,10 +2,10 @@
 
 public class BingoEffects
 {
-    private readonly ILogger<BingoEffects> _log;
     private readonly HubConnection _hubConnection;
+    private readonly ILogger<BingoEffects> _log;
 
-    public BingoEffects(ILogger<BingoEffects>logger, NavigationManager navigationManager)
+    public BingoEffects(ILogger<BingoEffects> logger, NavigationManager navigationManager)
     {
         _log = logger;
 
@@ -26,28 +26,29 @@ public class BingoEffects
 
         await _hubConnection.StartAsync();
 
-        _hubConnection.Reconnecting += (ex) =>
+        _hubConnection.Reconnecting += ex =>
         {
             dispatcher.Dispatch(new BingoHubSetConnectedAction(false));
             return Task.CompletedTask;
         };
 
-        _hubConnection.Reconnected += (connectionId) =>
+        _hubConnection.Reconnected += connectionId =>
         {
             dispatcher.Dispatch(new BingoHubSetConnectedAction(true));
             return Task.CompletedTask;
         };
 
-        
+
         if (_hubConnection.State == HubConnectionState.Connected)
         {
             dispatcher.Dispatch(new BingoHubSetConnectedAction(true));
+            dispatcher.Dispatch(new GenericSuccessAction("Bingo Hub Connected"));
         }
         else
         {
-            _log.LogCritical("HubConnectionState:{State}",_hubConnection.State);
+            _log.LogCritical("HubConnectionState:{State}", _hubConnection.State);
             dispatcher.Dispatch(new BingoHubSetConnectedAction(false));
+            dispatcher.Dispatch(new GenericErrorAction("Bingo Hub Not Connected!"));
         }
-        
     }
 }

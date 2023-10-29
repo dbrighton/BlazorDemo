@@ -1,17 +1,17 @@
 ﻿namespace BingoFeatureModule.Models;
 
 /// <summary>
-/// A class representing a Bingo card.
+///     A class representing a Bingo card.
 /// </summary>
 public class BingoCard
 {
     private const int NUM_ROWS = 5;
     private const int NUM_COLS = 5;
 
-    private static readonly Random _random = new Random();
+    private static readonly Random _random = new();
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BingoCard"/> class.
+    ///     Initializes a new instance of the <see cref="BingoCard" /> class.
     /// </summary>
     public BingoCard()
     {
@@ -19,14 +19,14 @@ public class BingoCard
     }
 
     /// <summary>
-    /// Gets the numbers on the card.
+    ///     Gets the numbers on the card.
     /// </summary>
     public int[,] Numbers { get; }
 
     public string Id { get; set; }
 
     /// <summary>
-    /// Generates a Bingo card with unique numbers within the range of 1 to 75.
+    ///     Generates a Bingo card with unique numbers within the range of 1 to 75.
     /// </summary>
     /// <returns>The generated Bingo card.</returns>
     private static int[,] GenerateBingoCard()
@@ -36,19 +36,15 @@ public class BingoCard
         var card = new int[NUM_ROWS, NUM_COLS];
 
         // Assign the numbers to the card
-        for (int row = 0; row < NUM_ROWS; row++)
-        {
-            for (int col = 0; col < NUM_COLS; col++)
-            {
-                card[row, col] = numbers[(col * NUM_ROWS) + row];
-            }
-        }
+        for (var row = 0; row < NUM_ROWS; row++)
+        for (var col = 0; col < NUM_COLS; col++)
+            card[row, col] = numbers[col * NUM_ROWS + row];
 
         return card;
     }
 
     /// <summary>
-    /// Generates an array of unique integers between 1 and 75.
+    ///     Generates an array of unique integers between 1 and 75.
     /// </summary>
     /// <returns>An array of unique integers between 1 and 75.</returns>
     private static int[] GenerateNumbers()
@@ -58,7 +54,7 @@ public class BingoCard
     }
 
     /// <summary>
-    /// Returns a string representation of the Bingo card in ASCII art format.
+    ///     Returns a string representation of the Bingo card in ASCII art format.
     /// </summary>
     /// <returns>A string representation of the Bingo card.</returns>
     public override string ToString()
@@ -67,13 +63,13 @@ public class BingoCard
 
         sb.AppendLine("+-----+-----+-----+-----+-----+");
 
-        for (int row = 0; row < NUM_ROWS; row++)
+        for (var row = 0; row < NUM_ROWS; row++)
         {
             sb.Append("|");
 
-            for (int col = 0; col < NUM_COLS; col++)
+            for (var col = 0; col < NUM_COLS; col++)
             {
-                int number = Numbers[row, col];
+                var number = Numbers[row, col];
 
                 sb.Append(number.ToString().PadLeft(2));
                 sb.Append(number == 0 ? "F" : " ");

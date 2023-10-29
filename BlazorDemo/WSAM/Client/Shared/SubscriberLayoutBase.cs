@@ -1,4 +1,6 @@
-﻿namespace BlazorDemo.Shared;
+﻿using Microsoft.AspNetCore.Components;
+
+namespace BlazorDemo.Client.Shared;
 
 public class SubscriberLayoutBase : LayoutComponentBase, IDisposable
 {

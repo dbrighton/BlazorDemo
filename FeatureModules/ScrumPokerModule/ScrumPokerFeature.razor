@@ -1,5 +1,4 @@
 ﻿@using ScrumPokerFeatureModule.Store
-
 @inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<PokerState> PokerState
@@ -15,4 +14,5 @@
         base.OnInitialized();
         Dispatcher.Dispatch(new PokerHubStartAction());
     }
+
 }

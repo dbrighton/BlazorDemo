@@ -1,7 +1,7 @@
 ﻿namespace BingoFeatureModule.Models;
 
 /// <summary>
-/// Represents a cage containing Bingo balls.
+///     Represents a cage containing Bingo balls.
 /// </summary>
 public class Cage
 {
@@ -9,7 +9,7 @@ public class Cage
     private readonly Random _random;
 
     /// <summary>
-    /// Creates a new instance of the <see cref="Cage"/> class.
+    ///     Creates a new instance of the <see cref="Cage" /> class.
     /// </summary>
     public Cage()
     {
@@ -18,15 +18,12 @@ public class Cage
     }
 
     /// <summary>
-    /// Draws a ball from the cage and removes it from the list of available balls.
+    ///     Draws a ball from the cage and removes it from the list of available balls.
     /// </summary>
     /// <returns>The value of the drawn ball.</returns>
     public int DrawBall()
     {
-        if (_balls.Count == 0)
-        {
-            throw new InvalidOperationException("No more balls in the cage.");
-        }
+        if (_balls.Count == 0) throw new InvalidOperationException("No more balls in the cage.");
 
         var index = _random.Next(_balls.Count);
         var ball = _balls[index];
@@ -36,7 +33,7 @@ public class Cage
     }
 
     /// <summary>
-    /// Resets the cage to its initial state with all 75 balls.
+    ///     Resets the cage to its initial state with all 75 balls.
     /// </summary>
     public void Reset()
     {
@@ -46,15 +43,12 @@ public class Cage
     }
 
     /// <summary>
-    /// Draws a random number from the cage and remove it from the list of available numbers.
+    ///     Draws a random number from the cage and remove it from the list of available numbers.
     /// </summary>
     /// <returns>The value of the drawn number.</returns>
     public int DrawNumber()
     {
-        if (_balls.Count == 0)
-        {
-            Reset();
-        }
+        if (_balls.Count == 0) Reset();
 
         var index = _random.Next(_balls.Count);
         var ball = _balls[index];
@@ -64,7 +58,7 @@ public class Cage
     }
 
     /// <summary>
-    /// Shuffles the order of the balls in the cage.
+    ///     Shuffles the order of the balls in the cage.
     /// </summary>
     public void Shuffle()
     {

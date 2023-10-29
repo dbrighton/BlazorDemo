@@ -1,9 +1,9 @@
 ﻿@using BlazorDemo.Shared
-<Fluxor.Blazor.Web.StoreInitializer />
+<Fluxor.Blazor.Web.StoreInitializer/>
 <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
+        <FocusOnNavigate RouteData="@routeData" Selector="h1"/>
     </Found>
     <NotFound>
         <PageTitle>Not found</PageTitle>
@@ -12,3 +12,7 @@
         </LayoutView>
     </NotFound>
 </Router>
+
+<MatPortalHost/>
+<MatToastContainer/>
+<Toaster/>

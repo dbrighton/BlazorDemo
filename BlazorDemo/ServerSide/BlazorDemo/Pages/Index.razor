@@ -3,25 +3,28 @@
 <PageTitle>Index</PageTitle>
 
 
-<div><button @onclick="PlayBingo" class="btn  btn-primary">Play Bingo Poker</button></div>
-<div><button @onclick="PlayPoker" class="btn  btn-primary">Play Scrum Poker</button></div>
-
+<div>
+    <button @onclick="PlayBingo" class="btn  btn-primary">Play Bingo Poker</button>
+</div>
+<div>
+    <button @onclick="PlayPoker" class="btn  btn-primary">Play Scrum Poker</button>
+</div>
 
 
 @code {
 
     [Inject]
-    private NavigationManager NavigationManager { get; set; }=null!;
+    private NavigationManager NavigationManager { get; set; } = null!;
 
 
     private void PlayPoker()
     {
-        this.NavigationManager.NavigateTo("/poker");
+        NavigationManager.NavigateTo("/poker");
     }
 
     private void PlayBingo()
     {
-        this.NavigationManager.NavigateTo("/bingo");
+        NavigationManager.NavigateTo("/bingo");
     }
 
 }

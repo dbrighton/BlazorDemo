@@ -1,7 +1,6 @@
-﻿
-namespace BingoFeatureModule.Store;
+﻿namespace BingoFeatureModule.Store;
 
-public record BingoHubStartAction();
+public record BingoHubStartAction;
 
 public record BingoHubSetConnectedAction(bool Connected);
 

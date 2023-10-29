@@ -1,4 +1,4 @@
-using UserFeatureModule.Store;
+using System.Net.NetworkInformation;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -19,6 +19,18 @@ builder.Services.AddFluxor(opt =>
         typeof(BingoState).Assembly,
         typeof(PokerState).Assembly);
 #endif
+});
+
+builder.Services.AddMatBlazor();
+builder.Services.AddMatToaster(cfg =>
+{
+    cfg.Position = MatToastPosition.BottomRight;
+    cfg.MaxDisplayedToasts = 3;
+    cfg.PreventDuplicates = true;
+    cfg.NewestOnTop = true;
+    cfg.ShowCloseButton = true;
+    cfg.MaximumOpacity = 100;
+    cfg.VisibleStateDuration = 3000;
 });
 
 await builder.Build().RunAsync();
