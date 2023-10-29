@@ -1,11 +1,11 @@
-﻿namespace UserFeatureModule.Store;
+﻿namespace ScrumPokerFeatureModule.Store;
 
-public class UserEffects
+public class PokerEffects
 {
+    private readonly ILogger<PokerEffects> _log;
     private readonly HubConnection _hubConnection;
-    private readonly ILogger<UserEffects> _log;
 
-    public UserEffects(ILogger<UserEffects>logger, NavigationManager navigationManager)
+    public PokerEffects(ILogger<PokerEffects> logger, NavigationManager navigationManager)
     {
         _log = logger;
 
@@ -15,20 +15,20 @@ public class UserEffects
             .Build();
     }
 
-    [EffectMethod(typeof(AuthHubStartAction))]
+    [EffectMethod(typeof(PokerHubStartAction))]
     public async Task Start(IDispatcher dispatcher)
     {
         await _hubConnection.StartAsync();
 
         _hubConnection.Reconnecting += (ex) =>
         {
-            dispatcher.Dispatch(new AuthHubSetConnectedAction(false));
+            dispatcher.Dispatch(new PokerHubSetConnectedAction(false));
             return Task.CompletedTask;
         };
 
         _hubConnection.Reconnected += (connectionId) =>
         {
-            dispatcher.Dispatch(new AuthHubSetConnectedAction(true));
+            dispatcher.Dispatch(new PokerHubSetConnectedAction(true));
             return Task.CompletedTask;
         };
 
@@ -39,12 +39,12 @@ public class UserEffects
 
         if (_hubConnection.State == HubConnectionState.Connected)
         {
-            dispatcher.Dispatch(new AuthHubSetConnectedAction(true));
+            dispatcher.Dispatch(new PokerHubSetConnectedAction(true));
         }
         else
         {
-            _log.LogCritical("HubConnectionState:{State}",_hubConnection.State);
-            dispatcher.Dispatch(new AuthHubSetConnectedAction(false));
+            _log.LogCritical("HubConnectionState:{State}", _hubConnection.State);
+            dispatcher.Dispatch(new PokerHubSetConnectedAction(false));
         }
     }
 }

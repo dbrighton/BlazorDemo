@@ -1,8 +1,4 @@
-﻿@using Fluxor
-@using Fluxor.Blazor.Web.Components
-@using BingoFeatureModule.Store
-
-
+﻿@using BingoFeatureModule.Store
 @inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<BingoState> PokerState
@@ -10,3 +6,13 @@
 <div class="my-component">
     This component is defined in the <strong>ScrumPoker</strong> library.
 </div>
+
+@code{
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Dispatcher.Dispatch(new BingoHubStartAction());
+    }
+
+}

@@ -1,13 +1,14 @@
 ﻿namespace UserFeatureModule.Store;
 
-public record UserSate(bool Connected);
+public record UserState(bool Connected,bool IsLoggedIn );
 
-public class AuthHubFeature : Feature<UserSate>
+
+public class AuthHubFeature : Feature<UserState>
 {
-    public override string GetName() => nameof(UserSate);
+    public override string GetName() => nameof(UserState);
 
-    protected override UserSate GetInitialState()
+    protected override UserState GetInitialState()
     {
-        return new UserSate(false);
+        return new UserState(false,false);
     }
 }

@@ -1,50 +1,47 @@
-﻿namespace UserFeatureModule.Store;
+﻿namespace BingoFeatureModule.Store;
 
-public class UserEffects
+public class BingoEffects
 {
+    private readonly ILogger<BingoEffects> _log;
     private readonly HubConnection _hubConnection;
-    private readonly ILogger<UserEffects> _log;
 
-    public UserEffects(ILogger<UserEffects>logger, NavigationManager navigationManager)
+    public BingoEffects(ILogger<BingoEffects>logger, NavigationManager navigationManager)
     {
         _log = logger;
 
         _hubConnection = new HubConnectionBuilder()
-            .WithUrl(navigationManager.ToAbsoluteUri("/authHub"))
+            .WithUrl(navigationManager.ToAbsoluteUri("/bingoHub"))
             .WithAutomaticReconnect()
             .Build();
     }
 
-    [EffectMethod(typeof(AuthHubStartAction))]
+    [EffectMethod(typeof(BingoHubStartAction))]
     public async Task Start(IDispatcher dispatcher)
     {
         await _hubConnection.StartAsync();
 
         _hubConnection.Reconnecting += (ex) =>
         {
-            dispatcher.Dispatch(new AuthHubSetConnectedAction(false));
+            dispatcher.Dispatch(new BingoHubSetConnectedAction(false));
             return Task.CompletedTask;
         };
 
         _hubConnection.Reconnected += (connectionId) =>
         {
-            dispatcher.Dispatch(new AuthHubSetConnectedAction(true));
+            dispatcher.Dispatch(new BingoHubSetConnectedAction(true));
             return Task.CompletedTask;
         };
 
-        _hubConnection.On<Person>("PersonLogin", (Person) =>
-        {
-            // TODO: Dispatch action to update state
-        });
-
+        
         if (_hubConnection.State == HubConnectionState.Connected)
         {
-            dispatcher.Dispatch(new AuthHubSetConnectedAction(true));
+            dispatcher.Dispatch(new BingoHubSetConnectedAction(true));
         }
         else
         {
             _log.LogCritical("HubConnectionState:{State}",_hubConnection.State);
-            dispatcher.Dispatch(new AuthHubSetConnectedAction(false));
+            dispatcher.Dispatch(new BingoHubSetConnectedAction(false));
         }
+        
     }
 }

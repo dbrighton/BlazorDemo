@@ -9,3 +9,12 @@
 <div class="my-component">
     This component is defined in the <strong>ScrumPoker</strong> library.
 </div>
+
+@code{
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Dispatcher.Dispatch(new PokerHubStartAction());
+    }
+}

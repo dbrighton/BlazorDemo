@@ -1,5 +1,6 @@
 // Global using directives
 
+
 global using BingoFeatureModule.Store;
 global using BlazorDemo.Client;
 global using Fluxor;

@@ -14,8 +14,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common.csproj" />
-    <ProjectReference Include="..\..\..\FeatureModules\Bingo\BingoFeatureModule.csproj" />
-    <ProjectReference Include="..\..\..\FeatureModules\ScrumPoker\ScrumPokerFeatureModule.csproj" />
+    <ProjectReference Include="..\..\..\FeatureModules\BingoModule\BingoFeatureModule.csproj" />
+    <ProjectReference Include="..\..\..\FeatureModules\ScrumPokerModule\ScrumPokerFeatureModule.csproj" />
     <ProjectReference Include="..\..\..\FeatureModules\UserFeatureModule\UserFeatureModule.csproj" />
   </ItemGroup>
 
