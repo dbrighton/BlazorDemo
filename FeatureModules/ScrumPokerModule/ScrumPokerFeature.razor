@@ -1,25 +1,66 @@
-﻿@using ScrumPokerFeatureModule.Store
+﻿@using UserFeatureModule.Store
 @inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<PokerState> PokerState
+@inject IState<UserState> UserState
+@inject IMatDialogService MatDialogService
 
-<div class="my-component">
-    This component is defined in the <strong>ScrumPoker</strong> library.
+<div class="float-right">
+    <button @onclick="OpenNewGameDialog" class="btn btn-primary">New Session</button>
 </div>
 
-
+<MatDialog  @bind-IsOpen="@dialogIsOpen">
+    @* <MatDialogTitle>Hi @name</MatDialogTitle> *@
+    <MatDialogContent >
+        <p>Enter Story Name:</p>
+        <MatTextField @bind-Value="@storyName"></MatTextField>
+        
+        <p>Story</p>
+        <MatTextField TextArea="true" @bind-Value="@story"></MatTextField>
+ 
+ 
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="@(e => { dialogIsOpen = false; })">Cancel</MatButton>
+        <MatButton OnClick="@OkClick">OK</MatButton>
+    </MatDialogActions>
+</MatDialog>
 
 @code{
 
-    protected override Task OnInitializedAsync()
-    {
-        return base.OnInitializedAsync();
-    }
+    bool dialogIsOpen = false;
+    string storyName = "";
+    string story = ""; 
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         Dispatcher.Dispatch(new PokerHubStartAction());
+    }
+
+
+    private void OpenNewGameDialog()
+    {
+        dialogIsOpen = true;
+    }
+
+    private Task OkClick()
+    {
+        dialogIsOpen = false;
+
+       if (string.IsNullOrEmpty(storyName) || string.IsNullOrEmpty(story))
+        {
+            Dispatcher.Dispatch(new GenericErrorAction($"Story Name or Story is null"));
+            return Task.CompletedTask;
+        }
+       
+        var user = UserState.Value.User;
+        Dispatcher.Dispatch(new NewGameAction(user,storyName, story));
+
+         storyName = "";
+         story = ""; 
+       
+        return Task.CompletedTask;
     }
 
 }

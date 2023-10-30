@@ -2,5 +2,7 @@
 
 public static class Constants
 {
-    public static string GetPokerSessions = "GetPokerSessions";
+    public const string GetPokerSessions = "GetPokerSessions";
+    public const string CreateSession = "CreateSession";
+    public const string PokerSessionsUpdated = "PokerSessionsUpdated";
 }

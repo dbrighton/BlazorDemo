@@ -1,45 +1,40 @@
-﻿using MediatR;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 
 namespace ScrumPokerFeatureModule.Server;
 
-public class ScrumPokerGameService : IHostedService
+
+
+public class ScrumPokerGameService 
 {
     private readonly ILogger<ScrumPokerGameService> _logger;
-    private readonly IMediator _mediator;
+    private readonly EventAggregator _ea;
+    private readonly ScrumPokerHub _hub;
 
-    public ScrumPokerGameService(ILogger<ScrumPokerGameService> logger, IMediator mediator)
+
+    public List<ScrumPokerSession> Sessions { get; set; } = new List<ScrumPokerSession>();
+
+
+
+    public ScrumPokerGameService(ILogger<ScrumPokerGameService> logger, ScrumPokerHub hub, EventAggregator ea)
     {
         _logger = logger;
-        _mediator = mediator;
-    }
+        _ea = ea;
+        _hub = hub;
 
-    private List<IScrumPokerSession> Sessions { get; } = new();
-
-    public async Task StartAsync(CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task StopAsync(CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task StartAsync(IScrumPokerSession scrumPokerSession, CancellationToken cancellationToken)
-    {
-        // Check if cancellation is requested
-        if (cancellationToken.IsCancellationRequested)
-            // Handle cancellation if requested (e.g., cleanup or exit)
-            return;
-
-
-        // Check if the session already exists in Sessions
-        if (!Sessions.Contains(scrumPokerSession))
+        _ea.GetEvent<ScrumPokerFeatureAddedEvent>().Subscribe((payload) =>
         {
-            // Add the session to Sessions
-            Sessions.Add(scrumPokerSession);
-            await scrumPokerSession.CreateSessionAsync(scrumPokerSession, cancellationToken);
-        }
+            if (this.Sessions.Any(x => x.Id == payload.Id))
+            {
+                throw new Exception("Story Name already exists");
+            }
+
+            this.Sessions.Add(payload);
+            _hub.Clients.All.SendAsync(Constants.PokerSessionsUpdated, this.Sessions);
+        });
     }
+
+   
+
+   
 }
+

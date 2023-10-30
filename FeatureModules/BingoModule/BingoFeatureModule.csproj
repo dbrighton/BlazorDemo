@@ -7,21 +7,22 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <SupportedPlatform Include="browser"/>
+        <SupportedPlatform Include="browser" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Fluxor" Version="5.9.1"/>
-        <PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1"/>
-        <PackageReference Include="MediatR" Version="12.1.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.24"/>
-        <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.24"/>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+        <PackageReference Include="Fluxor" Version="5.9.1" />
+        <PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1" />
+        <PackageReference Include="MatBlazor" Version="2.10.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.24" />
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.24" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Prism.Core" Version="6.3.0" />
     </ItemGroup>
 
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Common\Common.csproj"/>
+        <ProjectReference Include="..\..\Common\Common.csproj" />
     </ItemGroup>
 
 

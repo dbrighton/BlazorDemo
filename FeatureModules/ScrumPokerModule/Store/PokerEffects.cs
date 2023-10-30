@@ -2,17 +2,21 @@
 
 public class PokerEffects
 {
-    private readonly HubConnection _hubConnection;
+    private static  HubConnection? _hubConnection;
     private readonly ILogger<PokerEffects> _log;
 
     public PokerEffects(ILogger<PokerEffects> logger, NavigationManager navigationManager)
     {
         _log = logger;
 
-        _hubConnection = new HubConnectionBuilder()
-            .WithUrl(navigationManager.ToAbsoluteUri("/authHub"))
-            .WithAutomaticReconnect()
-            .Build();
+        if (_hubConnection == null)
+        {
+            _hubConnection = new HubConnectionBuilder()
+                .WithUrl(navigationManager.ToAbsoluteUri("/pokerHub"))
+                .WithAutomaticReconnect()
+                .Build();
+        }
+
     }
 
     [EffectMethod(typeof(PokerHubStartAction))]
@@ -38,9 +42,14 @@ public class PokerEffects
             return Task.CompletedTask;
         };
 
-        _hubConnection.On<Person>("PersonLogin", Person =>
+        _hubConnection.On<List<ScrumPokerSession>>("Constants.GetPokerSessions", payload =>
         {
-            // TODO: Dispatch action to update state
+            dispatcher.Dispatch(new PokerSessionsChangedSuccessAction(payload));
+        });
+
+        _hubConnection.On<List<ScrumPokerSession>>(Constants.PokerSessionsUpdated, payload =>
+        {
+            dispatcher.Dispatch(new PokerSessionsChangedSuccessAction(payload));
         });
 
         if (_hubConnection.State == HubConnectionState.Connected)
@@ -62,7 +71,7 @@ public class PokerEffects
     {
         try
         {
-            var sessions = await _hubConnection.InvokeAsync<List<ScrumPokerGame>>(Constants.GetPokerSessions);
+            var sessions = await _hubConnection.InvokeAsync<List<ScrumPokerSession>>(Constants.GetPokerSessions);
             dispatcher.Dispatch(new PokerSessionsChangedSuccessAction(sessions));
         }
         catch (Exception ex)
@@ -71,4 +80,21 @@ public class PokerEffects
             dispatcher.Dispatch(new GenericErrorAction("Error getting poker sessions"));
         }
     }
+
+    [EffectMethod]
+    public async Task NewGame( NewGameAction action, IDispatcher dispatcher)
+    {
+        try
+        {
+           
+                await _hubConnection.SendAsync(Constants.CreateSession, action.ScrumMaster,
+                    action.StoryName, action.Story);
+        }
+        catch (Exception ex)
+        {
+            _log.LogError(ex, "Error creating new game");
+            dispatcher.Dispatch(new GenericErrorAction("Error creating new game"));
+        }
+    }
+
 }

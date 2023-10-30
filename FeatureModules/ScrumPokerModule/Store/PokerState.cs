@@ -3,7 +3,7 @@
 public record PokerState(
     List<PokerPlayer> Players,
     List<ScrumPokerCard> Cards,
-    List<ScrumPokerGame> Sessions,
+    List<ScrumPokerSession> Sessions,
     bool HubConnected);
 
 
@@ -16,6 +16,6 @@ public class ScrumPokerFeature : Feature<PokerState>
 
     protected override PokerState GetInitialState()
     {
-        return new PokerState(new List<PokerPlayer>(), new List<ScrumPokerCard>(), new List<ScrumPokerGame>(), false);
+        return new PokerState(new List<PokerPlayer>(), new List<ScrumPokerCard>(), new List<ScrumPokerSession>(), false);
     }
 }

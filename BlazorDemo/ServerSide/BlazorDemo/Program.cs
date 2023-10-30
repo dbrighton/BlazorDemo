@@ -1,5 +1,8 @@
 
 
+
+using Prism.Events;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,16 +15,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-builder.Services.AddSingleton<WeatherForecastService>();
 
-builder.Services.AddSignalR();
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssemblies(
-        typeof(Program).Assembly,
-        typeof(ScrumPokerGameService).Assembly,
-        typeof(BingoGameService).Assembly);
-});
+builder.Services.AddSignalR(cfg => { cfg.EnableDetailedErrors = true;});
 
 
 builder.Services.AddFluxor(opt =>
@@ -50,7 +45,14 @@ builder.Services.AddMatToaster(cfg =>
     cfg.MaximumOpacity = 100;
     cfg.VisibleStateDuration = 3000;
 });
+
+builder.Services.AddSingleton<ScrumPokerGameService>();
+builder.Services.AddSingleton<ScrumPokerHub>();
+builder.Services.AddSingleton(new EventAggregator());
+
+
 var app = builder.Build();
+app.Services.GetRequiredService<ScrumPokerGameService>(); // start the singleton service
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -6,7 +6,6 @@ global using BingoFeatureModule.Server;
 global using Common;
 global using Common.Models;
 global using Fluxor;
-global using MediatR;
 global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.SignalR;
 global using Microsoft.AspNetCore.SignalR.Client;

@@ -8,7 +8,7 @@ public class BingoGame
     private readonly BingoHub _bingoHub;
     private readonly Cage _cage;
     private readonly List<BingoCard> _cards;
-    private readonly IMediator _mediator;
+  
 
     private readonly List<BingoPlayer> _players;
     private int _currentNumber;
@@ -21,10 +21,9 @@ public class BingoGame
     /// <param name="logger">An instance of <see cref="ILogger{BingoGame}" /> used for logging.</param>
     /// <param name="bingoHub">An instance of <see cref="BingoHub" /> used for broadcasting Bingo events to connected clients.</param>
     /// <param name="mediator">An instance of <see cref="IMediator" /> used for sending and publishing MediatR messages.</param>
-    public BingoGame(BingoHub bingoHub, IMediator mediator)
+    public BingoGame(BingoHub bingoHub)
     {
         _bingoHub = bingoHub;
-        _mediator = mediator;
 
         _players = new List<BingoPlayer>();
         _cards = new List<BingoCard>();

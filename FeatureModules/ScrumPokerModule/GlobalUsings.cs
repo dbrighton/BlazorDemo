@@ -7,4 +7,5 @@ global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.SignalR;
 global using Microsoft.AspNetCore.SignalR.Client;
 global using Microsoft.Extensions.Logging;
+global using Prism.Events;
 global using ScrumPokerFeatureModule.Models;

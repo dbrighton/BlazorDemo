@@ -3,12 +3,11 @@
 public class BingoGameService : IHostedService
 {
     private readonly ILogger<BingoGameService> _logger;
-    private readonly IMediator _mediator;
 
-    public BingoGameService(ILogger<BingoGameService> logger, IMediator mediator)
+
+    public BingoGameService(ILogger<BingoGameService> logger)
     {
         _logger = logger;
-        _mediator = mediator;
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
