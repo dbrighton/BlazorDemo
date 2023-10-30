@@ -1,7 +1,7 @@
 ﻿namespace Common.Models;
 
 /// <summary>
-///     Represents a person with a first name, last name, and unique NbkId.
+///     Represents a person with a first name, last name, and unique email.
 /// </summary>
 public class Person
 {
@@ -20,15 +20,14 @@ public class Person
     public string LastName { get; set; } = null!;
 
     /// <summary>
-    ///     The person's unique NbkId.
+    ///     The person's unique email.
     /// </summary>
-    [Required(ErrorMessage = "Please enter an NbkId.")]
-    public string NbkId { get; set; } = null!;
+    [Required(ErrorMessage = "Please enter an email.")]
+    public string email { get; set; } = null!;
 
     /// <summary>
     ///     The person's full name.
     /// </summary>
-    public string Name => $"{FirstName} {LastName}";
-
-    public int Bet { get; set; }
+    public string Name { get; set; }
+  
 }

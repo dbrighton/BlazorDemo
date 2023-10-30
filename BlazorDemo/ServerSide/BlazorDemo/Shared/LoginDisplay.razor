@@ -1,0 +1,40 @@
+﻿@inherits FluxorComponent
+@inject IDispatcher Dispatcher
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<UserFeature />
+
+<AuthorizeView>
+    <Authorized>
+        <a href="Identity/Account/Manage">Hello, @context.User.Identity?.Name!</a>
+        <form method="post" action="Identity/Account/LogOut">
+            <button type="submit" class="nav-link btn btn-link">Log out</button>
+        </form>
+    </Authorized>
+    <NotAuthorized>
+        <a href="Identity/Account/Register">Register</a>
+        <a href="Identity/Account/Login">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code
+{
+
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+        if (authenticationState.User.Identity!.IsAuthenticated)
+        {
+            Dispatcher.Dispatch(new UserLoginSuccessAction(authenticationState.User));
+        }
+        else
+        {
+            Dispatcher.Dispatch(new UserLogoutSuccessAction());
+        }
+    }
+
+    
+   
+
+}

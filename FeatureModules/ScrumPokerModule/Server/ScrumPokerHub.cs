@@ -12,4 +12,12 @@ public class ScrumPokerHub : Hub
         _logger = logger;
         _mediator = mediator;
     }
+
+    [HubMethodName(Constants.GetPokerSessions)]
+    public async Task GetPokerSessions()
+    {
+        _logger.LogInformation("GetPokerSessions");
+        var sessions = await _mediator.Send(new GetPokerSessionsQuery());
+        await Clients.Caller.SendAsync(Constants.GetPokerSessions, sessions);
+    }
 }

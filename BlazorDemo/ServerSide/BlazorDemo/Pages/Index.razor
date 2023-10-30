@@ -3,18 +3,30 @@
 <PageTitle>Index</PageTitle>
 
 
-<div>
-    <button @onclick="PlayBingo" class="btn  btn-primary">Play Bingo Poker</button>
-</div>
-<div>
-    <button @onclick="PlayPoker" class="btn  btn-primary">Play Scrum Poker</button>
-</div>
+<AuthorizeView>
+    <Authorized>
+
+        <div>
+            <button @onclick="PlayBingo" class="btn  btn-primary">Play Bingo Poker</button>
+        </div>
+        <div>
+            <button @onclick="PlayPoker" class="btn  btn-primary">Play Scrum Poker</button>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+       
+        <a class="btn btn-primary" href="Identity/Account/Login">Log in</a>
+</NotAuthorized>
+</AuthorizeView>
 
 
 @code {
 
     [Inject]
     private NavigationManager NavigationManager { get; set; } = null!;
+
+
+   
 
 
     private void PlayPoker()

@@ -47,12 +47,28 @@ public class PokerEffects
         {
             dispatcher.Dispatch(new PokerHubSetConnectedAction(true));
             dispatcher.Dispatch(new GenericSuccessAction("Poker Hub Connected"));
+            dispatcher.Dispatch(new GetPokerSessionsAction());
         }
         else
         {
             _log.LogCritical("HubConnectionState:{State}", _hubConnection.State);
             dispatcher.Dispatch(new PokerHubSetConnectedAction(false));
             dispatcher.Dispatch(new GenericErrorAction("Poker Hub Not Connected!"));
+        }
+    }
+
+    [EffectMethod(typeof(GetPokerSessionsAction))]
+    public async Task GetPokerSessions(IDispatcher dispatcher)
+    {
+        try
+        {
+            var sessions = await _hubConnection.InvokeAsync<List<ScrumPokerGame>>(Constants.GetPokerSessions);
+            dispatcher.Dispatch(new PokerSessionsChangedSuccessAction(sessions));
+        }
+        catch (Exception ex)
+        {
+            _log.LogError(ex, "Error getting poker sessions");
+            dispatcher.Dispatch(new GenericErrorAction("Error getting poker sessions"));
         }
     }
 }

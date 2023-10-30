@@ -7,17 +7,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <SupportedPlatform Include="browser"/>
+        <SupportedPlatform Include="browser" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Fluxor" Version="5.9.1"/>
-        <PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.24"/>
+        <PackageReference Include="Fluxor" Version="5.9.1" />
+        <PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.23" />
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.24" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Common\Common.csproj"/>
+        <ProjectReference Include="..\..\Common\Common.csproj" />
     </ItemGroup>
 
 </Project>

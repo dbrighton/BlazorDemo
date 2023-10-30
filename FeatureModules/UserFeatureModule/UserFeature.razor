@@ -2,18 +2,18 @@
 @inject IDispatcher Dispatcher
 @inject IState<UserState> UserState
 
-@if (UserState.Value.IsLoggedIn)
-{
-    <div class="top-row px-4">
-        <button @onclick="OnLogout" class="btn  btn-primary">Logout</button>
-    </div>
-}
-else
-{
-    <div class="top-row px-4">
-        <button @onclick="OnLogin" class="btn  btn-primary">Login</button>
-    </div>
-}
+@* @if (UserState.Value.IsLoggedIn) *@
+@* { *@
+@*     <div class="top-row px-4"> *@
+@*         <button @onclick="OnLogout" class="btn  btn-primary">Logout</button> *@
+@*     </div> *@
+@* } *@
+@* else *@
+@* { *@
+@*     <div class="top-row px-4"> *@
+@*         <button @onclick="OnLogin" class="btn  btn-primary">Login</button> *@
+@*     </div> *@
+@* } *@
 
 @code {
 

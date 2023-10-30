@@ -7,4 +7,10 @@ public static class PokerReducers
     {
         return state with { HubConnected = action.Connected };
     }
+
+    [ReducerMethod]
+    public static PokerState OnPokerSessionsChangedSuccessAction(PokerState state, PokerSessionsChangedSuccessAction action)
+    {
+        return state with { Sessions = action.Sessions };
+    }
 }
