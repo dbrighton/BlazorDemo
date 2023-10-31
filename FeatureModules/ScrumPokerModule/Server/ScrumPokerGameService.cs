@@ -25,11 +25,11 @@ public class ScrumPokerGameService
         {
             if (this.Sessions.Any(x => x.Id == payload.Id))
             {
-                throw new Exception("Story Name already exists");
+                throw new Exception("StoryDetails Name already exists");
             }
 
             this.Sessions.Add(payload);
-            _hub.Clients.All.SendAsync(Constants.PokerSessionsUpdated, this.Sessions);
+            _hub.Clients.All.SendAsync(Constants.PokerSessionUpdated, (ScrumPokerSession)payload);
         });
     }
 

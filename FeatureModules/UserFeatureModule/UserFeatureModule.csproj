@@ -16,7 +16,7 @@
         <PackageReference Include="MatBlazor" Version="2.10.0" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.23" />
         <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.24" />
-        <PackageReference Include="Prism.Core" Version="6.3.0" />
+        <PackageReference Include="Prism.Core" Version="8.1.97" />
     </ItemGroup>
 
     <ItemGroup>

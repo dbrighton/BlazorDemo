@@ -42,14 +42,14 @@ public class PokerEffects
             return Task.CompletedTask;
         };
 
-        _hubConnection.On<List<ScrumPokerSession>>("Constants.GetPokerSessions", payload =>
-        {
-            dispatcher.Dispatch(new PokerSessionsChangedSuccessAction(payload));
-        });
+        //_hubConnection.On<List<ScrumPokerSession>>("Constants.GetPokerSessions", payload =>
+        //{
+        //    dispatcher.Dispatch(new PokerSessionChangedSuccessAction(payload));
+        //});
 
-        _hubConnection.On<List<ScrumPokerSession>>(Constants.PokerSessionsUpdated, payload =>
+        _hubConnection.On<ScrumPokerSession>(Constants.PokerSessionUpdated, payload =>
         {
-            dispatcher.Dispatch(new PokerSessionsChangedSuccessAction(payload));
+            dispatcher.Dispatch(new PokerSessionChangedSuccessAction(payload));
         });
 
         if (_hubConnection.State == HubConnectionState.Connected)
@@ -72,7 +72,7 @@ public class PokerEffects
         try
         {
             var sessions = await _hubConnection.InvokeAsync<List<ScrumPokerSession>>(Constants.GetPokerSessions);
-            dispatcher.Dispatch(new PokerSessionsChangedSuccessAction(sessions));
+           // dispatcher.Dispatch(new PokerSessionChangedSuccessAction(sessions));
         }
         catch (Exception ex)
         {

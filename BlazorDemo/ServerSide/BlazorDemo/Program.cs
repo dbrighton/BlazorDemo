@@ -1,8 +1,3 @@
-
-
-
-using Prism.Events;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,7 +11,13 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 
-builder.Services.AddSignalR(cfg => { cfg.EnableDetailedErrors = true;});
+builder.Services.AddSignalR(cfg => { cfg.EnableDetailedErrors = true;})
+.AddJsonProtocol(opt =>
+{
+    opt.PayloadSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    opt.PayloadSerializerOptions.MaxDepth = 50;
+
+}); 
 
 
 builder.Services.AddFluxor(opt =>
@@ -45,6 +46,7 @@ builder.Services.AddMatToaster(cfg =>
     cfg.MaximumOpacity = 100;
     cfg.VisibleStateDuration = 3000;
 });
+builder.Services.AddBlazm();
 
 builder.Services.AddSingleton<ScrumPokerGameService>();
 builder.Services.AddSingleton<ScrumPokerHub>();

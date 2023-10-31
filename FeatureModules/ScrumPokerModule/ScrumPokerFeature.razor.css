@@ -1,4 +1,8 @@
 ﻿
+button {
+    margin: 5px;
+}
+
 .my-component {
     border: 2px dashed red;
     padding: 1em;

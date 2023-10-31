@@ -4,5 +4,5 @@ public static class Constants
 {
     public const string GetPokerSessions = "GetPokerSessions";
     public const string CreateSession = "CreateSession";
-    public const string PokerSessionsUpdated = "PokerSessionsUpdated";
+    public const string PokerSessionUpdated = "PokerSessionUpdated";
 }

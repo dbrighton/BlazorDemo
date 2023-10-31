@@ -1,42 +1,100 @@
 ﻿@using UserFeatureModule.Store
+@using ScrumPokerFeatureModule.Server
 @inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<PokerState> PokerState
 @inject IState<UserState> UserState
 @inject IMatDialogService MatDialogService
+@inject NavigationManager NavigationManager
 
-<div class="float-right">
-    <button @onclick="OpenNewGameDialog" class="btn btn-primary">New Session</button>
-</div>
 
-<MatDialog  @bind-IsOpen="@dialogIsOpen">
-    @* <MatDialogTitle>Hi @name</MatDialogTitle> *@
-    <MatDialogContent >
-        <p>Enter Story Name:</p>
-        <MatTextField @bind-Value="@storyName"></MatTextField>
+
+@if (currentSession == null)
+{
+
+
+    <div>
+
+        <BlazmGrid Data="PokerState.Value.Sessions" PageSize="10" Sortable="true" SortField="@nameof(ScrumPokerSession.Story)" ShowFooter="true">
+            <GridColumns>
+                <GridColumn   CanFilter="true" Field="@nameof(ScrumPokerSession.ScrumMasterName)" Priority="1" />
+                <GridColumn   CanFilter="true" Field="@nameof(ScrumPokerSession.Story)" Priority="3" />
+                <GridColumn   CanFilter="true" Field="@nameof(ScrumPokerSession.StoryDetails)" Priority="2" />
+                <GridColumn >
+                    <Template>
+                        @{
+                            var playerCount = (context as ScrumPokerSession).Players.Count;
+                        }
+                           Player Count: @playerCount
+                    </Template>
+                </GridColumn>
+                <GridColumn Class="alignRight">
+                    <Template>
+                        @{
+                            var item= context as ScrumPokerSession;
+                        }
+                        <button class="btn btn-outline-primary" @onclick="@(async () => { await JoinSession(item);})">Join</button>
+                    </Template>
+
+                </GridColumn>
+             
+            </GridColumns>
+
+        </BlazmGrid>
+        <div class="float-right">
+            <button @onclick="OpenNewGameDialog" class="btn btn-primary">New Session</button>
+        </div>
+     
         
-        <p>Story</p>
-        <MatTextField TextArea="true" @bind-Value="@story"></MatTextField>
- 
- 
-    </MatDialogContent>
-    <MatDialogActions>
-        <MatButton OnClick="@(e => { dialogIsOpen = false; })">Cancel</MatButton>
-        <MatButton OnClick="@OkClick">OK</MatButton>
-    </MatDialogActions>
-</MatDialog>
+    </div>
+
+
+    <MatDialog  @bind-IsOpen="@dialogIsOpen">
+        @* <MatDialogTitle>Hi @name</MatDialogTitle> *@
+        <MatDialogContent >
+            <h3>Story:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+            <MatTextField @bind-Value="@story"></MatTextField>
+
+            <h3>Story Details:</h3>
+            <MatTextField TextArea="true" @bind-Value="@storyDetails"></MatTextField>
+
+
+        </MatDialogContent>
+        <MatDialogActions>
+            <MatButton OnClick="@(e => { dialogIsOpen = false; })">Cancel</MatButton>
+            <MatButton OnClick="@OkClick">OK</MatButton>
+        </MatDialogActions>
+    </MatDialog>
+}else{
+
+    <div class="float-right">
+        <button @onclick="EndSession" class="btn btn-primary">Exit Session</button>
+    </div>
+
+    <ScrumPokerCtrl Session="currentSession"/>
+}
 
 @code{
 
+ 
+   
+
+    ScrumPokerSession? currentSession;
+
+    string story = "";
+    string storyDetails = "";
     bool dialogIsOpen = false;
-    string storyName = "";
-    string story = ""; 
+
+   
 
     protected override void OnInitialized()
     {
+       
         base.OnInitialized();
         Dispatcher.Dispatch(new PokerHubStartAction());
+      
     }
+
 
 
     private void OpenNewGameDialog()
@@ -48,19 +106,36 @@
     {
         dialogIsOpen = false;
 
-       if (string.IsNullOrEmpty(storyName) || string.IsNullOrEmpty(story))
+       if (string.IsNullOrEmpty(story) || string.IsNullOrEmpty(storyDetails))
         {
-            Dispatcher.Dispatch(new GenericErrorAction($"Story Name or Story is null"));
+            Dispatcher.Dispatch(new GenericErrorAction($"Story or Story Details is null"));
             return Task.CompletedTask;
         }
        
         var user = UserState.Value.User;
-        Dispatcher.Dispatch(new NewGameAction(user,storyName, story));
+        var session = new ScrumPokerSession(user, story, storyDetails);
+      
+        Dispatcher.Dispatch(new NewGameAction(user, story, storyDetails));
 
-         storyName = "";
-         story = ""; 
+        story = "";
+        storyDetails = ""; 
        
         return Task.CompletedTask;
     }
+
+
+    private Task JoinSession( ScrumPokerSession session)
+    {
+        currentSession = session;
+        return Task.CompletedTask;
+    }
+
+    private Task EndSession()
+    {
+        currentSession = null;
+        return Task.CompletedTask;
+    }
+
+   
 
 }

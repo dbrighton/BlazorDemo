@@ -4,7 +4,7 @@ public record PokerHubStartAction;
 
 public record PokerHubSetConnectedAction(bool Connected);
 
-public record PokerSessionsChangedSuccessAction(List<ScrumPokerSession> Sessions);
+public record PokerSessionChangedSuccessAction(ScrumPokerSession Session);
 public record GetPokerSessionsAction();
 public record NewGameAction(Person ScrumMaster,string StoryName,string Story);
 public record NewGameSuccessAction(ScrumPokerSession Session);
