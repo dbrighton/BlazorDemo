@@ -1,4 +1,7 @@
-﻿namespace BingoFeatureModule.Store;
+﻿
+using Microsoft.AspNetCore.SignalR.Client;
+
+namespace BingoFeatureModule.Store;
 
 public class BingoEffects
 {

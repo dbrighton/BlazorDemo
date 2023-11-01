@@ -1,25 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <Compile Remove="Models\Bingo\**" />
-        <Compile Remove="Models\Poker\**" />
-        <EmbeddedResource Remove="Models\Bingo\**" />
-        <EmbeddedResource Remove="Models\Poker\**" />
-        <None Remove="Models\Bingo\**" />
-        <None Remove="Models\Poker\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-
-    </ItemGroup>
-
-
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
 </Project>
