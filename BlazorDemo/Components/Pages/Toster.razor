@@ -1,0 +1,53 @@
+﻿
+
+@inherits FluxorComponent
+ @inject IMatToaster Toaster
+ @inject IDispatcher Dispatcher
+
+@code {
+    protected override void OnInitialized()
+    {
+        SubscribeToAction<GenericErrorAction>(action =>
+        {
+            Toaster.Add(action.Message, MatToastType.Danger, action.Message);
+        });
+
+        SubscribeToAction<GenericWarningAction>(action =>
+        {
+            Toaster.Add(action.Message, MatToastType.Warning, action.Message);
+        });
+
+        SubscribeToAction<GenericInfoAction>(action =>
+        {
+            Toaster.Add(action.Message, MatToastType.Info, action.Message);
+        });
+
+        SubscribeToAction<GenericSuccessAction>(action =>
+        {
+            Toaster.Add(action.Message, MatToastType.Success, action.Message);
+        });
+
+        SubscribeToAction<GenericDarkAction>(action =>
+        {
+            Toaster.Add(action.Message, MatToastType.Dark, action.Message);
+        });
+
+        SubscribeToAction<GenericPrimaryAction>(action =>
+        {
+            Toaster.Add(action.Message, MatToastType.Primary, action.Message);
+        });
+
+        SubscribeToAction<GenericLightAction>(action =>
+        {
+            Toaster.Add(action.Message, MatToastType.Light, action.Message);
+        });
+
+        SubscribeToAction<GenericLinkAction>(action =>
+        {
+            Toaster.Add(action.Message, MatToastType.Link, action.Message);
+        });
+
+        base.OnInitialized();
+    }
+
+}

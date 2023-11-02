@@ -1,10 +1,7 @@
 using BlazorDemo.Components.Pages.Account;
 using BlazorDemo.Components.Pages.Account.Manage;
-using BlazorDemo.Data;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System.Text.Json;

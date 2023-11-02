@@ -1,6 +1,3 @@
-using BlazorDemo.Identity;
-using Microsoft.AspNetCore.Identity;
-
 namespace BlazorDemo.Data
 {
     internal sealed class UserAccessor(

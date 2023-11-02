@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,12 +10,20 @@
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="BlazorDemo.styles.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
+    <script src="_content/MatBlazor/dist/matBlazor.js"></script>
+    <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
     <HeadOutlet />
 </head>
 
 <body>
-    <Routes />
-    <script src="_framework/blazor.web.js"></script>
+    <Toster />
+<Routes/>
+<MatPortalHost></MatPortalHost>
+<MatToastContainer/>
+
+
+<script src="_framework/blazor.web.js"></script>
+@* TODO add fluxor here *@
 </body>
 
 </html>
