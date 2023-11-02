@@ -1,9 +1,28 @@
-﻿
+﻿@using FluxorChess.Models
 @inherits FluxorComponent
 
 @inject IDispatcher Dispatcher
 @inject IState<ChessState> State
 
-<div class="my-component">
-    This component is defined in the <strong>FluxorChess</strong> library.
+
+<div>
+    <BlazmGrid Data="Games" PageSize="20">
+        <GridColumns>
+            <GridColumn Field="@nameof(ChessGame.CreateBy)"></GridColumn>
+            <GridColumn Field="@nameof(ChessGame.LastUpdateTimestamp)"></GridColumn>
+        </GridColumns>
+    </BlazmGrid>
 </div>
+
+@code{
+
+    public List<ChessGame> Games { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        SubscribeToAction<ChessSetStateAction>(payload => { Games = payload.Games; });
+    }
+
+
+}

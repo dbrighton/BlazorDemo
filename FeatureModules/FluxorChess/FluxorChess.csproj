@@ -12,9 +12,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazm.Components" Version="1.1.7" />
     <PackageReference Include="Fluxor" Version="5.9.1" />
     <PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.23" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.23" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="6.0.23" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.csproj" />
   </ItemGroup>
 
 </Project>

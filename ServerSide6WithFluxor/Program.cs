@@ -1,4 +1,6 @@
-using FluxorPorker.Store;
+using Blazm.Components;
+using FluxorChess.API;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,11 +17,14 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 builder.Services.AddSingleton<WeatherForecastService>();
 
 
+builder.Services.AddSignalR();
+
 builder.Services.AddFluxor(
-    o => o.ScanAssemblies(typeof(Program).Assembly, typeof(PokerFeature).Assembly)
+    o => o.ScanAssemblies(typeof(Program).Assembly, typeof(ChessFeature).Assembly)
         .UseReduxDevTools()
 );
 
+builder.Services.AddBlazm();
 
 builder.Services.AddMatBlazor();
 builder.Services.AddMatToaster(config =>
@@ -58,5 +63,7 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+app.MapHub<ChessHub>("/chessHub");
 
 app.Run();

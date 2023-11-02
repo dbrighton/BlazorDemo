@@ -1,6 +1,8 @@
 // Global using directives
 
 global using Fluxor;
+global using FluxorChess.Store;
+global using FluxorPorker.Store;
 global using MatBlazor;
 global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.Components.Authorization;

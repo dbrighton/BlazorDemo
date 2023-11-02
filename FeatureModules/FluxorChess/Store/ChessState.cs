@@ -1,15 +1,26 @@
-﻿
-using Fluxor;
-using FluxorChess.Models;
+﻿using FluxorChess.Models;
 
 namespace FluxorChess.Store;
 
-public record ChessState(List<ChessPiece> CheckPieces);
+/// <summary>
+/// Represents the state of the chess game.
+/// </summary>
+/// <remarks>
+/// This class is used to store the current state of the chess game.
+/// </remarks>
+public record ChessState(List<ChessGame> Games, ChessGame CurrentGame);
 
 public class ChessFeature : Feature<ChessState>
 {
-    public override string GetName()=> nameof(ChessFeature);
+    public override string GetName() => nameof(ChessFeature);
 
+    /// <summary>
+    /// Gets the initial state of the chess game.
+    /// </summary>
+    /// <returns>The initial state of the chess game.</returns>
+    /// <remarks>
+    /// This method is used to initialize the state of the chess game.
+    /// </remarks>
     protected override ChessState GetInitialState()
     {
         var list = new List<ChessPiece>
@@ -20,7 +31,7 @@ public class ChessFeature : Feature<ChessState>
                 X = 1,
                 Y = 'a',
                 IsWhite = true,
-                Type = ChessPieceType.Rook,
+                PieceType = ChessPieceType.Rook,
             },
 
             new ChessPiece
@@ -28,7 +39,7 @@ public class ChessFeature : Feature<ChessState>
                 X = 1,
                 Y = 'b',
                 IsWhite = true,
-                Type = ChessPieceType.Knight,
+                PieceType = ChessPieceType.Knight,
             },
 
             new ChessPiece
@@ -36,7 +47,7 @@ public class ChessFeature : Feature<ChessState>
                 X = 1,
                 Y = 'c',
                 IsWhite = true,
-                Type = ChessPieceType.Bishop,
+                PieceType = ChessPieceType.Bishop,
             },
 
             new ChessPiece
@@ -44,7 +55,7 @@ public class ChessFeature : Feature<ChessState>
                 X = 1,
                 Y = 'd',
                 IsWhite = true,
-                Type = ChessPieceType.Queen,
+                PieceType = ChessPieceType.Queen,
             },
 
             new ChessPiece
@@ -52,7 +63,7 @@ public class ChessFeature : Feature<ChessState>
                 X = 1,
                 Y = 'e',
                 IsWhite = true,
-                Type = ChessPieceType.King,
+                PieceType = ChessPieceType.King,
             },
 
             new ChessPiece
@@ -60,7 +71,7 @@ public class ChessFeature : Feature<ChessState>
                 X = 1,
                 Y = 'f',
                 IsWhite = true,
-                Type = ChessPieceType.Bishop,
+                PieceType = ChessPieceType.Bishop,
             },
 
             new ChessPiece
@@ -68,7 +79,7 @@ public class ChessFeature : Feature<ChessState>
                 X = 1,
                 Y = 'g',
                 IsWhite = true,
-                Type = ChessPieceType.Knight,
+                PieceType = ChessPieceType.Knight,
             },
 
             new ChessPiece
@@ -76,7 +87,7 @@ public class ChessFeature : Feature<ChessState>
                 X = 1,
                 Y = 'h',
                 IsWhite = true,
-                Type = ChessPieceType.Rook,
+                PieceType = ChessPieceType.Rook,
             },
 
             new ChessPiece
@@ -84,7 +95,7 @@ public class ChessFeature : Feature<ChessState>
                 X = 1,
                 Y = 'h',
                 IsWhite = true,
-                Type = ChessPieceType.Knight,
+                PieceType = ChessPieceType.Knight,
             },
         };
 
@@ -95,10 +106,9 @@ public class ChessFeature : Feature<ChessState>
                 X = 2,
                 Y = (char)(i + 96),
                 IsWhite = true,
-                Type = ChessPieceType.Pawn,
+                PieceType = ChessPieceType.Pawn,
             });
         }
-
 
         for (int i = 1; i <= 8; i++)
         {
@@ -107,17 +117,75 @@ public class ChessFeature : Feature<ChessState>
                 X = 7,
                 Y = (char)(i + 96),
                 IsWhite = false,
-                Type = ChessPieceType.Pawn,
+                PieceType = ChessPieceType.Pawn,
             });
         }
 
+        //create black first row
+        list.Add(new ChessPiece
+        {
+            X = 8,
+            Y = 'a',
+            IsWhite = false,
+            PieceType = ChessPieceType.Rook,
+        });
 
+        list.Add(new ChessPiece
+        {
+            X = 8,
+            Y = 'b',
+            IsWhite = false,
+            PieceType = ChessPieceType.Knight,
+        });
 
+        list.Add(new ChessPiece
+        {
+            X = 8,
+            Y = 'c',
+            IsWhite = false,
+            PieceType = ChessPieceType.Bishop,
+        });
 
+        list.Add(new ChessPiece
+        {
+            X = 8,
+            Y = 'd',
+            IsWhite = false,
+            PieceType = ChessPieceType.King,
+        });
 
+        list.Add(new ChessPiece
+        {
+            X = 8,
+            Y = 'e',
+            IsWhite = false,
+            PieceType = ChessPieceType.Queen,
+        });
 
-        return new ChessState(list);
+        list.Add(new ChessPiece
+        {
+            X = 8,
+            Y = 'f',
+            IsWhite = false,
+            PieceType = ChessPieceType.Bishop,
+        });
+
+        list.Add(new ChessPiece
+        {
+            X = 8,
+            Y = 'g',
+            IsWhite = false,
+            PieceType = ChessPieceType.Knight,
+        });
+
+        list.Add(new ChessPiece
+        {
+            X = 8,
+            Y = 'h',
+            IsWhite = false,
+            PieceType = ChessPieceType.Rook,
+        });
+    
+    return new ChessState(new List<ChessGame>(),new ChessGame{ChessPieces = list});
     }
 }
-    
-

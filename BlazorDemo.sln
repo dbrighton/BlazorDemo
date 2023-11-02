@@ -6,8 +6,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Features", "Features", "{FF62C483-1DE8-4503-B4A3-A5D28430301A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxorPorker", "FeatureModules\FluxorPorker\FluxorPorker.csproj", "{1DE76123-A4D7-42DB-9D4A-A2D637BB1113}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerSide6WithFluxor", "ServerSide6WithFluxor\ServerSide6WithFluxor.csproj", "{24B306F1-B74E-423E-AAB7-757BDB8E16F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluxorChess", "FeatureModules\FluxorChess\FluxorChess.csproj", "{FF8F133B-9809-4264-A549-7C61651B055A}"
@@ -22,10 +20,6 @@ Global
 		{EE47CD61-7C55-4820-A937-BD3526D93A9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE47CD61-7C55-4820-A937-BD3526D93A9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE47CD61-7C55-4820-A937-BD3526D93A9A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1DE76123-A4D7-42DB-9D4A-A2D637BB1113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1DE76123-A4D7-42DB-9D4A-A2D637BB1113}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1DE76123-A4D7-42DB-9D4A-A2D637BB1113}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1DE76123-A4D7-42DB-9D4A-A2D637BB1113}.Release|Any CPU.Build.0 = Release|Any CPU
 		{24B306F1-B74E-423E-AAB7-757BDB8E16F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{24B306F1-B74E-423E-AAB7-757BDB8E16F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24B306F1-B74E-423E-AAB7-757BDB8E16F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,7 +33,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{1DE76123-A4D7-42DB-9D4A-A2D637BB1113} = {FF62C483-1DE8-4503-B4A3-A5D28430301A}
 		{FF8F133B-9809-4264-A549-7C61651B055A} = {FF62C483-1DE8-4503-B4A3-A5D28430301A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
