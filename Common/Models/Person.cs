@@ -29,5 +29,4 @@ public class Person
     ///     The person's full name.
     /// </summary>
     public string Name { get; set; }
-  
 }
