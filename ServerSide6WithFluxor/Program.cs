@@ -1,6 +1,8 @@
 using Blazm.Components;
 using FluxorChess.API;
 using Microsoft.AspNetCore.Builder;
+using UserFeatureModule.API;
+using UserFeatureModule.Store;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +22,10 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddSignalR();
 
 builder.Services.AddFluxor(
-    o => o.ScanAssemblies(typeof(Program).Assembly, typeof(ChessFeature).Assembly)
+    o => o.ScanAssemblies(
+            typeof(Program).Assembly, 
+            typeof(AuthHubFeature).Assembly, 
+            typeof(ChessFeature).Assembly)
         .UseReduxDevTools()
 );
 
@@ -64,6 +69,7 @@ app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
+app.MapHub<AuthHub>("/authHub");
 app.MapHub<ChessHub>("/chessHub");
 
 app.Run();

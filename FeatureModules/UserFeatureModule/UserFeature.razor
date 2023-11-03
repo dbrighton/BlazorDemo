@@ -1,0 +1,52 @@
+﻿@using System.Security.Claims
+@inherits FluxorComponent
+@inject IDispatcher Dispatcher
+@inject IState<UserState> UserState
+
+@* @if (AuthStateState.Value.IsLoggedIn) *@
+@* { *@
+@*     <div class="top-row px-4"> *@
+@*         <button @onclick="OnLogout" class="btn  btn-primary">Logout</button> *@
+@*     </div> *@
+@* } *@
+@* else *@
+@* { *@
+@*     <div class="top-row px-4"> *@
+@*         <button @onclick="OnLogin" class="btn  btn-primary">Login</button> *@
+@*     </div> *@
+@* } *@
+
+@code {
+
+    [Parameter]
+    public bool IsLogin { get; set; }
+
+    [Parameter]
+    public AuthenticationState? AuthState { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Dispatcher.Dispatch(new AuthHubStartAction());
+
+        if (AuthState!=null)
+        {
+            Dispatcher.Dispatch(new UserLoginSuccessAction(AuthState.User));
+        }
+        else
+        {
+            Dispatcher.Dispatch(new UserLogoutSuccessAction());
+        }
+    }
+
+    private void OnLogin()
+    {
+    // this.Dispatcher.Dispatch(new LoginAction());
+    }
+
+    private void OnLogout()
+    {
+    // this.Dispatcher.Dispatch(new LogoutAction());
+    }
+
+}

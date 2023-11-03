@@ -6,10 +6,12 @@
 
 
 <div>
+    <button class="btn btn-primary" @onclick="NewGame">New Game</button>
     <BlazmGrid Data="Games" PageSize="20">
         <GridColumns>
             <GridColumn Field="@nameof(ChessGame.CreateBy)"></GridColumn>
             <GridColumn Field="@nameof(ChessGame.LastUpdateTimestamp)"></GridColumn>
+
         </GridColumns>
     </BlazmGrid>
 </div>
@@ -24,5 +26,10 @@
         SubscribeToAction<ChessSetStateAction>(payload => { Games = payload.Games; });
     }
 
+
+    private void NewGame()
+    {
+       
+    }
 
 }
