@@ -1,28 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
 
 
-  <ItemGroup>
-    <SupportedPlatform Include="browser" />
-  </ItemGroup>
+    <ItemGroup>
+        <SupportedPlatform Include="browser"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Blazm.Components" Version="1.1.7" />
-    <PackageReference Include="Fluxor" Version="5.9.1" />
-    <PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.24" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.24" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="6.0.24" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Blazm.Components" Version="1.1.7"/>
+        <PackageReference Include="Fluxor" Version="5.9.1"/>
+        <PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1"/>
+        <PackageReference Include="MatBlazor" Version="2.10.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.24"/>
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.24"/>
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="6.0.24"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Common\Common.csproj" />
-    <ProjectReference Include="..\UserFeatureModule\UserFeatureModule.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\Common\Common.csproj"/>
+        <ProjectReference Include="..\UserFeatureModule\UserFeatureModule.csproj"/>
+    </ItemGroup>
 
 </Project>

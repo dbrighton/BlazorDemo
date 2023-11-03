@@ -3,10 +3,10 @@
 
 @inject IDispatcher Dispatcher
 @inject IState<ChessState> State
-
+@inject IMatDialogService MatDialogService
 
 <div>
-    <button class="btn btn-primary" @onclick="NewGame">New Game</button>
+    <button class="btn btn-primary float-end" @onclick="NewGame">New Game</button>
     <BlazmGrid Data="Games" PageSize="20">
         <GridColumns>
             <GridColumn Field="@nameof(ChessGame.CreateBy)"></GridColumn>
@@ -18,6 +18,9 @@
 
 @code{
 
+    [CascadingParameter]
+    public MatDialogReference DialogReference { get; set; }
+
     public List<ChessGame> Games { get; set; } = new();
 
     protected override void OnInitialized()
@@ -27,9 +30,13 @@
     }
 
 
-    private void NewGame()
+    private async Task NewGame()
     {
-       
+        var result = await MatDialogService.PromptAsync("What is your name?");
+        if (!string.IsNullOrWhiteSpace(result))
+        {
+            Dispatcher.Dispatch(new StartGameAction(result));
+        }
     }
 
 }

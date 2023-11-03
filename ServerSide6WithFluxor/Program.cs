@@ -1,6 +1,5 @@
 using Blazm.Components;
 using FluxorChess.API;
-using Microsoft.AspNetCore.Builder;
 using UserFeatureModule.API;
 using UserFeatureModule.Store;
 
@@ -15,7 +14,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+builder.Services
+    .AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
 
 
@@ -23,8 +23,8 @@ builder.Services.AddSignalR();
 
 builder.Services.AddFluxor(
     o => o.ScanAssemblies(
-            typeof(Program).Assembly, 
-            typeof(AuthHubFeature).Assembly, 
+            typeof(Program).Assembly,
+            typeof(AuthHubFeature).Assembly,
             typeof(ChessFeature).Assembly)
         .UseReduxDevTools()
 );

@@ -1,10 +1,7 @@
-﻿
-
-using System.Security.Claims;
-
-namespace UserFeatureModule.Store;
+﻿namespace UserFeatureModule.Store;
 
 public record UserState(bool HubConnected, Person? User, bool? IsAuthenticated);
+
 public class AuthHubFeature : Feature<UserState>
 {
     public override string GetName()
@@ -14,6 +11,6 @@ public class AuthHubFeature : Feature<UserState>
 
     protected override UserState GetInitialState()
     {
-        return new UserState(false, null,null);
+        return new UserState(false, null, null);
     }
 }

@@ -1,5 +1,4 @@
-﻿@using System.Security.Claims
-@inherits FluxorComponent
+﻿@inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<UserState> UserState
 
@@ -29,7 +28,7 @@
         base.OnInitialized();
         Dispatcher.Dispatch(new AuthHubStartAction());
 
-        if (AuthState!=null)
+        if (AuthState != null)
         {
             Dispatcher.Dispatch(new UserLoginSuccessAction(AuthState.User));
         }

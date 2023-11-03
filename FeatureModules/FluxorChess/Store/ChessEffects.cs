@@ -2,12 +2,11 @@
 
 namespace FluxorChess.Store;
 
-
 public class ChessEffects
 {
-    private readonly ILogger<ChessEffects> _log;
     private readonly IHubContext<ChessHub> _hub;
     private readonly HubConnection _hubConnection;
+    private readonly ILogger<ChessEffects> _log;
 
 
     public ChessEffects(ILogger<ChessEffects> log, NavigationManager navigationManager, IHubContext<ChessHub> hub)
@@ -22,13 +21,9 @@ public class ChessEffects
     }
 
     [EffectMethod(typeof(StartHubAction))]
-    public async  Task Start(IDispatcher dispatcher){
-
-        if (_hubConnection.State == HubConnectionState.Connected)
-        {
-            dispatcher.Dispatch(new HubSetConnectedAction(true));
-            
-        }
+    public async Task StartHub(IDispatcher dispatcher)
+    {
+        if (_hubConnection.State == HubConnectionState.Connected) dispatcher.Dispatch(new HubSetConnectedAction(true));
 
         _hubConnection.Reconnecting += ex =>
         {
@@ -61,8 +56,14 @@ public class ChessEffects
             dispatcher.Dispatch(new HubSetConnectedAction(false));
             dispatcher.Dispatch(new GenericErrorAction("Bingo Hub Not Connected!"));
         }
-
-        return;
     }
 
+    [EffectMethod]
+    public async Task StartGame(StartGameAction action,IDispatcher dispatcher)
+    {
+        await _hubConnection.SendAsync(SignalRConstants.CreateGame, new ChessGame
+        {
+            PlayerOne = new Person { Name = action.PlayerOne }
+        });
+    }
 }

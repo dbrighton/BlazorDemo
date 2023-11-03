@@ -1,12 +1,11 @@
-﻿namespace FluxorChess.API
-{
-    public  class ChessHub : Hub
-    {
-        private readonly ILogger<ChessHub> _log;
+﻿namespace FluxorChess.API;
 
-        public ChessHub(ILogger<ChessHub> log)
-        {
-            _log = log;
-        }
+public class ChessHub : Hub
+{
+    private readonly ILogger<ChessHub> _log;
+
+    public ChessHub(ILogger<ChessHub> log)
+    {
+        _log = log;
     }
 }
