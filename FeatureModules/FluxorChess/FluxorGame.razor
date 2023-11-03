@@ -1,7 +1,14 @@
 @using Common
 <h2>FluxorGame</h2>
 
-@Game.ToJson();
+
+
+@using Fluxor
+@inherits FluxorComponent
+@inject IState<ChessState> State
+@inject IDispatcher Dispatcher
+
+
 
 @code
 {
