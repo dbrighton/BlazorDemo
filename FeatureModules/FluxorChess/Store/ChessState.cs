@@ -183,21 +183,6 @@ public class ChessFeature : Feature<ChessState>
             PieceType = ChessPieceType.Rook
         });
 
-        return new ChessState(new List<ChessGame>(), new ChessGame { ChessPieces = list });
-    }
-}
-
-public static class Reducers
-{
-    [ReducerMethod]
-    public static ChessState OnSetConnected(ChessState state, HubSetConnectedAction action)
-    {
-        return state with { HubConnected = action.HubConnected };
-    }
-
-    [ReducerMethod]
-    public static ChessState OnChessGameListChangedAction(ChessState state, GameListChangedSuccessAction successAction)
-    {
-        return state with { Games = successAction.Games };
+        return new ChessState(new List<ChessGame>(), null);
     }
 }

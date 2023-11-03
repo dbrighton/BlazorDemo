@@ -1,0 +1,10 @@
+@using Common
+<h2>FluxorGame</h2>
+
+@Game.ToJson();
+
+@code
+{
+    [Parameter]
+    public ChessGame Game { get; set; }
+}

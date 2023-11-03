@@ -24,7 +24,7 @@
                     @{
                         var target = context as ChessGame;
                     }
-                    <button class="btn btn-outline-primary" @onclick="@(async ()=> await JoinGame(target))">Join</button>
+                    <button class="btn btn-outline-primary" @onclick="@( ()=>  JoinGame(target))">Join</button>
                 </Template>
             </GridColumn>
         </GridColumns>
@@ -56,9 +56,9 @@
         }
     }
 
-    private  Task JoinGame(ChessGame game)
+    private void  JoinGame(ChessGame game)
     {
-        throw new NotImplementedException();
+        Dispatcher.Dispatch(new JoinChessGameSuccessAction(game));
     }
 
     private string ToLocalTime(DateTime timeStamp)

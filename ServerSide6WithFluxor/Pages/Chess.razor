@@ -1,7 +1,19 @@
 ﻿@page  "/chess"
+@inherits FluxorComponent
+@inject IDispatcher Dispatcher
+@inject IState<ChessState> State
+
 <h3>Chess</h3>
 
-<FluxorChessHome></FluxorChessHome>
+@if(this.State?.Value.CurrentGame == null)
+{
+    <FluxorChessHome/>
+}
+else
+{
+    <FluxorGame Game="State?.Value.CurrentGame" />
+}
+
 
 @code {
 
