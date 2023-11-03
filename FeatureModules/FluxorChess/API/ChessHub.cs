@@ -1,12 +1,26 @@
-﻿namespace FluxorChess.API
+﻿namespace FluxorChess.API;
+public class ChessHub : Hub
 {
-    public  class ChessHub : Hub
-    {
-        private readonly ILogger<ChessHub> _log;
+  
+    private readonly ILogger<ChessHub> _log;
+    private readonly IEventAggregator _ea;
 
-        public ChessHub(ILogger<ChessHub> log)
+    public ChessHub(ILogger<ChessHub> log, IEventAggregator ea )
+    {
+        _log = log;
+        _ea= ea;
+    }
+
+    [HubMethodName(HubConstants.StartNewGame)]
+    public  Task StartNewGame(ChessPlayer player)
+    {
+        var game = new ChessGame
         {
-            _log = log;
-        }
+            CreateBy = player.Name,
+            PlayerOne = player
+        };
+        _ea.GetEvent<CreateGamePrismEvent>().Publish(game);
+        
+        return Task.CompletedTask;
     }
 }

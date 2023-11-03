@@ -1,14 +1,11 @@
-﻿using FluxorChess.Models;
+﻿namespace FluxorChess;
 
-namespace FluxorChess;
+public record StartHubAction;
 
-public record StartHubAction();
-public record HubSetConnectedAction(bool IsHubConnected);
-public record ChessSetStateAction(List<ChessGame> Games );
+public record HubSetConnectedAction(bool HubConnected);
 
+public record ChessNewGameAction(ChessPlayer Player);
 
-public static class SignalRConstants
-{
-    public const string GetChessGameSate = "GetChessGameSate";
-    public const string ChessGameSateChanged = "ChessGameSateChanged";
-}
+public record GameListChangedSuccessAction(List<ChessGame> Games);
+
+public record AddChessGameSignalRAction(ChessGame Game);

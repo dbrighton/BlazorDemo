@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace UserFeatureModule.Store;
+﻿namespace UserFeatureModule.Store;
 
 public static class UserReducers
 {
@@ -17,7 +15,6 @@ public static class UserReducers
         {
             Name = action.User.Identity.Name,
             email = action.User.Identities.FirstOrDefault().Name
-            
         };
         return state with
         {

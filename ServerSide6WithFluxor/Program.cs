@@ -1,8 +1,9 @@
 using Blazm.Components;
 using FluxorChess.API;
-using Microsoft.AspNetCore.Builder;
+using Prism.Events;
 using UserFeatureModule.API;
 using UserFeatureModule.Store;
+using Dispatcher = Fluxor.Dispatcher;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,16 +16,19 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+builder.Services
+    .AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddSingleton<IEventAggregator,EventAggregator>();
+builder.Services.AddSingleton<ChessGameService>();
 
 
 builder.Services.AddSignalR();
 
 builder.Services.AddFluxor(
     o => o.ScanAssemblies(
-            typeof(Program).Assembly, 
-            typeof(AuthHubFeature).Assembly, 
+            typeof(Program).Assembly,
+            typeof(AuthHubFeature).Assembly,
             typeof(ChessFeature).Assembly)
         .UseReduxDevTools()
 );
@@ -43,6 +47,8 @@ builder.Services.AddMatToaster(config =>
 });
 
 var app = builder.Build();
+
+app.Services.GetRequiredService<ChessGameService>(); // Initialize the ChessGameService
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

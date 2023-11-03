@@ -4,13 +4,13 @@
         <form method="post" action="Identity/Account/LogOut">
             <button type="submit" class="nav-link btn btn-link">Log out</button>
         </form>
-        
-        <UserFeature IsLogin="true" AuthState="context" />
+
+        <UserFeature IsLogin="true" AuthState="context"/>
     </Authorized>
     <NotAuthorized>
         <a href="Identity/Account/Register">Register</a>
         <a href="Identity/Account/Login">Log in</a>
-        
+
         <UserFeature IsLogin="false"/>
     </NotAuthorized>
 </AuthorizeView>

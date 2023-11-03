@@ -1,13 +1,10 @@
-﻿using FluxorChess.Models;
-
-namespace FluxorChess.Store;
-
+﻿namespace FluxorChess.Store;
 
 public class ChessEffects
 {
-    private readonly ILogger<ChessEffects> _log;
     private readonly IHubContext<ChessHub> _hub;
     private readonly HubConnection _hubConnection;
+    private readonly ILogger<ChessEffects> _log;
 
 
     public ChessEffects(ILogger<ChessEffects> log, NavigationManager navigationManager, IHubContext<ChessHub> hub)
@@ -22,13 +19,9 @@ public class ChessEffects
     }
 
     [EffectMethod(typeof(StartHubAction))]
-    public async  Task Start(IDispatcher dispatcher){
-
-        if (_hubConnection.State == HubConnectionState.Connected)
-        {
-            dispatcher.Dispatch(new HubSetConnectedAction(true));
-            
-        }
+    public async Task Start(IDispatcher dispatcher)
+    {
+        if (_hubConnection.State == HubConnectionState.Connected) dispatcher.Dispatch(new HubSetConnectedAction(true));
 
         _hubConnection.Reconnecting += ex =>
         {
@@ -48,21 +41,37 @@ public class ChessEffects
         //     dispatcher.Dispatch(new GenericSuccessAction("Chess Game Updated"));
         // });
 
+        _hubConnection.On<List<ChessGame>>(HubConstants.GameListChanged, payload =>
+        {
+            dispatcher.Dispatch(new GameListChangedSuccessAction(payload));
+            dispatcher.Dispatch(new GenericSuccessAction("Chess Game List Updated"));
+        });
+        
         await _hubConnection.StartAsync();
 
         if (_hubConnection.State == HubConnectionState.Connected)
         {
             dispatcher.Dispatch(new HubSetConnectedAction(true));
-            dispatcher.Dispatch(new GenericSuccessAction("Bingo Hub Connected"));
+            dispatcher.Dispatch(new GenericSuccessAction("Chess Hub Connected"));
         }
         else
         {
             _log.LogCritical("HubConnectionState:{State}", _hubConnection.State);
             dispatcher.Dispatch(new HubSetConnectedAction(false));
-            dispatcher.Dispatch(new GenericErrorAction("Bingo Hub Not Connected!"));
+            dispatcher.Dispatch(new GenericErrorAction("Chess Hub Not Connected!"));
         }
-
-        return;
     }
 
+    [EffectMethod]
+    public async Task CreateGame(ChessNewGameAction action, IDispatcher dispatcher)
+    {
+        try
+        {
+            await _hubConnection.SendAsync(HubConstants.StartNewGame, action.Player);
+        }
+        catch (Exception ex)
+        {
+            dispatcher.Dispatch(new GenericErrorAction(ex.Message));
+        }
+    }
 }
