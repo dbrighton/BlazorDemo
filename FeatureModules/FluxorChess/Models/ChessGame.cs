@@ -8,6 +8,7 @@ public class ChessGame
     public Person PlayerTwo { get; set; } = new();
     public List<ChessPiece> ChessPieces { get; set; } = new();
 
-    [Display(Name = "Last Updated")] public DateTime LastUpdateTimestamp { get; set; } = DateTime.UtcNow;
+    [Display(Name = "Last Updated")] 
+    public DateTime LastUpdateTimestamp { get; set; } = DateTime.UtcNow;
     
 }

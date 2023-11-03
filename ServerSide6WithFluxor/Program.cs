@@ -1,10 +1,3 @@
-using Blazm.Components;
-using FluxorChess.API;
-using Prism.Events;
-using UserFeatureModule.API;
-using UserFeatureModule.Store;
-using Dispatcher = Fluxor.Dispatcher;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -38,11 +31,11 @@ builder.Services.AddBlazm();
 builder.Services.AddMatBlazor();
 builder.Services.AddMatToaster(config =>
 {
-    config.Position = MatToastPosition.BottomFullWidth;
-    config.PreventDuplicates = false;
+    config.Position = MatToastPosition.TopRight;
+    config.PreventDuplicates = true;
     config.NewestOnTop = true;
-    config.ShowCloseButton = false;
-    config.MaximumOpacity = 95;
+    config.ShowCloseButton = true;
+    config.MaximumOpacity = 99;
     config.VisibleStateDuration = 9000;
 });
 

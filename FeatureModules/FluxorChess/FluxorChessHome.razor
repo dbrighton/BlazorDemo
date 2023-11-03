@@ -6,11 +6,27 @@
 
 <div>
     <button class="btn btn-primary float-end" @onclick="NewGame">New Game</button>
-    <BlazmGrid Data="Games" PageSize="20">
+    <BlazmGrid Data="Games" PageSize="10" Sortable="true">
         <GridColumns>
-            <GridColumn Field="@nameof(ChessGame.CreateBy)"></GridColumn>
-            <GridColumn Field="@nameof(ChessGame.LastUpdateTimestamp)"></GridColumn>
-
+            <GridColumn Field="@nameof(ChessGame.CreateBy)" Priority="0"></GridColumn>
+            <GridColumn Field="@nameof(ChessGame.LastUpdateTimestamp)" Priority="1">
+                <Template>
+                    
+                    @{
+                        var target = context as ChessGame;
+                        var localTime = target.LastUpdateTimestamp.ToLocalTime();
+                    }
+                    @localTime
+                </Template>
+            </GridColumn>
+            <GridColumn Class="alignRight">
+                <Template>
+                    @{
+                        var target = context as ChessGame;
+                    }
+                    <button class="btn btn-outline-primary" @onclick="@(async ()=> await JoinGame(target))">Join</button>
+                </Template>
+            </GridColumn>
         </GridColumns>
     </BlazmGrid>
 </div>
@@ -39,5 +55,16 @@
             Dispatcher.Dispatch(new ChessNewGameAction(chessPlayer));
         }
     }
+
+    private  Task JoinGame(ChessGame game)
+    {
+        throw new NotImplementedException();
+    }
+
+    private string ToLocalTime(DateTime timeStamp)
+    {
+        return timeStamp.ToLocalTime().ToString();
+    }
+   
 
 }
