@@ -11,4 +11,7 @@ public record GameListChangedSuccessAction(List<ChessGame> Games);
 public record JoinChessGameSuccessAction(ChessGame Game);
 
 public record ChessPiecesUpdateSuccess(List<ChessPiece> ChessPieces);
+public record MoveChessPieceReduceAction(ChessPiece ChessPiece,string TargetCellId);
+
+
 

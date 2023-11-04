@@ -1,15 +1,16 @@
 .chess-board {
-    width: 760px;
-    height: 760px;
+    width: 50rem;
+    height: 50rem;
+    /*height: 60px;*/
     
     border-collapse: collapse;
 }
 
-    .chess-board td {
+  /*  .chess-board td {
         width: 40px;
         height: 40px;
         border: 1px solid #333;
-    }
+    }*/
 
     .chess-board tr:nth-child(odd) td:nth-child(odd),
     .chess-board tr:nth-child(even) td:nth-child(even) {
@@ -20,3 +21,9 @@
     .chess-board tr:nth-child(even) td:nth-child(odd) {
         background-color: #b58863; /* dark square */
     }
+    
+td {
+      
+    justify-content: center; /* centers the content horizontally */
+    align-items: center;     /* centers the content vertically */
+}

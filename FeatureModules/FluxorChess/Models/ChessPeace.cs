@@ -15,7 +15,7 @@ public enum ChessPieceType
 public class ChessPiece
 {
     public string? ImageSrc { get; private set; }
-    public string? CellId { get; set; }
+    public string CellId { get; set; } = string.Empty;
     public bool IsDead { get; set; } = false;
     public int X { get; set; }
     public char Y { get; set; }
@@ -40,5 +40,6 @@ public class ChessPiece
         var color = IsWhite ? "white" : "black";
         var fileName = $"{color}_{_pieceType.ToString().ToLower()}.svg";
         ImageSrc = $"{basePath}{fileName}";
+        Console.WriteLine($"ImageSrc: {ImageSrc}");
     }
 }

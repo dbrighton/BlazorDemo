@@ -1,16 +1,21 @@
 ﻿
 <div>
     
-    @if (ChessPiece != null)
-    {
+@if (ChessPiece != null)
+{
         <img alt="@CellId" src="@ChessPiece?.ImageSrc" />
-    }
-    else
-    {
-        <img alt="@CellId" src="_content/FluxorChess/Images/blank.svg" />
-    }
-  
+}
+else
+{
+    <img alt="@CellId" src="Images/blank.svg" />
+}
+    
+
 </div>
+
+    
+
+
 
 @code {
 

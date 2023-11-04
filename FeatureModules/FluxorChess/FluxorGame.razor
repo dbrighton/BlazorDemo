@@ -10,23 +10,31 @@
         <tr>
             @for (int col = 1; col <= 8; col++)
             {
-                var cellId = $"{(char)(col + 96)}{row}"; // e.g., "a8", "b8", ... "h1"
-                var piece = GetChessPiece(cellId);
-                <td>
+                string cellId = $"{(char)(col + 96)}{row}"; // e.g., "a8", "b8", ... "h1"
+                ChessPiece? piece = GetChessPiece(cellId);
+                <td align="center" >
+                    <div ondragover="@(()=>AllowDrop(cellId))" draggable="true"
 
-                    <ChessCell
-                        Ctrl CellId="@cellId" ChessPiece="@piece"></ChessCell>
+                         ondragstart="@(() => OnDragStart(piece))"
+                         ondragend="@(() => OnDragEnd(piece))"
+                         ondrop="@(() => OnDrop(piece , cellId))">
+
+                        <ChessCellCtrl CellId="@cellId" ChessPiece="@piece"/>
+                    </div>
+               
                 </td>
             }
         </tr>
     }
 </table>
 
-@* <MatVirtualScroll></MatVirtualScroll> *@
+
 
 @code
 {
     private ChessGame _game;
+    private ChessPiece _draggedPiece;
+    private string _droppedCellId;
 
     [Parameter]
     public ChessGame Game
@@ -47,11 +55,56 @@
 
     private ChessPiece? GetChessPiece(string cellId)
     {
-        
+
         var target = (from i in State.Value.CurrentGame.ChessPieces
-                     where i.CellId == cellId
-                     select i).FirstOrDefault();
+            where i.CellId == cellId
+            select i).FirstOrDefault();
 
         return target;
     }
+
+    private void AllowDrop(string cellId)
+    {
+      _droppedCellId = cellId;
+    }
+
+    private void OnDragStart(ChessPiece piece)
+    {
+        _draggedPiece = piece;
+
+    }
+
+
+    private void OnDragEnd(ChessPiece chessPiece)
+    {
+    // Handle any cleanup if necessary
+       _draggedPiece = null;
+        // Console.WriteLine($"DragStart:{chessPiece.CellId}");
+        // Console.WriteLine($"Drop End is:{_droppedCellId}");
+
+        // var charArray = _droppedCellId.ToCharArray();
+        // var y = charArray[0];
+        // var x = charArray[1];
+        //
+        // chessPiece.CellId= _droppedCellId;
+        // chessPiece.Y = y;
+        // chessPiece.X = x;
+
+        Dispatcher.Dispatch(new MoveChessPieceReduceAction(chessPiece,_droppedCellId));
+    }
+
+
+
+    private void OnDrop(ChessPiece piece, string targetCellId)
+    {
+    // var cellId = e.Target.GetAttribute("data-cellid");
+    // if (_draggedPiece != null && !string.IsNullOrEmpty(cellId))
+    // {
+    //     Dispatcher.Dispatch(new MoveChessPieceReduceAction(_draggedPiece, cellId));
+    //     _draggedPiece = null;
+    // }
+
+    }
+
+   
 }
