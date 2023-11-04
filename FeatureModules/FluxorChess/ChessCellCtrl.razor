@@ -1,0 +1,18 @@
+﻿
+<div>
+    
+    @if (ChessPiece != null)
+    {
+        <img alt="@CellId" src="@ChessPiece?.ImageSrc" />
+    }
+    @CellId
+</div>
+
+@code {
+
+    [Parameter]
+    public ChessPiece? ChessPiece { get; set; } 
+
+    [Parameter]
+    public string? CellId { get; set; }
+}

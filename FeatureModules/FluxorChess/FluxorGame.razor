@@ -1,17 +1,38 @@
-@using Common
-<h2>FluxorGame</h2>
 
-
-
-@using Fluxor
 @inherits FluxorComponent
 @inject IState<ChessState> State
 @inject IDispatcher Dispatcher
+@* @inject MatVirtualScroll Scoller *@
 
+<table class="chess-board">
+    @for (int row = 8; row >= 1; row--) // Start from 8 and go down to 1 for rows
+    {
+        <tr>
+            @for (int col = 1; col <= 8; col++)
+            {
+                var cellId = $"{(char)(col + 96)}{row}"; // e.g., "a8", "b8", ... "h1"
+                var piece = GetChessPiece(cellId);
+                <td>
 
+                    <ChessCellCtrl CellId="@cellId" ChessPiece="@piece"></ChessCellCtrl>
+                </td>
+            }
+        </tr>
+    }
+</table>
+
+@* <MatVirtualScroll></MatVirtualScroll> *@
 
 @code
 {
     [Parameter]
     public ChessGame Game { get; set; }
+
+    private ChessPiece GetChessPiece(string cellId)
+    {
+
+        // Assuming ChessPieces is a property within your ChessGame model
+        //return Game?.ChessPieces?.FirstOrDefault(cell=> cell.== cellId );
+        return null;
+    }
 }
