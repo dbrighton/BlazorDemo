@@ -50,7 +50,7 @@
     {
 
         base.OnInitialized();
-        Dispatcher.Dispatch(new ChessPiecesUpdateSuccess(Game.Reset()));
+       // Dispatcher.Dispatch(new ChessPiecesUpdateSuccess(Game.ResetBoard()));
     }
 
     private ChessPiece? GetChessPiece(string cellId)
@@ -77,20 +77,10 @@
 
     private void OnDragEnd(ChessPiece chessPiece)
     {
-    // Handle any cleanup if necessary
+    
        _draggedPiece = null;
-        // Console.WriteLine($"DragStart:{chessPiece.CellId}");
-        // Console.WriteLine($"Drop End is:{_droppedCellId}");
 
-        // var charArray = _droppedCellId.ToCharArray();
-        // var y = charArray[0];
-        // var x = charArray[1];
-        //
-        // chessPiece.CellId= _droppedCellId;
-        // chessPiece.Y = y;
-        // chessPiece.X = x;
-
-        Dispatcher.Dispatch(new MoveChessPieceReduceAction(chessPiece,_droppedCellId));
+        Dispatcher.Dispatch(new MoveChessPieceEffectsAction(chessPiece,_droppedCellId));
     }
 
 

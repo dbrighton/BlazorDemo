@@ -4,7 +4,14 @@ namespace FluxorChess.Utils;
 
 public static class ChessExtensions
 {
-    public static List<ChessPiece> Reset(this ChessGame game)
+    public static ChessGame ResetGame(this ChessGame game)
+    {
+        game.ChessPieces = InitChessBoard();
+
+        return game;
+    }
+
+    public static List<ChessPiece> ResetBoard(this ChessGame game)
     {
 
         return InitChessBoard();

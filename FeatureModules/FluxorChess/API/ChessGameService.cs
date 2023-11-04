@@ -33,10 +33,35 @@ public class ChessGameService
             }
             
         });
+        _ea.GetEvent<JoinGamePrismEvent>().Subscribe((game) =>
+        {
+            try
+            {
+                var target = (from i in ChessGames
+                    where i.Id == game.Id
+                    select i).FirstOrDefault();
+
+                if (target != null)
+                {
+                    target.PlayerTwo = game.PlayerTwo;
+                    _hub.Clients.All.SendAsync(HubConstants.GameListChanged, ChessGames);
+                }
+                else
+                {
+                   
+                    game.HubClients?.Caller.SendAsync(HubConstants.GenericError, "Game does not exists");
+                }
+            }
+            catch (Exception e)
+            {
+                _Log.LogError(e.Message);
+            
+            }
+        });
+    
     }
 
    
-
 
     public List<ChessGame> Games { get; set; } = new();
 

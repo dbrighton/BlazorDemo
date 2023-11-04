@@ -1,17 +1,19 @@
 ﻿namespace FluxorChess;
 
-public record StartHubAction;
+// *************** Effects Actions***************
+public record StartHubEffectsAction;
+public record HubSetConnectedReducerAction(bool HubConnected);
+public record NewGameEffectsAction(ChessPlayer Player);
+public record JoinGameEffectsAction(ChessGame Game);
+public record MoveChessPieceEffectsAction(ChessPiece ChessPiece, string TargetCellId);
 
-public record HubSetConnectedAction(bool HubConnected);
 
-public record ChessNewGameAction(ChessPlayer Player);
 
-public record GameListChangedSuccessAction(List<ChessGame> Games);
-
-public record JoinChessGameSuccessAction(ChessGame Game);
-
-public record ChessPiecesUpdateSuccess(List<ChessPiece> ChessPieces);
-public record MoveChessPieceReduceAction(ChessPiece ChessPiece,string TargetCellId);
-
+// *************** Reducers Actions***************
+public record GameListChangedReducerAction(List<ChessGame> Games);
+public record JoinGameReducerAction(ChessGame Game);
+public record GameUpdatedReducerAction(ChessGame Game);
+public record GameDeletedReducerAction(ChessGame Game);
+public record ChessPiecesUpdateReducerAction(List<ChessPiece> ChessPieces);
 
 

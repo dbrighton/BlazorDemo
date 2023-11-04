@@ -6,7 +6,12 @@
 /// <remarks>
 ///     This class is used to store the current state of the chess game.
 /// </remarks>
-public record ChessState(List<ChessGame> Games, ChessGame CurrentGame, bool HubConnected = false);
+public class ChessState
+{
+    public List<ChessGame> Games { get; set; }=new();
+    public ChessGame? CurrentGame { get; set; }
+    public bool HubConnected { get; set; }
+}
 
 public class ChessFeature : Feature<ChessState>
 {
@@ -22,167 +27,12 @@ public class ChessFeature : Feature<ChessState>
     /// <remarks>
     ///     This method is used to initialize the state of the chess game.
     /// </remarks>
-    protected override ChessState GetInitialState()
-    {
-        var list = new List<ChessPiece>
+    protected override ChessState GetInitialState() {
+       
+
+        return new ChessState
         {
-            //create white first row
-            new()
-            {
-                X = 1,
-                Y = 'a',
-                IsWhite = true,
-                PieceType = ChessPieceType.Rook
-            },
-
-            new()
-            {
-                X = 1,
-                Y = 'b',
-                IsWhite = true,
-                PieceType = ChessPieceType.Knight
-            },
-
-            new()
-            {
-                X = 1,
-                Y = 'c',
-                IsWhite = true,
-                PieceType = ChessPieceType.Bishop
-            },
-
-            new()
-            {
-                X = 1,
-                Y = 'd',
-                IsWhite = true,
-                PieceType = ChessPieceType.Queen
-            },
-
-            new()
-            {
-                X = 1,
-                Y = 'e',
-                IsWhite = true,
-                PieceType = ChessPieceType.King
-            },
-
-            new()
-            {
-                X = 1,
-                Y = 'f',
-                IsWhite = true,
-                PieceType = ChessPieceType.Bishop
-            },
-
-            new()
-            {
-                X = 1,
-                Y = 'g',
-                IsWhite = true,
-                PieceType = ChessPieceType.Knight
-            },
-
-            new()
-            {
-                X = 1,
-                Y = 'h',
-                IsWhite = true,
-                PieceType = ChessPieceType.Rook
-            },
-
-            new()
-            {
-                X = 1,
-                Y = 'h',
-                IsWhite = true,
-                PieceType = ChessPieceType.Knight
-            }
+            Games = new List<ChessGame>()
         };
-
-        for (var i = 1; i <= 8; i++)
-            list.Add(new ChessPiece
-            {
-                X = 2,
-                Y = (char)(i + 96),
-                IsWhite = true,
-                PieceType = ChessPieceType.Pawn
-            });
-
-        for (var i = 1; i <= 8; i++)
-            list.Add(new ChessPiece
-            {
-                X = 7,
-                Y = (char)(i + 96),
-                IsWhite = false,
-                PieceType = ChessPieceType.Pawn
-            });
-
-        //create black first row
-        list.Add(new ChessPiece
-        {
-            X = 8,
-            Y = 'a',
-            IsWhite = false,
-            PieceType = ChessPieceType.Rook
-        });
-
-        list.Add(new ChessPiece
-        {
-            X = 8,
-            Y = 'b',
-            IsWhite = false,
-            PieceType = ChessPieceType.Knight
-        });
-
-        list.Add(new ChessPiece
-        {
-            X = 8,
-            Y = 'c',
-            IsWhite = false,
-            PieceType = ChessPieceType.Bishop
-        });
-
-        list.Add(new ChessPiece
-        {
-            X = 8,
-            Y = 'd',
-            IsWhite = false,
-            PieceType = ChessPieceType.King
-        });
-
-        list.Add(new ChessPiece
-        {
-            X = 8,
-            Y = 'e',
-            IsWhite = false,
-            PieceType = ChessPieceType.Queen
-        });
-
-        list.Add(new ChessPiece
-        {
-            X = 8,
-            Y = 'f',
-            IsWhite = false,
-            PieceType = ChessPieceType.Bishop
-        });
-
-        list.Add(new ChessPiece
-        {
-            X = 8,
-            Y = 'g',
-            IsWhite = false,
-            PieceType = ChessPieceType.Knight
-        });
-
-        list.Add(new ChessPiece
-        {
-            X = 8,
-            Y = 'h',
-            IsWhite = false,
-            PieceType = ChessPieceType.Rook
-        });
-
-        return new ChessState(new List<ChessGame>(), null);
     }
 }

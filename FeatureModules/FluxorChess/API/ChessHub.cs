@@ -1,9 +1,12 @@
-﻿namespace FluxorChess.API;
+﻿using FluxorChess.Utils;
+
+namespace FluxorChess.API;
 public class ChessHub : Hub
 {
   
     private readonly ILogger<ChessHub> _log;
     private readonly IEventAggregator _ea;
+  
 
     public ChessHub(ILogger<ChessHub> log, IEventAggregator ea )
     {
@@ -19,8 +22,17 @@ public class ChessHub : Hub
             CreateBy = player.Name,
             PlayerOne = player
         };
+        game.ResetGame();
         _ea.GetEvent<CreateGamePrismEvent>().Publish(game);
         
+        return Task.CompletedTask;
+    }
+
+    [HubMethodName(HubConstants.JoinGame)]
+    public Task JoinGame(ChessGame game)
+    {
+        game.HubClients = Clients;
+        _ea.GetEvent<JoinGamePrismEvent>().Publish(game );
         return Task.CompletedTask;
     }
 }

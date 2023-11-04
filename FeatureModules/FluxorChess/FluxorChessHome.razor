@@ -38,8 +38,8 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Dispatcher.Dispatch(new StartHubAction());
-        SubscribeToAction<GameListChangedSuccessAction>(payload => { Games = payload.Games; });
+        Dispatcher.Dispatch(new StartHubEffectsAction());
+        SubscribeToAction<GameListChangedReducerAction>(payload => { Games = payload.Games; });
     }
 
 
@@ -52,13 +52,13 @@
             {
                 Name = result
             };
-            Dispatcher.Dispatch(new ChessNewGameAction(chessPlayer));
+            Dispatcher.Dispatch(new NewGameEffectsAction(chessPlayer));
         }
     }
 
     private void  JoinGame(ChessGame game)
     {
-        Dispatcher.Dispatch(new JoinChessGameSuccessAction(game));
+        Dispatcher.Dispatch(new JoinGameEffectsAction(game));
     }
 
     private string ToLocalTime(DateTime timeStamp)

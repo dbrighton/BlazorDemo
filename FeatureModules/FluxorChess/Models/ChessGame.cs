@@ -1,4 +1,6 @@
-﻿namespace FluxorChess.Models;
+﻿using Newtonsoft.Json;
+
+namespace FluxorChess.Models;
 public class ChessGame
 {
     public Guid Id { get;  } = Guid.NewGuid();
@@ -10,5 +12,7 @@ public class ChessGame
 
     [Display(Name = "Last Updated")] 
     public DateTime LastUpdateTimestamp { get; set; } = DateTime.UtcNow;
-    
+
+    [JsonIgnore]
+    public IHubCallerClients? HubClients { get; set; }
 }
