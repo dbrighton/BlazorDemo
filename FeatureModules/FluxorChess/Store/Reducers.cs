@@ -9,16 +9,25 @@ public static class Reducers
     }
 
     [ReducerMethod]
-    public static ChessState OnChessGameListChangedAction(ChessState state, GameListChangedSuccessAction successAction)
+    public static ChessState OnChessGameListChangedAction(ChessState state, GameListChangedSuccessAction action)
     {
-        return state with { Games = successAction.Games };
+        return state with { Games = action.Games };
     }
 
     [ReducerMethod]
-    public static ChessState OnJoinChessGameSuccessActionAction(ChessState state, JoinChessGameSuccessAction sction)
+    public static ChessState OnJoinChessGameSuccessAction(ChessState state, JoinChessGameSuccessAction action)
     {
-        return state with { CurrentGame = sction.Game };
+        return state with { CurrentGame = action.Game };
     }
 
-    
+    [ReducerMethod]
+    public static ChessState OnChessPiecesUpdateSuccessAction(ChessState state, ChessPiecesUpdateSuccess action)
+    {
+        var game = state.CurrentGame;
+        game.ChessPieces = action.ChessPieces;
+
+        return state;
+    }
+
+
 }

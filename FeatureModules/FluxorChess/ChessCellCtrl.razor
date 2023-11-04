@@ -5,7 +5,11 @@
     {
         <img alt="@CellId" src="@ChessPiece?.ImageSrc" />
     }
-    @CellId
+    else
+    {
+        <img alt="@CellId" src="_content/FluxorChess/Images/blank.svg" />
+    }
+  
 </div>
 
 @code {

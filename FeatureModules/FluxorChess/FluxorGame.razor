@@ -1,8 +1,8 @@
 
+@using FluxorChess.Utils
 @inherits FluxorComponent
 @inject IState<ChessState> State
 @inject IDispatcher Dispatcher
-@* @inject MatVirtualScroll Scoller *@
 
 <table class="chess-board">
     @for (int row = 8; row >= 1; row--) // Start from 8 and go down to 1 for rows
@@ -14,7 +14,8 @@
                 var piece = GetChessPiece(cellId);
                 <td>
 
-                    <ChessCellCtrl CellId="@cellId" ChessPiece="@piece"></ChessCellCtrl>
+                    <ChessCell
+                        Ctrl CellId="@cellId" ChessPiece="@piece"></ChessCell>
                 </td>
             }
         </tr>
@@ -25,14 +26,32 @@
 
 @code
 {
-    [Parameter]
-    public ChessGame Game { get; set; }
+    private ChessGame _game;
 
-    private ChessPiece GetChessPiece(string cellId)
+    [Parameter]
+    public ChessGame Game
+    {
+        get => _game;
+        set => _game = value;
+    }
+
+
+
+
+    protected override void OnInitialized()
     {
 
-        // Assuming ChessPieces is a property within your ChessGame model
-        //return Game?.ChessPieces?.FirstOrDefault(cell=> cell.== cellId );
-        return null;
+        base.OnInitialized();
+        Dispatcher.Dispatch(new ChessPiecesUpdateSuccess(Game.Reset()));
+    }
+
+    private ChessPiece? GetChessPiece(string cellId)
+    {
+        
+        var target = (from i in State.Value.CurrentGame.ChessPieces
+                     where i.CellId == cellId
+                     select i).FirstOrDefault();
+
+        return target;
     }
 }

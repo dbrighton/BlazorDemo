@@ -9,3 +9,6 @@ public record ChessNewGameAction(ChessPlayer Player);
 public record GameListChangedSuccessAction(List<ChessGame> Games);
 
 public record JoinChessGameSuccessAction(ChessGame Game);
+
+public record ChessPiecesUpdateSuccess(List<ChessPiece> ChessPieces);
+

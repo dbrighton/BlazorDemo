@@ -14,6 +14,8 @@ public enum ChessPieceType
 
 public class ChessPiece
 {
+    public string? ImageSrc { get; private set; }
+    public string? CellId { get; set; }
     public bool IsDead { get; set; } = false;
     public int X { get; set; }
     public char Y { get; set; }
@@ -30,14 +32,13 @@ public class ChessPiece
         }
     }
 
-    public string ImageSrc { get; private set; }
+
 
     private void UpdateImageSrc()
     {
-        var basePath = "./wwwroot/images/";
+        var basePath = "_content/FluxorChess/Images/";
         var color = IsWhite ? "white" : "black";
         var fileName = $"{color}_{_pieceType.ToString().ToLower()}.svg";
-        Console.WriteLine(fileName);
         ImageSrc = $"{basePath}{fileName}";
     }
 }

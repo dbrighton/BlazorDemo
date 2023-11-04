@@ -4,10 +4,10 @@ namespace FluxorChess.Utils;
 
 public static class ChessExtensions
 {
-    public static ChessGame Reset(this ChessGame game)
+    public static List<ChessPiece> Reset(this ChessGame game)
     {
-        game.ChessPieces = InitChessBoard();
-        return game;
+
+        return InitChessBoard();
     }
 
     private static List<ChessPiece> InitChessBoard()
@@ -17,6 +17,7 @@ public static class ChessExtensions
             //create white first row
             new()
             {
+                CellId = "a1",
                 X = 1,
                 Y = 'a',
                 IsWhite = true,
@@ -25,6 +26,7 @@ public static class ChessExtensions
 
             new()
             {
+                CellId = "b1",
                 X = 1,
                 Y = 'b',
                 IsWhite = true,
@@ -33,6 +35,7 @@ public static class ChessExtensions
 
             new()
             {
+                CellId = "c1",
                 X = 1,
                 Y = 'c',
                 IsWhite = true,
@@ -41,6 +44,7 @@ public static class ChessExtensions
 
             new()
             {
+                CellId = "d1",
                 X = 1,
                 Y = 'd',
                 IsWhite = true,
@@ -49,6 +53,7 @@ public static class ChessExtensions
 
             new()
             {
+                CellId = "e1",
                 X = 1,
                 Y = 'e',
                 IsWhite = true,
@@ -57,6 +62,7 @@ public static class ChessExtensions
 
             new()
             {
+                CellId = "f1",
                 X = 1,
                 Y = 'f',
                 IsWhite = true,
@@ -65,6 +71,7 @@ public static class ChessExtensions
 
             new()
             {
+                CellId = "g1",
                 X = 1,
                 Y = 'g',
                 IsWhite = true,
@@ -73,24 +80,20 @@ public static class ChessExtensions
 
             new()
             {
+                CellId = "h1",
                 X = 1,
                 Y = 'h',
                 IsWhite = true,
                 PieceType = ChessPieceType.Rook
-            },
-
-            new()
-            {
-                X = 1,
-                Y = 'h',
-                IsWhite = true,
-                PieceType = ChessPieceType.Knight
             }
+
+          
         };
 
         for (var i = 1; i <= 8; i++)
             list.Add(new ChessPiece
             {
+                CellId = $"{(char)(i + 96)}2" ,
                 X = 2,
                 Y = (char)(i + 96),
                 IsWhite = true,
@@ -100,6 +103,7 @@ public static class ChessExtensions
         for (var i = 1; i <= 8; i++)
             list.Add(new ChessPiece
             {
+                CellId = $"{(char)(i + 96)}7",
                 X = 7,
                 Y = (char)(i + 96),
                 IsWhite = false,
@@ -109,6 +113,7 @@ public static class ChessExtensions
         //create black first row
         list.Add(new ChessPiece
         {
+            CellId = "a8",
             X = 8,
             Y = 'a',
             IsWhite = false,
@@ -117,6 +122,7 @@ public static class ChessExtensions
 
         list.Add(new ChessPiece
         {
+            CellId = "b8",
             X = 8,
             Y = 'b',
             IsWhite = false,
@@ -125,6 +131,7 @@ public static class ChessExtensions
 
         list.Add(new ChessPiece
         {
+            CellId = "c8",
             X = 8,
             Y = 'c',
             IsWhite = false,
@@ -133,6 +140,7 @@ public static class ChessExtensions
 
         list.Add(new ChessPiece
         {
+            CellId = "d8",
             X = 8,
             Y = 'd',
             IsWhite = false,
@@ -141,6 +149,7 @@ public static class ChessExtensions
 
         list.Add(new ChessPiece
         {
+            CellId = "e8",
             X = 8,
             Y = 'e',
             IsWhite = false,
@@ -149,6 +158,7 @@ public static class ChessExtensions
 
         list.Add(new ChessPiece
         {
+            CellId = "f8",
             X = 8,
             Y = 'f',
             IsWhite = false,
@@ -157,6 +167,7 @@ public static class ChessExtensions
 
         list.Add(new ChessPiece
         {
+            CellId = "g8",
             X = 8,
             Y = 'g',
             IsWhite = false,
@@ -165,6 +176,7 @@ public static class ChessExtensions
 
         list.Add(new ChessPiece
         {
+            CellId = "h8",
             X = 8,
             Y = 'h',
             IsWhite = false,
