@@ -6,7 +6,7 @@ public static class ChessExtensions
 {
     public static ChessGame ResetGame(this ChessGame game)
     {
-        game.ChessPieces = InitChessBoard();
+        game.ChessPiecesState = InitChessBoard();
 
         return game;
     }

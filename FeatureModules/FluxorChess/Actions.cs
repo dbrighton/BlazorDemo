@@ -10,7 +10,7 @@ public record MoveChessPieceEffectsAction(ChessPiece ChessPiece, string TargetCe
 
 
 // *************** Reducers Actions***************
-public record GameListChangedReducerAction(List<ChessGame> Games);
+public record GameListChangedReducerAction(List<GameInfo> Games);
 public record JoinGameReducerAction(ChessGame Game);
 public record GameUpdatedReducerAction(ChessGame Game);
 public record GameDeletedReducerAction(ChessGame Game);

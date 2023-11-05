@@ -1,38 +1,38 @@
-﻿using FluxorChess.Utils;
+﻿// Ignore Spelling: Fluxor API
 
-namespace FluxorChess.API;
-public class ChessHub : Hub
+namespace FluxorChess.API
 {
-  
-    private readonly ILogger<ChessHub> _log;
-    private readonly IEventAggregator _ea;
-  
-
-    public ChessHub(ILogger<ChessHub> log, IEventAggregator ea )
+    /// <summary>
+    /// Represents a hub for managing chess games.
+    /// </summary>
+    public class ChessHub : Hub
     {
-        _log = log;
-        _ea= ea;
-    }
+        private readonly ILogger<ChessHub> _log;
+        private readonly IEventAggregator _ea;
 
-    [HubMethodName(HubConstants.StartNewGame)]
-    public  Task StartNewGame(ChessPlayer player)
-    {
-        var game = new ChessGame
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChessHub"/> class.
+        /// </summary>
+        /// <param name="log">The logger.</param>
+        /// <param name="ea">The event aggregator.</param>
+        public ChessHub(ILogger<ChessHub> log, IEventAggregator ea)
         {
-            CreateBy = player.Name,
-            PlayerOne = player
-        };
-        game.ResetGame();
-        _ea.GetEvent<CreateGamePrismEvent>().Publish(game);
-        
-        return Task.CompletedTask;
-    }
+            _log = log;
+            _ea = ea;
+        }
 
-    [HubMethodName(HubConstants.JoinGame)]
-    public Task JoinGame(ChessGame game)
-    {
-        game.HubClients = Clients;
-        _ea.GetEvent<JoinGamePrismEvent>().Publish(game );
-        return Task.CompletedTask;
+
+        /// <summary>
+        /// Joins an existing chess game.
+        /// </summary>
+        /// <param name="game">The game.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        [HubMethodName(HubConstants.JoinGame)]
+        public Task JoinGame(ChessGame game)
+        {
+            game.HubClients = Clients;
+            _ea.GetEvent<JoinGamePrismEvent>().Publish(game);
+            return Task.CompletedTask;
+        }
     }
 }

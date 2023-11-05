@@ -56,7 +56,7 @@
     private ChessPiece? GetChessPiece(string cellId)
     {
 
-        var target = (from i in State.Value.CurrentGame.ChessPieces
+        var target = (from i in State.Value.CurrentGame.ChessPiecesState
             where i.CellId == cellId
             select i).FirstOrDefault();
 

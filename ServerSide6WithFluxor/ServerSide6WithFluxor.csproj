@@ -30,6 +30,9 @@
 	  <Content Update="wwwroot\Images\blank.svg">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
+	  <Content Update="wwwroot\Images\white_rook.svg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 </Project>

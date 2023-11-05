@@ -29,52 +29,26 @@ public static class Reducers
     public static ChessState OnChessPiecesUpdateSuccessAction(ChessState state, ChessPiecesUpdateReducerAction action)
     {
         var game = state.CurrentGame;
-        game.ChessPieces = action.ChessPieces.OrderBy(i => i.CellId).ToList();
+        game.ChessPiecesState = action.ChessPieces.OrderBy(i => i.CellId).ToList();
 
         return state;
     }
 
-    // [ReducerMethod]
-    // public static ChessState OnMoveChessPieceReduceAction(ChessState state, MoveChessPieceReduceAction action)
-    // {
-    //     var newState = state with
-    //     {
-    //         /* copy existing state */
-    //     };
-    //
-    //     // Find the piece and update its position in the newState
-    //     var piece = newState.CurrentGame.ChessPieces.Find(p => p == action.ChessPiece);
-    //     if (piece != null) piece.CellId = action.TargetCellId;
-    //
-    //     return newState;
-    // }
 
-    [ReducerMethod]
-    public static ChessState OnGameUpdatedReducerAction(ChessState state, GameUpdatedReducerAction action)
+    
+[ReducerMethod]
+public static ChessState OnGameDeletedReducerAction(ChessState state, GameDeletedReducerAction action)
+{
+       
+    state.Games.RemoveAll(i => i.GameId == action?.Game?.GameInfo?.GameId);
+   
+
+    if (state.CurrentGame != null)
     {
-        if (state.CurrentGame != null && state.CurrentGame.Id == action.Game.Id) state.CurrentGame = action.Game;
-
-        var target = (from i in state.Games
-            where i.Id == action.Game.Id
-            select i).FirstOrDefault();
-        if (target != null)
-            target = action.Game;
-        else
-            state.Games.Add(action.Game);
-
-        return state;
+        state.CurrentGame = null;
     }
 
-    [ReducerMethod]
-    public static ChessState OnGameDeletedReducerAction(ChessState state, GameDeletedReducerAction action)
-    {
-        var target = (from i in state.Games
-            where i.Id == action.Game.Id
-            select i).FirstOrDefault();
-        if (target != null) state.Games.Remove(target);
+    return state ?? throw new ArgumentNullException(nameof(state));
+}
 
-        if (state.CurrentGame != null && state.CurrentGame.Id == action.Game.Id) state.CurrentGame = null;
-
-        return state;
-    }
 }

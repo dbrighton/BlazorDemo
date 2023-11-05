@@ -1,5 +1,3 @@
-using Dispatcher = Fluxor.Dispatcher;
-
 namespace FluxorChess.API;
 
 public class ChessGameService 
@@ -16,29 +14,30 @@ public class ChessGameService
         _ea = ea;
         _hub = hub;
 
-        _ea.GetEvent<CreateGamePrismEvent>().Subscribe((game) =>
+        _ea.GetEvent<CreateGamePrismEvent>().Subscribe((player) =>
         {
-            var target = (from i in ChessGames
-                where i.Id == game.Id
-                select i).FirstOrDefault();
+           var game = new ChessGame
+           {
+               GameInfo =
+               {
+                   GameId = Guid.NewGuid(),
+                   CreateBy = player.Name,  
+                   GameStatus = GameStatus.WaitingForPlayer,
+                 
+               }
+           };
+           ChessGames.Add(game);
+           _hub.Clients.All.SendAsync(HubConstants.GameListChanged, ChessGames);
 
-            if (target == null)
-            {
-                ChessGames.Add(game);
-                _hub.Clients.All.SendAsync(HubConstants.GameListChanged, ChessGames);
-            }
-            else
-            {
-                throw new Exception("Game already exists");
-            }
-            
         });
+
+
         _ea.GetEvent<JoinGamePrismEvent>().Subscribe((game) =>
         {
             try
             {
                 var target = (from i in ChessGames
-                    where i.Id == game.Id
+                    where i.GameInfo.GameId == game.GameInfo.GameId
                     select i).FirstOrDefault();
 
                 if (target != null)

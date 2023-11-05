@@ -40,7 +40,7 @@ public class ChessEffects
             dispatcher.Dispatch(new GameUpdatedReducerAction(payload));
         });
 
-        _hubConnection.On<List<ChessGame>>(HubConstants.GameListChanged, payload =>
+        _hubConnection.On<List<GameInfo>>(HubConstants.GameListChanged, payload =>
         {
             dispatcher.Dispatch(new GameListChangedReducerAction(payload));
             dispatcher.Dispatch(new GenericSuccessAction("Chess Game List Updated"));

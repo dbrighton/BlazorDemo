@@ -8,13 +8,13 @@
     <button class="btn btn-primary float-end" @onclick="NewGame">New Game</button>
     <BlazmGrid Data="Games" PageSize="10" Sortable="true">
         <GridColumns>
-            <GridColumn Field="@nameof(ChessGame.CreateBy)" Priority="0"></GridColumn>
-            <GridColumn Field="@nameof(ChessGame.LastUpdateTimestamp)" Priority="1">
+            <GridColumn Field="@nameof(GameInfo.CreateBy)" Priority="0"></GridColumn>
+            <GridColumn Field="@nameof(GameInfo.LastUpdateTimeStamp)" Priority="1">
                 <Template>
                     
                     @{
-                        var target = context as ChessGame;
-                        var localTime = target.LastUpdateTimestamp.ToLocalTime();
+                        var target = context as GameInfo;
+                        var localTime = target.LastUpdateTimeStamp.ToLocalTime();
                     }
                     @localTime
                 </Template>
@@ -33,7 +33,7 @@
 
 @code{
 
-    public List<ChessGame> Games { get; set; } = new();
+    public List<GameInfo> Games { get; set; } = new();
 
     protected override void OnInitialized()
     {

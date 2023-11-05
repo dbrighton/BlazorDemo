@@ -3,7 +3,7 @@
 
 
 
-public class CreateGamePrismEvent:PubSubEvent<ChessGame> { }
+public class CreateGamePrismEvent:PubSubEvent<ChessPlayer> { }
 
 
 

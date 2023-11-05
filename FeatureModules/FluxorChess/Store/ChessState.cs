@@ -8,7 +8,7 @@
 /// </remarks>
 public class ChessState
 {
-    public List<ChessGame> Games { get; set; }=new();
+    public List<GameInfo> Games { get; set; }=new();
     public ChessGame? CurrentGame { get; set; }
     public bool HubConnected { get; set; }
 }
@@ -32,7 +32,7 @@ public class ChessFeature : Feature<ChessState>
 
         return new ChessState
         {
-            Games = new List<ChessGame>()
+            Games = new List<GameInfo>()
         };
     }
 }
