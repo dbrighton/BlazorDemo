@@ -1,0 +1,35 @@
+
+@inherits FluxorComponent
+@inject IDispatcher Dispatcher
+@inject IState<ChessState> State
+
+@* <h2>This is the  Chess Feature Module</h2> *@
+
+@if (_game == null)
+{
+    <GamesList />
+}
+else
+{
+    <FluxorGame Game="_game" />
+}
+
+@code {
+
+    private ChessPlayer? _player;
+    private ChessGame? _game;
+
+protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        SubscribeToAction<GameCreatedReducerAction>((chessGame) =>
+        {
+            _game = chessGame.Game;
+        });
+        SubscribeToAction<JoinGameReducerAction>((chessGame) =>
+        {
+            _game = chessGame.Game;
+        });
+    }
+
+}

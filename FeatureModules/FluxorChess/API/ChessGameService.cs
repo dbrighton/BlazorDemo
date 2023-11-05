@@ -1,66 +1,77 @@
 namespace FluxorChess.API;
 
-public class ChessGameService 
+public class ChessGameService
 {
-  
-    private readonly IHubContext<ChessHub> _hub;
-    private readonly ILogger<ChessGameService> _Log;
     private readonly IEventAggregator _ea;
 
-    public List<ChessGame> ChessGames { get; private set; } = new();
+    private readonly IHubContext<ChessHub> _hub;
+    private readonly ILogger<ChessGameService> _Log;
+
     public ChessGameService(ILogger<ChessGameService> log, IEventAggregator ea, IHubContext<ChessHub> hub)
     {
         _Log = log;
         _ea = ea;
         _hub = hub;
 
-        _ea.GetEvent<CreateGamePrismEvent>().Subscribe((player) =>
+        _ea.GetEvent<StartNewGamePrismEvent>().Subscribe(player =>
         {
-           var game = new ChessGame
-           {
-               GameInfo =
-               {
-                   GameId = Guid.NewGuid(),
-                   CreateBy = player.Name,  
-                   GameStatus = GameStatus.WaitingForPlayer,
-                 
-               }
-           };
-           ChessGames.Add(game);
-           _hub.Clients.All.SendAsync(HubConstants.GameListChanged, ChessGames);
-
+            var game = new ChessGame
+            {
+                GameInfo = new GameInfo
+                {
+                    GameId = Guid.NewGuid(),
+                    CreateBy = player.Name,
+                    GameStatus = GameStatus.WaitingForPlayer
+                }
+            };
+            ChessGames.Add(game);
+            _hub.Clients.All.SendAsync(HubConstants.GameListChanged, ChessGames);
         });
-
-
-        _ea.GetEvent<JoinGamePrismEvent>().Subscribe((game) =>
+        _ea.GetEvent<JoinGamePrismEvent>().Subscribe(joinGameRequest =>
         {
             try
             {
-                var target = (from i in ChessGames
-                    where i.GameInfo.GameId == game.GameInfo.GameId
-                    select i).FirstOrDefault();
+                var target = ChessGames.FirstOrDefault(i => i.GameInfo.GameId == joinGameRequest.GameInfo.GameId);
 
-                if (target != null)
+
+                // If player one is null then set player one  this will be the first player
+                // to join the game
+                if (target.PlayerOne == null)
                 {
-                    target.PlayerTwo = game.PlayerTwo;
-                    _hub.Clients.All.SendAsync(HubConstants.GameListChanged, ChessGames);
+                    target.PlayerOne = joinGameRequest.Player;
+                    target.GameInfo.GameStatus = GameStatus.InProgress;
+                    joinGameRequest.HubCaller?.SendAsync(HubConstants.JoinGame, target);
+                }
+                // If player two is null then set player one  this will be the first second
+                // to join the game
+                else if (target.PlayerTwo == null)
+                {
+                    target.PlayerTwo = joinGameRequest.Player;
+                    target.GameInfo.GameStatus = GameStatus.InProgress;
                 }
                 else
                 {
-                   
-                    game.HubClients?.Caller.SendAsync(HubConstants.GenericError, "Game does not exists");
+                    joinGameRequest.HubCaller?.SendAsync(HubConstants.GenericInfo, "Joining as Observer");
+                }
+                
+                if (target != null)
+                {
+                    joinGameRequest.HubCaller?.SendAsync(HubConstants.ChessGameSateChanged, target);
+                }
+                else
+                {
+                    joinGameRequest.HubCaller?.SendAsync(HubConstants.GenericError, "Game does not exists");
                 }
             }
             catch (Exception e)
             {
                 _Log.LogError(e.Message);
-            
             }
         });
-    
     }
 
-   
+    public List<ChessGame> ChessGames { get; } = new();
+
 
     public List<ChessGame> Games { get; set; } = new();
 

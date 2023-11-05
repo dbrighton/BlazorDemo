@@ -3,8 +3,8 @@
 
 
 
-public class CreateGamePrismEvent:PubSubEvent<ChessPlayer> { }
+public class StartNewGamePrismEvent:PubSubEvent<ChessPlayer> { }
 
 
 
-public class JoinGamePrismEvent : PubSubEvent<ChessGame> { }
+public class JoinGamePrismEvent : PubSubEvent<JoinGameRequest> { }

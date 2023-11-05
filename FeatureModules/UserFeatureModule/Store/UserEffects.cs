@@ -47,7 +47,7 @@ public class UserEffects
         if (_hubConnection.State == HubConnectionState.Connected)
         {
             dispatcher.Dispatch(new AuthHubSetConnectedAction(true));
-            dispatcher.Dispatch(new GenericSuccessAction("Auth Hub Connected"));
+            //dispatcher.Dispatch(new GenericSuccessAction("Auth Hub Connected"));
         }
         else
         {

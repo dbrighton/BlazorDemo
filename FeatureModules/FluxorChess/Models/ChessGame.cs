@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace FluxorChess.Models;
+﻿namespace FluxorChess.Models;
 public class ChessGame
 {
     public GameInfo? GameInfo { get; set; } 

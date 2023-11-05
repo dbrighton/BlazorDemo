@@ -12,4 +12,6 @@ public class GameInfo
     public DateTime LastUpdateTimeStamp { get; set; } = DateTime.UtcNow;
 
     public GameStatus GameStatus { get; set; }
+    [JsonIgnore]
+    public IClientProxy? HubCaller { get; set; }
 }

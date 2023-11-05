@@ -1,21 +1,26 @@
-﻿namespace FluxorChess.Store;
+﻿using Microsoft.AspNetCore.SignalR.Client;
 
-public class ChessEffects
+namespace FluxorChess.Store;
+
+public class Effects
 {
     private readonly IHubContext<ChessHub> _hub;
-    private readonly HubConnection _hubConnection;
-    private readonly ILogger<ChessEffects> _log;
+    private static  HubConnection? _hubConnection;
+    private readonly ILogger<Effects> _log;
 
 
-    public ChessEffects(ILogger<ChessEffects> log, NavigationManager navigationManager, IHubContext<ChessHub> hub)
+    public Effects(ILogger<Effects> log, NavigationManager navigationManager, IHubContext<ChessHub> hub)
     {
         _log = log;
         _hub = hub;
 
-        _hubConnection = new HubConnectionBuilder()
-            .WithUrl(navigationManager.ToAbsoluteUri("/chessHub"))
-            .WithAutomaticReconnect()
-            .Build();
+        if (_hubConnection == null)
+        {
+            _hubConnection = new HubConnectionBuilder()
+                .WithUrl(navigationManager.ToAbsoluteUri("/chessHub"))
+                .WithAutomaticReconnect()
+                .Build();
+        }
     }
 
     [EffectMethod(typeof(StartHubEffectsAction))]
@@ -35,17 +40,23 @@ public class ChessEffects
             return Task.CompletedTask;
         };
 
-        _hubConnection.On<ChessGame>(HubConstants.ChessGameSateChanged, payload =>
+        _hubConnection.On<ChessGame>(HubConstants.JoinGame, game =>
         {
-            dispatcher.Dispatch(new GameUpdatedReducerAction(payload));
+            dispatcher.Dispatch(new JoinGameReducerAction(game));
         });
-
-        _hubConnection.On<List<GameInfo>>(HubConstants.GameListChanged, payload =>
+        _hubConnection.On<ChessGame>(HubConstants.ChessGameSateChanged, chessGame =>
         {
-            dispatcher.Dispatch(new GameListChangedReducerAction(payload));
+            dispatcher.Dispatch(new GameUpdatedReducerAction(chessGame));
+        });
+        _hubConnection.On<List<ChessGame>>(HubConstants.GameListChanged, chessGameList =>
+        {
+            List<GameInfo> gameInfos= chessGameList.Select(i => i.GameInfo).ToList()!;
+            
+            if(!gameInfos.Any()) return;
+
+            dispatcher.Dispatch(new GameListChangedReducerAction(gameInfos));
             dispatcher.Dispatch(new GenericSuccessAction("Chess Game List Updated"));
         });
-
         _hubConnection.On<string>(HubConstants.GenericError, payload =>
         {
             dispatcher.Dispatch(new GenericErrorAction(payload));
@@ -58,7 +69,7 @@ public class ChessEffects
         if (_hubConnection.State == HubConnectionState.Connected)
         {
             dispatcher.Dispatch(new HubSetConnectedReducerAction(true));
-            dispatcher.Dispatch(new GenericSuccessAction("Chess Hub Connected"));
+           // dispatcher.Dispatch(new GenericSuccessAction("Chess Hub Connected"));
         }
         else
         {
@@ -73,7 +84,7 @@ public class ChessEffects
     {
         try
         {
-            await _hubConnection.SendAsync(HubConstants.StartNewGame, action.Player);
+            await _hubConnection!.SendAsync(HubConstants.StartNewGame, action.Player);
         }
         catch (Exception ex)
         {
@@ -86,7 +97,8 @@ public class ChessEffects
     {
         try
         {
-            await _hubConnection.SendAsync(HubConstants.JoinGame, action.Game);
+           await _hubConnection.SendAsync(HubConstants.JoinGame, action.JoinGameRequest);
+          // dispatcher.Dispatch(new JoinGameReducerAction(game));
         }
         catch (Exception ex)
         {

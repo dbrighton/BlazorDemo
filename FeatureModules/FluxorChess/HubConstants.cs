@@ -10,5 +10,7 @@ public static class HubConstants
     public const string MoveChessPiece = "MoveChessPiece";
     
     public const string GenericError = "GenericError";
- 
+    public const string GenericInfo = "GenericInfo";
+
+  
 }

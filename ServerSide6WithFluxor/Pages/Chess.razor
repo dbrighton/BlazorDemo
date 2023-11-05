@@ -1,17 +1,8 @@
 ﻿@page  "/chess"
-@inherits FluxorComponent
-@inject IDispatcher Dispatcher
-@inject IState<ChessState> State
 
 
-@if(this.State?.Value.CurrentGame == null)
-{
-    <FluxorChessHome/>
-}
-else
-{
-    <FluxorGame Game="State?.Value.CurrentGame" />
-}
+
+    <FluxorChessFeatureModule/>
 
 
 @code {

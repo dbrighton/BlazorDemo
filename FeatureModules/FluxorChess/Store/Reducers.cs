@@ -33,22 +33,23 @@ public static class Reducers
 
         return state;
     }
-
-
     
-[ReducerMethod]
-public static ChessState OnGameDeletedReducerAction(ChessState state, GameDeletedReducerAction action)
-{
-       
-    state.Games.RemoveAll(i => i.GameId == action?.Game?.GameInfo?.GameId);
-   
-
-    if (state.CurrentGame != null)
+    [ReducerMethod]
+    public static ChessState OnGameDeletedReducerAction(ChessState state, GameDeletedReducerAction action)
     {
-        state.CurrentGame = null;
+        state.Games.RemoveAll(i => i.GameId == action?.Game?.GameInfo?.GameId);
+
+
+        if (state.CurrentGame != null) state.CurrentGame = null;
+
+        return state ?? throw new ArgumentNullException(nameof(state));
     }
 
-    return state ?? throw new ArgumentNullException(nameof(state));
-}
+    [ReducerMethod]
+    public static ChessState OnGameCreatedReducerAction(ChessState state, GameCreatedReducerAction action)
+    {
+        state.CurrentGame = action.Game;
 
+        return state;
+    }
 }
