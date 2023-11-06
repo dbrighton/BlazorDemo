@@ -6,6 +6,7 @@ public record HubSetConnectedReducerAction(bool HubConnected);
 public record NewGameEffectsAction(ChessPlayer Player);
 public record JoinGameEffectsAction(JoinGameRequest JoinGameRequest);
 public record MoveChessPieceEffectsAction(ChessGame game);
+public record RefreshGameListEffectsAction();
 
 
 

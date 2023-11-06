@@ -54,11 +54,17 @@ public class ChessHub : Hub
     }
 
     [HubMethodName(HubConstants.MoveChessPiece)]
-    public Task MoveChessPiece(ChessPiece chessPiece,string targetCellId)
+    public Task MoveChessPiece(ChessGame game)
     {
-        var moveRequest =new  MoveChessPieceRequest(chessPiece, targetCellId, Clients.Caller);
-        
-        _ea.GetEvent<MoveChessPiecePrismEvent>().Publish(moveRequest);
+        game.HubClients = Clients.Others;
+        _ea.GetEvent<MoveChessPiecePrismEvent>().Publish(game);
+        return Task.CompletedTask;
+    }
+
+    [HubMethodName(HubConstants.GetGameList)]
+    public Task GetGameList()
+    {
+        _ea.GetEvent<RefreshGameListPrismEvent>().Publish();
         return Task.CompletedTask;
     }
 }

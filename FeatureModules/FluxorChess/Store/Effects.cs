@@ -5,7 +5,7 @@ namespace FluxorChess.Store;
 public class Effects
 {
     private readonly IHubContext<ChessHub> _hub;
-    private static  HubConnection? _hubConnection;
+    private  HubConnection? _hubConnection;
     private readonly ILogger<Effects> _log;
 
 
@@ -111,7 +111,20 @@ public class Effects
     {
         try
         {
-          //  await _hubConnection.SendAsync(HubConstants.MoveChessPiece, action.ChessPiece, action.TargetCellId);
+           await _hubConnection.SendAsync(HubConstants.MoveChessPiece, action.game);
+        }
+        catch (Exception ex)
+        {
+            dispatcher.Dispatch(new GenericErrorAction(ex.Message));
+        }
+    }
+
+    [EffectMethod(typeof(RefreshGameListEffectsAction))]
+    public async Task OnRefreshGameListEffectsAction(IDispatcher dispatcher)
+    {
+        try
+        {
+            await _hubConnection.SendAsync(HubConstants.GetGameList);
         }
         catch (Exception ex)
         {

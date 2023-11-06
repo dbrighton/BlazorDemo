@@ -6,6 +6,7 @@ public class ChessGame
     public Person? PlayerTwo { get; set; } 
     public List<ChessPiece> ChessPieces { get; set; } 
     public List<ChessPiece> CapturedChessPieces { get; set; } =new();
+    
 
 
     public ChessGame()
@@ -18,6 +19,6 @@ public class ChessGame
     }
 
 
-    [JsonIgnore]
-    public IHubCallerClients? HubClients { get; set; }
+     [JsonIgnore]
+     public IClientProxy? HubClients { get; set; }
 }

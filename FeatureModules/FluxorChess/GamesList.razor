@@ -43,6 +43,7 @@
         {
             Games = payload.Games;
         });
+        Dispatcher.Dispatch(new RefreshGameListEffectsAction());
        
     }
 

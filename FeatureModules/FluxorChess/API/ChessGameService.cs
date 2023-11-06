@@ -3,7 +3,6 @@ namespace FluxorChess.API;
 public class ChessGameService
 {
     private readonly IEventAggregator _ea;
-
     private readonly IHubContext<ChessHub> _hub;
     private readonly ILogger<ChessGameService> _Log;
 
@@ -53,31 +52,33 @@ public class ChessGameService
                 {
                     joinGameRequest.HubCaller?.SendAsync(HubConstants.GenericInfo, "Joining as Observer");
                 }
-                
+
                 if (target != null)
-                {
                     joinGameRequest.HubCaller?.SendAsync(HubConstants.ChessGameSateChanged, target);
-                }
                 else
-                {
                     joinGameRequest.HubCaller?.SendAsync(HubConstants.GenericError, "Game does not exists");
-                }
             }
             catch (Exception e)
             {
                 _Log.LogError(e.Message);
             }
         });
-        _ea.GetEvent<MoveChessPiecePrismEvent>().Subscribe(moveChessPieceRequest =>
+
+        _ea.GetEvent<MoveChessPiecePrismEvent>().Subscribe(game =>
         {
-            var target = ChessGames.FirstOrDefault(i => i.GameInfo.GameId == moveChessPieceRequest.ChessPiece.GameId);
+            var target = ChessGames.FirstOrDefault(i => i.GameInfo.GameId == game.GameInfo.GameId);
+            ChessGames.Remove(target);
+            ChessGames.Add(game);
+            game.HubClients?.SendAsync(HubConstants.ChessGameSateChanged, game);
+        });
+      _ea.GetEvent<RefreshGameListPrismEvent>() .Subscribe(() =>
+      {
+            _hub.Clients.All.SendAsync(HubConstants.GameListChanged, ChessGames);
         });
     }
 
     public List<ChessGame> ChessGames { get; } = new();
 
-
-    public List<ChessGame> Games { get; set; } = new();
 
     public void MovePiece(ChessPiece piece, int newX, char newY)
     {
