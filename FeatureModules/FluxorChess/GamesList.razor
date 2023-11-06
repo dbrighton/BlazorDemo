@@ -8,7 +8,7 @@
     <button class="btn btn-primary float-end" @onclick="NewGame">New Game</button>
     <BlazmGrid Data="Games" PageSize="10" Sortable="true">
         <GridColumns>
-            <GridColumn Field="@nameof(GameInfo.CreateBy)" Priority="0"></GridColumn>
+            <GridColumn Field="@nameof(GameInfo.CreateByName)" Priority="0"></GridColumn>
             <GridColumn Field="@nameof(GameInfo.LastUpdateTimeStamp)" Priority="1">
                 <Template>
 
@@ -43,6 +43,7 @@
         {
             Games = payload.Games;
         });
+       
     }
 
 
@@ -55,7 +56,8 @@
                 {
                     Name = result
                 };
-            Dispatcher.Dispatch(new NewGameEffectsAction(chessPlayer));
+           Dispatcher.Dispatch(new NewGameEffectsAction(chessPlayer));
+           
         }
     }
 

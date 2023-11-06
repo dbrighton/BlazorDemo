@@ -52,4 +52,13 @@ public class ChessHub : Hub
         _ea.GetEvent<JoinGamePrismEvent>().Publish(new JoinGameRequest(gameInfo.GameInfo,gameInfo.Player, Clients.Caller));
         return Task.CompletedTask;
     }
+
+    [HubMethodName(HubConstants.MoveChessPiece)]
+    public Task MoveChessPiece(ChessPiece chessPiece,string targetCellId)
+    {
+        var moveRequest =new  MoveChessPieceRequest(chessPiece, targetCellId, Clients.Caller);
+        
+        _ea.GetEvent<MoveChessPiecePrismEvent>().Publish(moveRequest);
+        return Task.CompletedTask;
+    }
 }

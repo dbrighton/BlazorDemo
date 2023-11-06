@@ -4,12 +4,17 @@ public class ChessGame
     public GameInfo? GameInfo { get; set; } 
     public Person? PlayerOne { get; set; } 
     public Person? PlayerTwo { get; set; } 
-    public List<ChessPiece> ChessPiecesState { get; set; } 
+    public List<ChessPiece> ChessPieces { get; set; } 
+    public List<ChessPiece> CapturedChessPieces { get; set; } =new();
 
 
     public ChessGame()
     {
-        ChessPiecesState = this.ResetBoard();
+        GameInfo = new GameInfo
+        {
+            GameId = Guid.NewGuid()
+        };
+        ChessPieces = this.ResetBoard();
     }
 
 

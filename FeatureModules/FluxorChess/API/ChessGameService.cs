@@ -20,7 +20,7 @@ public class ChessGameService
                 GameInfo = new GameInfo
                 {
                     GameId = Guid.NewGuid(),
-                    CreateBy = player.Name,
+                    CreateBy = player,
                     GameStatus = GameStatus.WaitingForPlayer
                 }
             };
@@ -67,6 +67,10 @@ public class ChessGameService
             {
                 _Log.LogError(e.Message);
             }
+        });
+        _ea.GetEvent<MoveChessPiecePrismEvent>().Subscribe(moveChessPieceRequest =>
+        {
+            var target = ChessGames.FirstOrDefault(i => i.GameInfo.GameId == moveChessPieceRequest.ChessPiece.GameId);
         });
     }
 

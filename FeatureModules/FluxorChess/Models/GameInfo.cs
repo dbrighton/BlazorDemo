@@ -2,10 +2,13 @@
 
 public class GameInfo
 {
+   
     public Guid? GameId { get; set; }
 
-    [Display(Name = "Create By")] 
-    public string CreateBy { get; set; } = string.Empty;
+    [Display(Name = "Create By")]
+    public string? CreateByName => CreateBy?.Name;
+
+    public ChessPlayer? CreateBy { get; set; } 
 
 
     [Display(Name = "Last Updated")]

@@ -22,14 +22,28 @@ else
 protected override void OnInitialized()
     {
         base.OnInitialized();
-        SubscribeToAction<GameCreatedReducerAction>((chessGame) =>
+        SubscribeToAction<NewGameReducerAction>((paylaod) =>
         {
-            _game = chessGame.Game;
+            _game = paylaod.Game;
+            if (_player == null)
+            {
+                _player = paylaod.Game.GameInfo.CreateBy;
+            }
+            else if(
+                _player.Name == paylaod.Game.PlayerOne.Name 
+                || _player.Name == paylaod.Game.PlayerTwo.Name)
+            {
+                _game = paylaod.Game;
+            }
+
+
         });
         SubscribeToAction<JoinGameReducerAction>((chessGame) =>
         {
             _game = chessGame.Game;
         });
+
+   
     }
 
 }

@@ -111,7 +111,7 @@ public class Effects
     {
         try
         {
-            await _hubConnection.SendAsync(HubConstants.MoveChessPiece, action.ChessPiece, action.TargetCellId);
+          //  await _hubConnection.SendAsync(HubConstants.MoveChessPiece, action.ChessPiece, action.TargetCellId);
         }
         catch (Exception ex)
         {

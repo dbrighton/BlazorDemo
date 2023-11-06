@@ -1,4 +1,3 @@
-
 @using FluxorChess.Utils
 @inherits FluxorComponent
 @inject IState<ChessState> State
@@ -12,16 +11,14 @@
             {
                 string cellId = $"{(char)(col + 96)}{row}"; // e.g., "a8", "b8", ... "h1"
                 ChessPiece? piece = GetChessPiece(cellId);
-                <td align="center" >
+                <td align="center">
                     <div ondragover="@(()=>AllowDrop(cellId))" draggable="true"
-
                          ondragstart="@(() => OnDragStart(piece))"
-                         ondragend="@(() => OnDragEnd(piece))"
-                         ondrop="@(() => OnDrop(piece , cellId))">
+                         ondragend="@(() => OnDragEnd(piece))">
 
-                        <ChessCellCtrl CellId="@cellId" ChessPiece="@piece"/>
+                        <ChessCellCtrl CellId="@cellId" ChessPiece="@piece" />
                     </div>
-               
+
                 </td>
             }
         </tr>
@@ -50,22 +47,28 @@
     {
 
         base.OnInitialized();
-       // Dispatcher.Dispatch(new ChessPiecesUpdateSuccess(Game.ResetBoard()));
+        SubscribeToAction<ChessPiecesUpdateReducerAction>(result =>
+        {
+            _game = State.Value.CurrentGame;
+
+            Dispatcher.Dispatch(new MoveChessPieceEffectsAction(_game));
+        });
+      
     }
 
     private ChessPiece? GetChessPiece(string cellId)
     {
 
-        var target = (from i in State.Value.CurrentGame.ChessPiecesState
-            where i.CellId == cellId
-            select i).FirstOrDefault();
+        var target = (from i in State.Value.CurrentGame.ChessPieces
+                      where i.CellId == cellId
+                      select i).FirstOrDefault();
 
         return target;
     }
 
     private void AllowDrop(string cellId)
     {
-      _droppedCellId = cellId;
+        _droppedCellId = cellId;
     }
 
     private void OnDragStart(ChessPiece piece)
@@ -77,24 +80,43 @@
 
     private void OnDragEnd(ChessPiece chessPiece)
     {
-    
-       _draggedPiece = null;
+        var startCellId = chessPiece.CellId;
+        if (IsMoveAllowed(chessPiece))
+        {
+            var enemy = (from i in _game.ChessPieces
+                where i.CellId == _droppedCellId
+                select i).FirstOrDefault();
 
-        Dispatcher.Dispatch(new MoveChessPieceEffectsAction(chessPiece,_droppedCellId));
+            if (enemy != null)
+            {
+                enemy.CellId = "0";
+                enemy.IsDead = true;
+
+                _game.ChessPieces.Remove(enemy);
+                _game.CapturedChessPieces.Add(enemy);
+            }
+        }
+
+        chessPiece.CellId = _droppedCellId;
+       
+        chessPiece.X = (int)Char.GetNumericValue(_droppedCellId.ToCharArray()[1]);
+        chessPiece.Y = _droppedCellId.ToCharArray()[0] ;
+
+        _droppedCellId = null;
+
+       
+
+        Dispatcher.Dispatch(new ChessPiecesUpdateReducerAction(startCellId,chessPiece));
+      
     }
 
-
-
-    private void OnDrop(ChessPiece piece, string targetCellId)
+    private bool IsMoveAllowed(ChessPiece chessPiece)
     {
-    // var cellId = e.Target.GetAttribute("data-cellid");
-    // if (_draggedPiece != null && !string.IsNullOrEmpty(cellId))
-    // {
-    //     Dispatcher.Dispatch(new MoveChessPieceReduceAction(_draggedPiece, cellId));
-    //     _draggedPiece = null;
-    // }
-
+        return true;
     }
 
-   
+
+  
+
+
 }

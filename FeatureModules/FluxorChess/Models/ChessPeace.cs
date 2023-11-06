@@ -14,6 +14,8 @@ public enum ChessPieceType
 
 public class ChessPiece
 {
+    public string Color => IsWhite ? "white" : "black";
+    public Guid? GameId { get; set; }
     public string? ImageSrc { get; private set; }
     public string CellId { get; set; } = string.Empty;
     public bool IsDead { get; set; } = false;
@@ -31,8 +33,6 @@ public class ChessPiece
             UpdateImageSrc();
         }
     }
-
-
 
     private void UpdateImageSrc()
     {
