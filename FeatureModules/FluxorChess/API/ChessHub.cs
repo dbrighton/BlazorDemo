@@ -33,6 +33,7 @@ public class ChessHub : Hub
     {
         // Publishes the StartNewGamePrismEvent with the player as the parameter
         // witch will be handled by the ChessGameService
+       // player.HubClientCaller = Clients.Caller;
         _ea.GetEvent<StartNewGamePrismEvent>().Publish(player);
         return Task.CompletedTask;
     }
@@ -53,14 +54,7 @@ public class ChessHub : Hub
         return Task.CompletedTask;
     }
 
-    [HubMethodName(HubConstants.MoveChessPiece)]
-    public Task MoveChessPiece(ChessGame game)
-    {
-        game.HubClients = Clients.Others;
-        _ea.GetEvent<MoveChessPiecePrismEvent>().Publish(game);
-        return Task.CompletedTask;
-    }
-
+  
     [HubMethodName(HubConstants.GetGameList)]
     public Task GetGameList()
     {

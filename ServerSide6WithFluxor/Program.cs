@@ -21,7 +21,7 @@ builder.Services.AddSignalR();
 builder.Services.AddFluxor(
     o => o.ScanAssemblies(
             typeof(Program).Assembly,
-            typeof(AuthHubFeature).Assembly,
+            typeof(UserFeature).Assembly,
             typeof(ChessFeature).Assembly)
         .UseReduxDevTools()
 );

@@ -2,11 +2,11 @@
 
 public record UserState(bool HubConnected, Person? User, bool? IsAuthenticated);
 
-public class AuthHubFeature : Feature<UserState>
+public class UserFeature : Feature<UserState>
 {
     public override string GetName()
     {
-        return nameof(UserState);
+        return nameof(UserFeature);
     }
 
     protected override UserState GetInitialState()

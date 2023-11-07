@@ -1,7 +1,8 @@
-namespace FluxorChess.API;
+namespace FluxorChess.Models;
 
-public enum GameStatus{
-    WaitingForPlayer,
+public enum GameStatus
+{
+    WaitingForPlayers,
     WaitingForPlayerOne,
     WaitingForPlayerTwo,
     InProgress,

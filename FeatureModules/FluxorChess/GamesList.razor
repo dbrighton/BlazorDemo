@@ -1,7 +1,9 @@
-﻿@inherits FluxorComponent
+﻿@using UserFeatureModule.Store
+@inherits FluxorComponent
 
 @inject IDispatcher Dispatcher
 @inject IState<ChessState> State
+@inject IState<UserState> UserState
 @inject IMatDialogService MatDialogService
 
 <div>
@@ -33,7 +35,9 @@
 
 @code{
 
-    public List<GameInfo> Games { get; set; } = new();
+    private List<GameInfo> Games { get; set; } = new();
+ 
+
 
     protected override void OnInitialized()
     {
@@ -50,15 +54,21 @@
 
     private async Task NewGame()
     {
-        var result = await MatDialogService.PromptAsync("What is your name?");
-        if (!string.IsNullOrWhiteSpace(result))
+        Person? currentUser = UserState.Value.User;
+        if (currentUser?.email != null)
         {
             var chessPlayer = new ChessPlayer
-                {
-                    Name = result
-                };
-           Dispatcher.Dispatch(new NewGameEffectsAction(chessPlayer));
-           
+            {
+                email = currentUser?.email
+            };
+
+            var result = await MatDialogService.PromptAsync("What is your name?");
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                chessPlayer.Name = result;
+            }
+
+            Dispatcher.Dispatch(new NewGameEffectsAction(chessPlayer));
         }
     }
 
@@ -71,19 +81,21 @@
 
     private async Task JoinGame(GameInfo gameInfo)
     {
-        var result = await MatDialogService.PromptAsync("What is your name?");
+     //  var result = await MatDialogService.PromptAsync("What is your name?");
+       var chessPlayer = new ChessPlayer
+                {
+                    email = UserState.Value.User.email
+                }; 
 
-        if (!string.IsNullOrWhiteSpace(result))
-        {
-            var chessPlayer = new ChessPlayer
-            {
-                Name = result
-            };
-            var request = new JoinGameRequest(gameInfo, chessPlayer);
-    // This line of code is dispatching a new JoinGameEffectsAction with the given request.
-    // which will be handled by the JoinGameEffects class.
-            Dispatcher.Dispatch(new JoinGameEffectsAction(request));
-        }
+        // if (!string.IsNullOrWhiteSpace(result))
+        // {
+        //     chessPlayer.Name = result;
+        //   
+        // }
+
+        var request = new JoinGameRequest(gameInfo, chessPlayer);
+   
+        Dispatcher.Dispatch(new JoinGameEffectsAction(request));
     }
 
     private string ToLocalTime(DateTime timeStamp)

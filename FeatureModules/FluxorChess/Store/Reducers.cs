@@ -49,5 +49,16 @@ public static class Reducers
         state.CurrentGame = action.Game;
         return state;
     }
+
+    [ReducerMethod]
+    public static ChessState OnGameUpdatedReducerAction(ChessState state, GameUpdatedReducerAction action)
+    {
+        // if (state.CurrentGame != null && state.CurrentGame.GameInfo.GameId == action.Game.GameInfo.GameId)
+        // {
+        //   state.CurrentGame = action.Game;
+        // }
+        state.CurrentGame = action.Game;
+        return state;
+    }
 }
 

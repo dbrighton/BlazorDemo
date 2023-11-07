@@ -6,6 +6,8 @@ public class ChessGameService
     private readonly IHubContext<ChessHub> _hub;
     private readonly ILogger<ChessGameService> _Log;
 
+    private static List<ChessGame> _chessGames  = new();
+
     public ChessGameService(ILogger<ChessGameService> log, IEventAggregator ea, IHubContext<ChessHub> hub)
     {
         _Log = log;
@@ -20,41 +22,48 @@ public class ChessGameService
                 {
                     GameId = Guid.NewGuid(),
                     CreateBy = player,
-                    GameStatus = GameStatus.WaitingForPlayer
+                    GameStatus = GameStatus.WaitingForPlayers
                 }
             };
-            ChessGames.Add(game);
-            _hub.Clients.All.SendAsync(HubConstants.GameListChanged, ChessGames);
+            game.PlayerOne = player;
+            _chessGames.Add(game);
+
+            _hub.Clients.All.SendAsync(HubConstants.GameListChanged, _chessGames);
         });
         _ea.GetEvent<JoinGamePrismEvent>().Subscribe(joinGameRequest =>
         {
             try
             {
-                var target = ChessGames.FirstOrDefault(i => i.GameInfo.GameId == joinGameRequest.GameInfo.GameId);
+                var game = _chessGames.First(i => i.GameInfo?.GameId == joinGameRequest.GameInfo.GameId);
 
 
                 // If player one is null then set player one  this will be the first player
                 // to join the game
-                if (target.PlayerOne == null)
+                if (game.PlayerOne != null && game.PlayerTwo == null  && game.GameInfo != null)
                 {
-                    target.PlayerOne = joinGameRequest.Player;
-                    target.GameInfo.GameStatus = GameStatus.InProgress;
-                    joinGameRequest.HubCaller?.SendAsync(HubConstants.JoinGame, target);
+                   
+                        game.GameInfo.GameStatus = GameStatus.InProgress;
+                        game.GameInfo.LastUpdateTimeStamp = DateTime.UtcNow;
+                    
+
+                    joinGameRequest.HubCaller?.SendAsync(HubConstants.PlayerOneJoinGame, game);
                 }
                 // If player two is null then set player one  this will be the first second
                 // to join the game
-                else if (target.PlayerTwo == null)
+                else if (game.PlayerTwo == null)
                 {
-                    target.PlayerTwo = joinGameRequest.Player;
-                    target.GameInfo.GameStatus = GameStatus.InProgress;
+                    game.PlayerTwo = joinGameRequest.Player;
+                    game.GameInfo.GameStatus = GameStatus.InProgress;
                 }
                 else
                 {
                     joinGameRequest.HubCaller?.SendAsync(HubConstants.GenericInfo, "Joining as Observer");
                 }
 
-                if (target != null)
-                    joinGameRequest.HubCaller?.SendAsync(HubConstants.ChessGameSateChanged, target);
+                if (game != null)
+                {
+                    joinGameRequest.HubCaller?.SendAsync(HubConstants.ChessGameSateChanged, game);
+                }
                 else
                     joinGameRequest.HubCaller?.SendAsync(HubConstants.GenericError, "Game does not exists");
             }
@@ -66,18 +75,18 @@ public class ChessGameService
 
         _ea.GetEvent<MoveChessPiecePrismEvent>().Subscribe(game =>
         {
-            var target = ChessGames.FirstOrDefault(i => i.GameInfo.GameId == game.GameInfo.GameId);
-            ChessGames.Remove(target);
-            ChessGames.Add(game);
+            var target = _chessGames.FirstOrDefault(i => i.GameInfo.GameId == game.GameInfo.GameId);
+            _chessGames.Remove(target);
+            _chessGames.Add(game);
             game.HubClients?.SendAsync(HubConstants.ChessGameSateChanged, game);
         });
       _ea.GetEvent<RefreshGameListPrismEvent>() .Subscribe(() =>
       {
-            _hub.Clients.All.SendAsync(HubConstants.GameListChanged, ChessGames);
+            _hub.Clients.All.SendAsync(HubConstants.GameListChanged, _chessGames);
         });
     }
 
-    public List<ChessGame> ChessGames { get; } = new();
+    
 
 
     public void MovePiece(ChessPiece piece, int newX, char newY)

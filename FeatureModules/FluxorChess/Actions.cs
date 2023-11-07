@@ -19,3 +19,5 @@ public record GameDeletedReducerAction(ChessGame Game);
 public record ChessPiecesUpdateReducerAction(string StartCellId, ChessPiece ChessPiece);
 
 
+// *************** UI Actions ***************
+public record JoinGameAction(ChessGame Game);

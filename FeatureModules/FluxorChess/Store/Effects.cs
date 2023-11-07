@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
-
-namespace FluxorChess.Store;
+﻿namespace FluxorChess.Store;
 
 public class Effects
 {
     private readonly IHubContext<ChessHub> _hub;
-    private  HubConnection? _hubConnection;
     private readonly ILogger<Effects> _log;
+    private readonly HubConnection? _hubConnection;
 
 
     public Effects(ILogger<Effects> log, NavigationManager navigationManager, IHubContext<ChessHub> hub)
@@ -15,18 +13,17 @@ public class Effects
         _hub = hub;
 
         if (_hubConnection == null)
-        {
             _hubConnection = new HubConnectionBuilder()
                 .WithUrl(navigationManager.ToAbsoluteUri("/chessHub"))
                 .WithAutomaticReconnect()
                 .Build();
-        }
     }
 
     [EffectMethod(typeof(StartHubEffectsAction))]
     public async Task Start(IDispatcher dispatcher)
     {
-        if (_hubConnection.State == HubConnectionState.Connected) dispatcher.Dispatch(new HubSetConnectedReducerAction(true));
+        if (_hubConnection.State == HubConnectionState.Connected)
+            dispatcher.Dispatch(new HubSetConnectedReducerAction(true));
 
         _hubConnection.Reconnecting += ex =>
         {
@@ -40,36 +37,39 @@ public class Effects
             return Task.CompletedTask;
         };
 
-        _hubConnection.On<ChessGame>(HubConstants.JoinGame, game =>
-        {
-            dispatcher.Dispatch(new JoinGameReducerAction(game));
-        });
+        _hubConnection.On<ChessGame>(HubConstants.PlayerOneJoinGame, game =>
+            {
+                dispatcher.Dispatch(new JoinGameReducerAction(game));
+                dispatcher.Dispatch(new JoinGameAction(game));
+            });
+
         _hubConnection.On<ChessGame>(HubConstants.ChessGameSateChanged, chessGame =>
-        {
-            dispatcher.Dispatch(new GameUpdatedReducerAction(chessGame));
-        });
+            {
+                dispatcher.Dispatch(new GameUpdatedReducerAction(chessGame));
+            });
+
         _hubConnection.On<List<ChessGame>>(HubConstants.GameListChanged, chessGameList =>
         {
-            List<GameInfo> gameInfos= chessGameList.Select(i => i.GameInfo).ToList()!;
-            
-            if(!gameInfos.Any()) return;
+            List<GameInfo> gameInfos = chessGameList.Select(i => i.GameInfo).ToList()!;
+
+            if (!gameInfos.Any()) return;
 
             dispatcher.Dispatch(new GameListChangedReducerAction(gameInfos));
             dispatcher.Dispatch(new GenericSuccessAction("Chess Game List Updated"));
         });
-        _hubConnection.On<string>(HubConstants.GenericError, payload =>
-        {
-            dispatcher.Dispatch(new GenericErrorAction(payload));
-        });
-        
 
-        
+        _hubConnection.On<string>(HubConstants.GenericError, payload =>
+            {
+                dispatcher.Dispatch(new GenericErrorAction(payload));
+            });
+
+
         await _hubConnection.StartAsync();
 
         if (_hubConnection.State == HubConnectionState.Connected)
         {
             dispatcher.Dispatch(new HubSetConnectedReducerAction(true));
-           // dispatcher.Dispatch(new GenericSuccessAction("Chess Hub Connected"));
+            // dispatcher.Dispatch(new GenericSuccessAction("Chess Hub Connected"));
         }
         else
         {
@@ -97,8 +97,7 @@ public class Effects
     {
         try
         {
-           await _hubConnection.SendAsync(HubConstants.JoinGame, action.JoinGameRequest);
-          // dispatcher.Dispatch(new JoinGameReducerAction(game));
+            await _hubConnection.SendAsync(HubConstants.JoinGame, action.JoinGameRequest);
         }
         catch (Exception ex)
         {
@@ -106,18 +105,7 @@ public class Effects
         }
     }
 
-    [EffectMethod]
-    public async Task OnMoveChessPieceEffectsAction(MoveChessPieceEffectsAction action, IDispatcher dispatcher)
-    {
-        try
-        {
-           await _hubConnection.SendAsync(HubConstants.MoveChessPiece, action.game);
-        }
-        catch (Exception ex)
-        {
-            dispatcher.Dispatch(new GenericErrorAction(ex.Message));
-        }
-    }
+  
 
     [EffectMethod(typeof(RefreshGameListEffectsAction))]
     public async Task OnRefreshGameListEffectsAction(IDispatcher dispatcher)
@@ -132,4 +120,3 @@ public class Effects
         }
     }
 }
-
