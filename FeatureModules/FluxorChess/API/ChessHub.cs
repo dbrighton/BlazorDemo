@@ -1,8 +1,4 @@
-﻿
-
-// Ignore Spelling: Fluxor API
-
-namespace FluxorChess.API;
+﻿namespace FluxorChess.API;
 
 /// <summary>
 /// Represents a hub for managing chess games.
@@ -33,7 +29,7 @@ public class ChessHub : Hub
     {
         // Publishes the StartNewGamePrismEvent with the player as the parameter
         // witch will be handled by the ChessGameService
-       // player.HubClientCaller = Clients.Caller;
+        // player.HubClientCaller = Clients.Caller;
         _ea.GetEvent<StartNewGamePrismEvent>().Publish(player);
         return Task.CompletedTask;
     }
@@ -47,18 +43,33 @@ public class ChessHub : Hub
     [HubMethodName(HubConstants.JoinGame)]
     public Task JoinGame(JoinGameRequest gameInfo)
     {
-        // This line of code is using the GetEvent method from the EventAggregator to retrieve the JoinGamePrismEvent
-        // It then calls the Publish method on the event, passing in the gameInfo object as the parameter.
-        // This will be handled by the ChessGameService
-        _ea.GetEvent<JoinGamePrismEvent>().Publish(new JoinGameRequest(gameInfo.GameInfo,gameInfo.Player, Clients.Caller));
+        // Retrieve the JoinGamePrismEvent from the EventAggregator using the GetEvent method
+        // Publish the event by calling the Publish method and passing in the gameInfo object as the parameter
+        // The ChessGameService will handle this event
+        _ea.GetEvent<JoinGamePrismEvent>().Publish(new JoinGameRequest(gameInfo.GameInfo, gameInfo.Player, Clients.Caller));
         return Task.CompletedTask;
     }
 
-  
+
+    // This method is called when the client requests the game list
     [HubMethodName(HubConstants.GetGameList)]
     public Task GetGameList()
     {
+        // Publish an event to refresh the game list
         _ea.GetEvent<RefreshGameListPrismEvent>().Publish();
+
+        // Return a completed task
+        return Task.CompletedTask;
+    }
+
+    // This method is called when the state of a chess game has changed
+    [HubMethodName(HubConstants.ChessGameSateChanged)]
+    public Task ChessGameSateChanged(ChessGame game)
+    {
+        // Publish an event using the Prism event aggregator to notify subscribers that a chess piece has been moved
+        _ea.GetEvent<MoveChessPiecePrismEvent>().Publish(game);
+
+        // Return a completed task
         return Task.CompletedTask;
     }
 }

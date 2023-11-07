@@ -109,7 +109,10 @@
        
 
         Dispatcher.Dispatch(new ChessPiecesUpdateReducerAction(startCellId,chessPiece));
-      
+        if (State.Value.CurrentGame != null)
+        {
+            Dispatcher.Dispatch(new MoveChessPieceEffectsAction(State.Value.CurrentGame));
+        }
     }
 
     private bool IsMoveAllowed(ChessPiece chessPiece)

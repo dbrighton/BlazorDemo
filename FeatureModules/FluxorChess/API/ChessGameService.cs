@@ -72,13 +72,12 @@ public class ChessGameService
                 _Log.LogError(e.Message);
             }
         });
-
         _ea.GetEvent<MoveChessPiecePrismEvent>().Subscribe(game =>
         {
             var target = _chessGames.FirstOrDefault(i => i.GameInfo.GameId == game.GameInfo.GameId);
             _chessGames.Remove(target);
             _chessGames.Add(game);
-            game.HubClients?.SendAsync(HubConstants.ChessGameSateChanged, game);
+            _hub.Clients.All.SendAsync(HubConstants.ChessGameSateChanged, game);
         });
       _ea.GetEvent<RefreshGameListPrismEvent>() .Subscribe(() =>
       {

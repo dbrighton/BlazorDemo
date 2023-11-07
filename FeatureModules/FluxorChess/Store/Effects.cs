@@ -46,6 +46,7 @@ public class Effects
         _hubConnection.On<ChessGame>(HubConstants.ChessGameSateChanged, chessGame =>
             {
                 dispatcher.Dispatch(new GameUpdatedReducerAction(chessGame));
+                dispatcher.Dispatch(new GameUpdateAction(chessGame));
             });
 
         _hubConnection.On<List<ChessGame>>(HubConstants.GameListChanged, chessGameList =>
@@ -113,6 +114,20 @@ public class Effects
         try
         {
             await _hubConnection.SendAsync(HubConstants.GetGameList);
+        }
+        catch (Exception ex)
+        {
+            dispatcher.Dispatch(new GenericErrorAction(ex.Message));
+        }
+    }
+
+
+    [EffectMethod]
+    public async Task OnMoveChessPieceEffectsAction(MoveChessPieceEffectsAction action, IDispatcher dispatcher)
+    {
+        try
+        {
+            await _hubConnection.SendAsync(HubConstants.ChessGameSateChanged, action.game);
         }
         catch (Exception ex)
         {

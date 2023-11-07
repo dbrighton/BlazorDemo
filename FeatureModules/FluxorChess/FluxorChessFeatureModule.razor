@@ -29,6 +29,10 @@ else
             _game = action.Game;
         });
 
+        SubscribeToAction<GameUpdateAction>(action =>
+        {
+            _game = action.Game;
+        });
         
     }
 
