@@ -1,22 +1,21 @@
-@using FluxorChess.Utils
 @inherits FluxorComponent
 @inject IState<ChessState> State
 @inject IDispatcher Dispatcher
 
 <table class="chess-board">
-    @for (int row = 8; row >= 1; row--) // Start from 8 and go down to 1 for rows
+    @for (var row = 8; row >= 1; row--) // Start from 8 and go down to 1 for rows
     {
         <tr>
-            @for (int col = 1; col <= 8; col++)
+            @for (var col = 1; col <= 8; col++)
             {
-                string cellId = $"{(char)(col + 96)}{row}"; // e.g., "a8", "b8", ... "h1"
-                ChessPiece? piece = GetChessPiece(cellId);
+                var cellId = ChessExtensions.GetBoardPosition($"{(char) (col + 96)}{row}"); // e.g., "a8", "b8", ... "h1"
+                var piece = GetChessPiece(cellId);
                 <td align="center">
-                    <div ondragover="@(()=>AllowDrop(cellId))" draggable="true"
+                    <div ondragover="@(() => AllowDrop(cellId))" draggable="true"
                          ondragstart="@(() => OnDragStart(piece))"
                          ondragend="@(() => OnDragEnd(piece))">
 
-                        <ChessCellCtrl CellId="@cellId" ChessPiece="@piece" />
+                        <ChessCellCtrl CellId="@cellId" ChessPiece="@piece"/>
                     </div>
 
                 </td>
@@ -24,51 +23,44 @@
         </tr>
     }
 </table>
-
+<br/>
+<div>
+    <button class="btn btn-primary" @onclick="NewGame">New Game</button>
+    <button class="btn btn-outline-danger" @onclick="Resign">Resign</button>
+</div>
 
 
 @code
 {
-    private ChessGame _game;
+    private ChessPlayer? _player;
     private ChessPiece _draggedPiece;
-    private string _droppedCellId;
+    private BoardPosition? _droppedCellId;
 
     [Parameter]
-    public ChessGame Game
-    {
-        get => _game;
-        set => _game = value;
-    }
-
-
+    public ChessGame Game { get; set; }
 
 
     protected override void OnInitialized()
     {
-
         base.OnInitialized();
         SubscribeToAction<ChessPiecesUpdateReducerAction>(result =>
         {
-            _game = State.Value.CurrentGame;
+            Game = State.Value.CurrentGame;
 
-            Dispatcher.Dispatch(new MoveChessPieceEffectsAction(_game));
+            Dispatcher.Dispatch(new MoveChessPieceEffectsAction(Game));
         });
-
-        
-      
     }
 
-    private ChessPiece? GetChessPiece(string cellId)
+    private ChessPiece? GetChessPiece(BoardPosition cellId)
     {
-
         var target = (from i in State.Value.CurrentGame.ChessPieces
-                      where i.CellId == cellId
-                      select i).FirstOrDefault();
+            where i.CellId == cellId
+            select i).FirstOrDefault();
 
         return target;
     }
 
-    private void AllowDrop(string cellId)
+    private void AllowDrop(BoardPosition cellId)
     {
         _droppedCellId = cellId;
     }
@@ -76,7 +68,6 @@
     private void OnDragStart(ChessPiece piece)
     {
         _draggedPiece = piece;
-
     }
 
 
@@ -85,30 +76,26 @@
         var startCellId = chessPiece.CellId;
         if (IsMoveAllowed(chessPiece))
         {
-            var enemy = (from i in _game.ChessPieces
+            var enemy = (from i in Game.ChessPieces
                 where i.CellId == _droppedCellId
                 select i).FirstOrDefault();
 
             if (enemy != null)
             {
-                enemy.CellId = "0";
-                enemy.IsDead = true;
+                enemy.IsCaptured = true;
 
-                _game.ChessPieces.Remove(enemy);
-                _game.CapturedChessPieces.Add(enemy);
+                Game.ChessPieces.Remove(enemy);
+                Game.CapturedChessPieces.Add(enemy);
             }
         }
 
-        chessPiece.CellId = _droppedCellId;
-       
-        chessPiece.X = (int)Char.GetNumericValue(_droppedCellId.ToCharArray()[1]);
-        chessPiece.Y = _droppedCellId.ToCharArray()[0] ;
+        chessPiece.CellId = (BoardPosition) _droppedCellId;
+
 
         _droppedCellId = null;
 
-       
 
-        Dispatcher.Dispatch(new ChessPiecesUpdateReducerAction(startCellId,chessPiece));
+        Dispatcher.Dispatch(new ChessPiecesUpdateReducerAction(startCellId, chessPiece));
         if (State.Value.CurrentGame != null)
         {
             Dispatcher.Dispatch(new MoveChessPieceEffectsAction(State.Value.CurrentGame));
@@ -121,7 +108,21 @@
     }
 
 
-  
+    private void NewGame()
+    {
+        var game = State?.Value?.CurrentGame;
+        if (game != null)
+        {
+            Dispatcher.Dispatch(new MoveChessPieceEffectsAction(game.ResetGame()));
+        }
+    }
 
-
+    private void Resign()
+    {
+        var game = State?.Value?.CurrentGame;
+        if (game != null)
+        {
+            Dispatcher.Dispatch(new ResignGameEffectsAction(game));
+        }
+    }
 }

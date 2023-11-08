@@ -1,4 +1,8 @@
-﻿namespace FluxorChess.Store;
+﻿using FluxorChess.Actions.Effects;
+using FluxorChess.Actions.Reducer;
+using FluxorChess.Actions.UI;
+
+namespace FluxorChess.Store;
 
 public class Effects
 {
@@ -64,6 +68,10 @@ public class Effects
                 dispatcher.Dispatch(new GenericErrorAction(payload));
             });
 
+        _hubConnection.On<ChessGame>(HubConstants.ResignGame, game =>
+        {
+            dispatcher.Dispatch(new GameDeletedReducerAction(game));
+        });
 
         await _hubConnection.StartAsync();
 
@@ -105,9 +113,7 @@ public class Effects
             dispatcher.Dispatch(new GenericErrorAction(ex.Message));
         }
     }
-
-  
-
+    
     [EffectMethod(typeof(RefreshGameListEffectsAction))]
     public async Task OnRefreshGameListEffectsAction(IDispatcher dispatcher)
     {
@@ -120,14 +126,26 @@ public class Effects
             dispatcher.Dispatch(new GenericErrorAction(ex.Message));
         }
     }
-
-
+    
     [EffectMethod]
     public async Task OnMoveChessPieceEffectsAction(MoveChessPieceEffectsAction action, IDispatcher dispatcher)
     {
         try
         {
-            await _hubConnection.SendAsync(HubConstants.ChessGameSateChanged, action.game);
+            await _hubConnection.SendAsync(HubConstants.ChessGameSateChanged, action.Game);
+        }
+        catch (Exception ex)
+        {
+            dispatcher.Dispatch(new GenericErrorAction(ex.Message));
+        }
+    }
+
+    [EffectMethod]
+    public async Task OnResignGameEffectsAction(ResignGameEffectsAction action, IDispatcher dispatcher)
+    {
+        try
+        {
+            await _hubConnection.SendAsync(HubConstants.ResignGame, action.Game);
         }
         catch (Exception ex)
         {

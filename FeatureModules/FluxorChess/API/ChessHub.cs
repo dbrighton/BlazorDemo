@@ -34,6 +34,12 @@ public class ChessHub : Hub
         return Task.CompletedTask;
     }
 
+    [HubMethodName(HubConstants.ResignGame)]
+    public Task ResignGame(ChessGame game)
+    {
+        _ea.GetEvent<ResignGamePrismEvent>().Publish(game);
+        return Task.CompletedTask;
+    }
 
     /// <summary>
     /// Method for joining a game.

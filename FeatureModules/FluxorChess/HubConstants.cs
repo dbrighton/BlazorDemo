@@ -7,6 +7,7 @@ public static class HubConstants
     public const string StartNewGame = "StartNewGame";
     public const string GameListChanged = "GameListChanged";
     public const string JoinGame = "JoinGame";
+    public const string ResignGame = "ResignGame";
     public const string PlayerOneJoinGame = "PlayerOneJoinGame";
     
     
