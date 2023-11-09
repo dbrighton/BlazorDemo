@@ -1,6 +1,6 @@
 ﻿namespace StoryTime;
 
-public class StoryTimeIndex_razorf
+public partial class StoryTimeIndex
 {
     
 }
