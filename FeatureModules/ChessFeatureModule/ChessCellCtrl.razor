@@ -1,0 +1,38 @@
+﻿
+<div>
+    
+@if (ChessPiece != null)
+{
+        <img alt="@CellId" title="@GetTile(@ChessPiece)" src="@ChessPiece?.ImageSrc" />
+}
+else
+{
+    <img alt="@CellId" src="Images/blank.svg" />
+}
+    
+
+</div>
+
+    
+
+
+
+@code {
+
+    [Parameter]
+    public ChessPiece? ChessPiece { get; set; } 
+
+    [Parameter]
+    public BoardPosition? CellId { get; set; }
+
+
+    private string GetTile(ChessPiece? chessPiece)
+    {
+        if (chessPiece != null)
+        {
+            return chessPiece.Type.ToString() + " " + chessPiece.Color.ToString();
+        }
+        return String.Empty;
+    }
+
+}

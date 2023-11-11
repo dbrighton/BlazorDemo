@@ -1,0 +1,37 @@
+.chess-board {
+    width: 50rem;
+    height: 50rem;
+    border-collapse: collapse;
+}
+
+    .chess-board img {
+        position: absolute;
+        margin-top: -530px;
+        z-index: -80;
+        width: 530px;
+        height: 530px;
+    }
+ 
+
+    /* Adjust the alpha channel in the rgba color to make squares slightly transparent */
+    .chess-board tr:nth-child(odd) td:nth-child(odd),
+    .chess-board tr:nth-child(even) td:nth-child(even) {
+        background-color: rgba(240, 217, 181, .01); /* light square with transparency */
+    }
+
+    .chess-board tr:nth-child(odd) td:nth-child(even),
+    .chess-board tr:nth-child(even) td:nth-child(odd) {
+        background-color: rgba(10, 46, 112, 0.64); /* dark square with transparency */
+    }
+
+.back-ground {
+    background-image: url('_content/FluxorChess/Images/Marble-Floor-Texture.jpg');
+    background-size: cover; /* Cover the entire area of the table 
+  
+}
+
+td {
+    display: flex; /* Add this to enable Flexbox for centering */
+    justify-content: center; /* centers the content horizontally */
+    align-items: center; /* centers the content vertically */
+}
