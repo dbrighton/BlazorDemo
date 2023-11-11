@@ -21,7 +21,7 @@
 
     .chess-board tr:nth-child(odd) td:nth-child(even),
     .chess-board tr:nth-child(even) td:nth-child(odd) {
-        background-color: rgb(42, 86, 165); /* dark square with transparency */
+        background-color: rgba(10, 46, 112, 0.64); /* dark square with transparency */
     }
 
 .back-ground {
