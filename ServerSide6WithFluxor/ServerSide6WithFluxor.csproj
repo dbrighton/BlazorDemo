@@ -22,7 +22,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Common\Common.csproj" />
-		<ProjectReference Include="..\FeatureModules\FluxorChess\FluxorChess.csproj" />
+		<ProjectReference Include="..\FeatureModules\ChessFeatureModule\ChessFeatureModule.csproj" />
 		<ProjectReference Include="..\FeatureModules\UserFeatureModule\UserFeatureModule.csproj" />
 	</ItemGroup>
 

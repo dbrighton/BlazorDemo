@@ -1,4 +1,4 @@
-﻿namespace FluxorChess;
+﻿namespace ChessFeatureModule;
 
 public static class HubConstants
 {

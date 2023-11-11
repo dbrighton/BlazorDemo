@@ -1,3 +1,4 @@
+
 @inherits FluxorComponent
 @inject IState<ChessState> State
 @inject IDispatcher Dispatcher
@@ -28,7 +29,7 @@
         } 
         
     </table>
-    <img src="_content/FluxorChess/Images/Marble-Floor-Texture.jpg" />
+    <img src="_content/ChessFeatureModule/Images/Marble-Floor-Texture.jpg" />
     <div class="m-2">
         <br />
         <button class="btn btn-primary" @onclick="NewGame">New Game</button>
@@ -46,7 +47,7 @@
     private BoardPosition? _droppedCellId;
 
     [Parameter]
-    public Models.ChessGame Game { get; set; }
+    public ChessGame ChessGame { get; set; } = null!;
 
 
     protected override void OnInitialized()
@@ -54,14 +55,19 @@
         base.OnInitialized();
         SubscribeToAction<ChessPiecesUpdateReducerAction>(result =>
         {
-            Game = State.Value.CurrentGame;
+            ChessGame = State.Value.CurrentGame!;
 
-            Dispatcher.Dispatch(new MoveChessPieceEffectsAction(Game));
+            Dispatcher.Dispatch(new MoveChessPieceEffectsAction(ChessGame));
         });
     }
 
     private ChessPiece? GetChessPiece(BoardPosition cellId)
     {
+        if (State.Value.CurrentGame == null)
+        {
+            return null;
+        }
+
         var target = (from i in State.Value.CurrentGame.ChessPieces
             where i.CellId == cellId
             select i).FirstOrDefault();
@@ -85,7 +91,7 @@
         var startCellId = chessPiece.CellId;
         if (IsMoveAllowed(chessPiece))
         {
-            var enemy = (from i in Game.ChessPieces
+            var enemy = (from i in ChessGame.ChessPieces
                 where i.CellId == _droppedCellId
                 select i).FirstOrDefault();
 
@@ -93,8 +99,8 @@
             {
                 enemy.IsCaptured = true;
 
-                Game.ChessPieces.Remove(enemy);
-                Game.CapturedChessPieces.Add(enemy);
+                ChessGame.ChessPieces.Remove(enemy);
+                ChessGame.CapturedChessPieces.Add(enemy);
             }
         }
 

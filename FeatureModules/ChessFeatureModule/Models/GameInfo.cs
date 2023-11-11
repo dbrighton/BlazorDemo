@@ -1,4 +1,4 @@
-﻿namespace FluxorChess.Models;
+﻿namespace ChessFeatureModule.Models;
 
 public class GameInfo
 {

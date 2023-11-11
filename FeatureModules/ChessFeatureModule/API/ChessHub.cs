@@ -1,4 +1,4 @@
-﻿namespace FluxorChess.API;
+﻿namespace ChessFeatureModule.API;
 
 /// <summary>
 /// Represents a hub for managing chess games.
@@ -35,7 +35,7 @@ public class ChessHub : Hub
     }
 
     [HubMethodName(HubConstants.ResignGame)]
-    public Task ResignGame(Models.ChessGame game)
+    public Task ResignGame(ChessGame game)
     {
         _ea.GetEvent<ResignGamePrismEvent>().Publish(game);
         return Task.CompletedTask;
@@ -70,7 +70,7 @@ public class ChessHub : Hub
 
     // This method is called when the state of a chess game has changed
     [HubMethodName(HubConstants.ChessGameSateChanged)]
-    public Task ChessGameSateChanged(Models.ChessGame game)
+    public Task ChessGameSateChanged(ChessGame game)
     {
         // Publish an event using the Prism event aggregator to notify subscribers that a chess piece has been moved
         _ea.GetEvent<MoveChessPiecePrismEvent>().Publish(game);

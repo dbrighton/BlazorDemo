@@ -1,8 +1,4 @@
-﻿using FluxorChess.Actions.Effects;
-using FluxorChess.Actions.Reducer;
-using FluxorChess.Actions.UI;
-
-namespace FluxorChess.Store;
+﻿namespace ChessFeatureModule.Store;
 
 public class Effects
 {
@@ -27,7 +23,10 @@ public class Effects
     public async Task Start(IDispatcher dispatcher)
     {
         if (_hubConnection.State == HubConnectionState.Connected)
+        {
             dispatcher.Dispatch(new HubSetConnectedReducerAction(true));
+            return;
+        }
 
         _hubConnection.Reconnecting += ex =>
         {
@@ -41,19 +40,19 @@ public class Effects
             return Task.CompletedTask;
         };
 
-        _hubConnection.On<Models.ChessGame>(HubConstants.PlayerOneJoinGame, game =>
+        _hubConnection.On<ChessGame>(HubConstants.PlayerOneJoinGame, game =>
             {
                 dispatcher.Dispatch(new JoinGameReducerAction(game));
                 dispatcher.Dispatch(new JoinGameAction(game));
             });
 
-        _hubConnection.On<Models.ChessGame>(HubConstants.ChessGameSateChanged, chessGame =>
+        _hubConnection.On<ChessGame>(HubConstants.ChessGameSateChanged, chessGame =>
             {
                 dispatcher.Dispatch(new GameUpdatedReducerAction(chessGame));
                 dispatcher.Dispatch(new GameUpdateAction(chessGame));
             });
 
-        _hubConnection.On<List<Models.ChessGame>>(HubConstants.GameListChanged, chessGameList =>
+        _hubConnection.On<List<ChessGame>>(HubConstants.GameListChanged, chessGameList =>
         {
             List<GameInfo> gameInfos = chessGameList.Select(i => i.GameInfo).ToList()!;
 
@@ -68,9 +67,10 @@ public class Effects
                 dispatcher.Dispatch(new GenericErrorAction(payload));
             });
 
-        _hubConnection.On<Models.ChessGame>(HubConstants.ResignGame, game =>
+        _hubConnection.On<ChessGame>(HubConstants.ResignGame, game =>
         {
             dispatcher.Dispatch(new GameDeletedReducerAction(game));
+            dispatcher.Dispatch(new NavigateAction("ChessHome"));
         });
 
         await _hubConnection.StartAsync();

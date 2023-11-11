@@ -1,17 +1,27 @@
-﻿namespace FluxorChess.Store;
+﻿namespace ChessFeatureModule.Store;
 
 /// <summary>
-///     Represents the state of the chess game.
+/// Represents the state of the chess game.
 /// </summary>
-/// <remarks>
-///     This class is used to store the current state of the chess game.
-/// </remarks>
 public class ChessState
 {
-    public List<GameInfo> Games { get; set; }=new();
+    /// <summary>
+    /// Gets or sets the list of games.
+    /// </summary>
+    public List<GameInfo> Games { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the current game.
+    /// </summary>
     public Models.ChessGame? CurrentGame { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the hub is connected.
+    /// </summary>
     public bool HubConnected { get; set; }
 }
+
+
 
 public class ChessFeature : Feature<ChessState>
 {
@@ -27,7 +37,8 @@ public class ChessFeature : Feature<ChessState>
     /// <remarks>
     ///     This method is used to initialize the state of the chess game.
     /// </remarks>
-    protected override ChessState GetInitialState() {
+    protected override ChessState GetInitialState()
+    {
        
 
         return new ChessState

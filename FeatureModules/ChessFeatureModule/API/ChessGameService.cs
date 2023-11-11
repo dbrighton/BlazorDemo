@@ -1,8 +1,9 @@
-namespace FluxorChess.API;
+
+namespace ChessFeatureModule.API;
 
 public class ChessGameService
 {
-    private static readonly List<Models.ChessGame> _chessGames = new();
+    private static readonly List<ChessGame> _chessGames = new();
     private readonly IEventAggregator _ea;
     private readonly IHubContext<ChessHub> _hub;
     private readonly ILogger<ChessGameService> _Log;
@@ -15,7 +16,7 @@ public class ChessGameService
 
         _ea.GetEvent<StartNewGamePrismEvent>().Subscribe(player =>
         {
-            var game = new Models.ChessGame
+            var game = new ChessGame
             {
                 GameInfo = new GameInfo
                 {
@@ -87,8 +88,8 @@ public class ChessGameService
         {
             var target = _chessGames.FirstOrDefault(i => i.GameInfo.GameId == game.GameInfo.GameId);
             _chessGames.Remove(target);
-            _hub.Clients.All.SendAsync(HubConstants.ResignGame, _chessGames);
-            _hub.Clients.All.SendAsync(HubConstants.GameListChanged, _chessGames);
+           _hub.Clients.All.SendAsync(HubConstants.GameListChanged, _chessGames);
+           _hub.Clients.All.SendAsync(HubConstants.ResignGame, target);
         });
     }
 }

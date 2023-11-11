@@ -1,6 +1,4 @@
-﻿using FluxorChess.Actions.Reducer;
-
-namespace FluxorChess.Store;
+﻿namespace ChessFeatureModule.Store;
 
 public static class Reducers
 {

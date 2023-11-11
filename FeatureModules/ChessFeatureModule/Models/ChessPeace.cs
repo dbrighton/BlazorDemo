@@ -1,6 +1,6 @@
 ﻿
 
-namespace FluxorChess.Models;
+namespace ChessFeatureModule.Models;
 
 
 public enum BoardPosition
@@ -72,7 +72,7 @@ public class ChessPiece
     private void UpdateImageSrc()
     {
 
-        var basePath = "_content/FluxorChess/Images/";
+        var basePath = "_content/ChessFeatureModule/Images/";
         var color = IsWhite ? "white" : "black";
         var fileName = $"{color}_{_type.ToString().ToLower()}.svg";
         ImageSrc = $"{basePath}{fileName}";

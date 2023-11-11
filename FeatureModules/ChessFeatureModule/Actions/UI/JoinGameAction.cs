@@ -1,3 +1,3 @@
-﻿namespace FluxorChess.Actions.UI;
+﻿namespace ChessFeatureModule.Actions.UI;
 
-public record JoinGameAction(Models.ChessGame Game);
+public record JoinGameAction(ChessGame Game);

@@ -2,8 +2,8 @@
 
 global using Blazm.Components;
 global using Fluxor;
-global using FluxorChess.API;
-global using FluxorChess.Store;
+global using ChessFeatureModule.API;
+global using ChessFeatureModule.Store;
 global using MatBlazor;
 global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.Components.Authorization;

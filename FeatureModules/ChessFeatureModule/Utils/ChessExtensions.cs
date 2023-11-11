@@ -1,6 +1,4 @@
-﻿using FluxorChess.Models;
-
-namespace FluxorChess.Utils;
+﻿namespace ChessFeatureModule.Utils;
 
 public static class ChessExtensions
 {
@@ -17,7 +15,7 @@ public static class ChessExtensions
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }
-    public static string PrintGame(this Models.ChessGame game)
+    public static string PrintGame(this ChessGame game)
     {
         var sb = new StringBuilder();
         sb.AppendLine();
@@ -44,7 +42,7 @@ public static class ChessExtensions
         sb.AppendLine("    a   b   c   d   e   f   g   h");
         return sb.ToString();
     }
-    public static Models.ChessGame ResetGame(this Models.ChessGame game)
+    public static ChessGame ResetGame(this ChessGame game)
     {
         if (game.GameInfo == null)
             return game;
@@ -53,7 +51,7 @@ public static class ChessExtensions
         game.CapturedChessPieces = new List<ChessPiece>();
         return game;
     }
-    public static List<ChessPiece> ResetBoard(this Models.ChessGame game)
+    public static List<ChessPiece> ResetBoard(this ChessGame game)
     {
         game.CapturedChessPieces = new List<ChessPiece>();
         return InitChessBoard(game.GameInfo.GameId);
