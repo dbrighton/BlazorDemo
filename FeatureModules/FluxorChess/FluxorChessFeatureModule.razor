@@ -11,7 +11,7 @@
 }
 else
 {
-    <FluxorGame Game="State.Value.CurrentGame" />
+    <ChessGame Game="State.Value.CurrentGame" />
 }
 
 
@@ -19,7 +19,7 @@ else
 
     private ChessPlayer? _player;
     private bool _viewGame;
-    private ChessGame? _game;
+    private Models.ChessGame? _game;
 
     protected override void OnInitialized()
     {

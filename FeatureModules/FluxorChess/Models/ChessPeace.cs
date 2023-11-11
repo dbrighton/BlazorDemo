@@ -34,7 +34,19 @@ public enum ChessPieceType
 
 public class ChessPiece
 {
-    public ChessPieceColor Color { get; set; }
+    public ChessPieceColor Color {
+        get
+        {
+            if (IsWhite)
+            {
+                return ChessPieceColor.White;
+            }
+            else
+            {
+                return ChessPieceColor.Black;
+            }
+        }
+    }
     public Guid? GameId { get; set; }
     public string? ImageSrc { get; private set; }
     public BoardPosition CellId { get; set; } 
@@ -59,11 +71,11 @@ public class ChessPiece
 
     private void UpdateImageSrc()
     {
+
         var basePath = "_content/FluxorChess/Images/";
         var color = IsWhite ? "white" : "black";
         var fileName = $"{color}_{_type.ToString().ToLower()}.svg";
         ImageSrc = $"{basePath}{fileName}";
-        Console.WriteLine($"ImageSrc: {ImageSrc}");
     }
 
     

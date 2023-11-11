@@ -1,3 +1,3 @@
 ﻿namespace FluxorChess.Actions.Effects;
 
-public record MoveChessPieceEffectsAction(ChessGame Game);
+public record MoveChessPieceEffectsAction(Models.ChessGame Game);

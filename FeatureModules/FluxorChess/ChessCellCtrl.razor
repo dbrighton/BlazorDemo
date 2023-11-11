@@ -3,7 +3,7 @@
     
 @if (ChessPiece != null)
 {
-        <img alt="@CellId" src="@ChessPiece?.ImageSrc" />
+        <img alt="@CellId" title="@GetTile(@ChessPiece)" src="@ChessPiece?.ImageSrc" />
 }
 else
 {
@@ -24,4 +24,15 @@ else
 
     [Parameter]
     public BoardPosition? CellId { get; set; }
+
+
+    private string GetTile(ChessPiece? chessPiece)
+    {
+        if (chessPiece != null)
+        {
+            return chessPiece.Type.ToString() + " " + chessPiece.Color.ToString();
+        }
+        return String.Empty;
+    }
+
 }
