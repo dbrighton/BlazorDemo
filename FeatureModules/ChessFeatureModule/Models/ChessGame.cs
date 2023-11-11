@@ -1,7 +1,9 @@
 ﻿namespace ChessFeatureModule.Models;
 public class ChessGame
 {
-    public GameInfo? GameInfo { get; set; } 
+    public GameInfo? GameInfo { get; set; }
+
+    public ChessPlayer CurrentPlayer { get; set; } = new();
     public ChessPlayer? PlayerOne { get; set; } 
     public ChessPlayer? PlayerTwo { get; set; } 
     public List<ChessPiece> ChessPieces { get; set; } 
@@ -21,4 +23,6 @@ public class ChessGame
 
      [JsonIgnore]
      public IClientProxy? HubClients { get; set; }
+
+    
 }
