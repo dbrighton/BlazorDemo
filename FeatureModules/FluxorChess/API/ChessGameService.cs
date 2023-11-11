@@ -2,7 +2,7 @@ namespace FluxorChess.API;
 
 public class ChessGameService
 {
-    private static readonly List<ChessGame> _chessGames = new();
+    private static readonly List<Models.ChessGame> _chessGames = new();
     private readonly IEventAggregator _ea;
     private readonly IHubContext<ChessHub> _hub;
     private readonly ILogger<ChessGameService> _Log;
@@ -15,7 +15,7 @@ public class ChessGameService
 
         _ea.GetEvent<StartNewGamePrismEvent>().Subscribe(player =>
         {
-            var game = new ChessGame
+            var game = new Models.ChessGame
             {
                 GameInfo = new GameInfo
                 {

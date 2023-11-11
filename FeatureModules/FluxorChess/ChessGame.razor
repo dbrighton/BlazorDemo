@@ -2,32 +2,41 @@
 @inject IState<ChessState> State
 @inject IDispatcher Dispatcher
 
-<table class="chess-board">
-    @for (var row = 8; row >= 1; row--) // Start from 8 and go down to 1 for rows
-    {
-        <tr>
-            @for (var col = 1; col <= 8; col++)
-            {
-                var cellId = ChessExtensions.GetBoardPosition($"{(char) (col + 96)}{row}"); // e.g., "a8", "b8", ... "h1"
-                var piece = GetChessPiece(cellId);
-                <td align="center">
-                    <div ondragover="@(() => AllowDrop(cellId))" draggable="true"
-                         ondragstart="@(() => OnDragStart(piece))"
-                         ondragend="@(() => OnDragEnd(piece))">
 
-                        <ChessCellCtrl CellId="@cellId" ChessPiece="@piece"/>
-                    </div>
 
-                </td>
-            }
-        </tr>
-    }
-</table>
-<br/>
-<div>
-    <button class="btn btn-primary" @onclick="NewGame">New Game</button>
-    <button class="btn btn-outline-danger" @onclick="Resign">Resign</button>
+
+<div class="chess-board">
+    <table > 
+        @for (var row = 8; row >= 1; row--) // Start from 8 and go down to 1 for rows
+        { 
+            <tr> 
+                @for (var col = 1; col <= 8; col++) 
+                { 
+                    var cellId = ChessExtensions.GetBoardPosition($"{(char) (col + 96)}{row}"); // e.g., "a8", "b8", ... "h1" *@
+                    var piece = GetChessPiece(cellId); 
+                    <td align="center"> 
+                        <div ondragover="@(() => AllowDrop(cellId))" draggable="true" 
+                             ondragstart="@(() => OnDragStart(piece))" 
+                             ondragend="@(() => OnDragEnd(piece))"> 
+    
+                            <ChessCellCtrl CellId="@cellId" ChessPiece="@piece"/> 
+                        </div> 
+    
+                    </td> 
+                } 
+            </tr> 
+        } 
+        
+    </table>
+    <img src="_content/FluxorChess/Images/Marble-Floor-Texture.jpg" />
+    <div class="m-2">
+        <br />
+        <button class="btn btn-primary" @onclick="NewGame">New Game</button>
+        <button class="btn btn-outline-danger" @onclick="Resign">Resign</button>
+    </div>
 </div>
+
+
 
 
 @code
@@ -37,7 +46,7 @@
     private BoardPosition? _droppedCellId;
 
     [Parameter]
-    public ChessGame Game { get; set; }
+    public Models.ChessGame Game { get; set; }
 
 
     protected override void OnInitialized()

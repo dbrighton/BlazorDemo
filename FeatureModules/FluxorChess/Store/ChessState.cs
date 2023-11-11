@@ -9,7 +9,7 @@
 public class ChessState
 {
     public List<GameInfo> Games { get; set; }=new();
-    public ChessGame? CurrentGame { get; set; }
+    public Models.ChessGame? CurrentGame { get; set; }
     public bool HubConnected { get; set; }
 }
 

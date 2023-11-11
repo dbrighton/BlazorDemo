@@ -1,3 +1,3 @@
 ﻿namespace FluxorChess.Actions.Reducer;
 
-public record GameUpdatedReducerAction(ChessGame Game);
+public record GameUpdatedReducerAction(Models.ChessGame Game);

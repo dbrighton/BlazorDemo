@@ -63,7 +63,6 @@ public class ChessPiece
         var color = IsWhite ? "white" : "black";
         var fileName = $"{color}_{_type.ToString().ToLower()}.svg";
         ImageSrc = $"{basePath}{fileName}";
-        Console.WriteLine($"ImageSrc: {ImageSrc}");
     }
 
     

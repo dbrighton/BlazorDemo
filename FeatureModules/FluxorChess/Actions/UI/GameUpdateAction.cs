@@ -1,3 +1,3 @@
 ﻿namespace FluxorChess.Actions.UI;
 
-public record GameUpdateAction(ChessGame Game);
+public record GameUpdateAction(Models.ChessGame Game);
