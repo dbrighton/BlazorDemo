@@ -74,6 +74,10 @@ public class ChessGameService
             var target = _chessGames.FirstOrDefault(i => i.GameInfo.GameId == game.GameInfo.GameId);
             _chessGames.Remove(target);
             _chessGames.Add(game);
+
+            //toggle the current player
+            game.CurrentPlayer.Color = game.CurrentPlayer.Color == ChessPieceColor.White ? ChessPieceColor.Black : ChessPieceColor.White;
+
             _hub.Clients.All.SendAsync(HubConstants.ChessGameSateChanged, game);
 
             _Log.LogInformation("ChessGameSateChanged");

@@ -29,6 +29,9 @@ public static class ChessExtensions
         if (piece == null || piece.IsCaptured)
             return false;
 
+        if (piece.Color != game.CurrentPlayer.Color)
+            return false;
+
         return piece.Type switch
         {
             ChessPieceType.Pawn => IsPawnMoveAllowed(game,piece, startCellId, endCellId),
@@ -71,40 +74,52 @@ public static class ChessExtensions
    {
        return game.ChessPieces.FirstOrDefault(p => p.CellId == position);
    }
-  private static bool IsPawnMoveAllowed(ChessGame game,ChessPiece pawn, BoardPosition start, BoardPosition end)
-    {
-        if (pawn.Color != game.CurrentPlayer.Color)
-            return false;
 
-        int startCol = start.ToColumn();
-        int endCol = end.ToColumn();
-        int startRow = (int)start.ToRow();
-        int endRow = (int)end.ToRow();
+   private static bool IsPawnMoveAllowed(ChessGame game, ChessPiece pawn, BoardPosition start, BoardPosition end)
+   {
+     
 
-        int direction = pawn.Color == ChessPieceColor.White ? 1 : -1;
+       int startCol = start.ToColumn();
+       int endCol = end.ToColumn();
+       int startRow = (int)start.ToRow();
+       int endRow = (int)end.ToRow();
 
-        // Check if the pawn is moving forward
-        if (endCol == startCol && endRow == startRow + direction)
-        {
-            // Check if the destination is empty
-            return game.GetPieceAt(end) == null;
-        }
+       int direction = pawn.Color == ChessPieceColor.White ? 1 : -1;
 
-        // Check if the pawn is capturing a piece diagonally
-        if ((endCol == startCol + 1 || endCol == startCol - 1) && endRow == startRow + direction)
-        {
-            ChessPiece targetPiece = game.GetPieceAt(end);
-            if (targetPiece != null && targetPiece.Color != pawn.Color)
-                return false;
+       // Check for initial two-space move
+       if ((pawn.Color == ChessPieceColor.White && startRow == 2) ||
+           (pawn.Color == ChessPieceColor.Black && startRow == 7))
+       {
+           int twoSpaceMoveRow = startRow + (2 * direction);
+           if (endCol == startCol && endRow == twoSpaceMoveRow)
+           {
+                // Check if the destination is empty
+                return game.GetPieceAt(end) == null;
+            }
+       }
 
-            if (targetPiece != null && targetPiece.Color != pawn.Color)
-                return true;
-        }
+       // Check if the pawn is moving forward
+       if (endCol == startCol && endRow == startRow + direction)
+       {
+           // Check if the destination is empty
+           return game.GetPieceAt(end) == null;
+       }
 
-        return false;
-    }
+       // Check if the pawn is capturing a piece diagonally
+       if ((endCol == startCol + 1 || endCol == startCol - 1) && endRow == startRow + direction)
+       {
+           ChessPiece? targetPiece = game.GetPieceAt(end);
+           if (targetPiece != null && targetPiece.Color != pawn.Color)
+               return true;
+       }
 
-  private static bool IsRookMoveAllowed(ChessGame game, ChessPiece rook, BoardPosition startCellId, BoardPosition endCellId)
+       return false;
+   }
+
+    
+
+
+private static bool IsRookMoveAllowed(ChessGame game, ChessPiece rook, BoardPosition startCellId, BoardPosition endCellId)
   {
       // Check if the piece is indeed a rook
       if (rook.Type != ChessPieceType.Rook)
