@@ -32,6 +32,14 @@ public static class ChessExtensions
         if (piece.Color != game.CurrentPlayer.Color)
             return false;
 
+        if (piece.Type != ChessPieceType.Knight)
+        {
+                        var isPathClear = IsPathClear(game, piece, startCellId, endCellId);
+            if (!isPathClear)
+                return false;
+        
+        }
+
         return piece.Type switch
         {
             ChessPieceType.Pawn => IsPawnMoveAllowed(game,piece, startCellId, endCellId),
@@ -44,7 +52,38 @@ public static class ChessExtensions
         };
     }
 
- 
+   private static bool IsPathClear(ChessGame game, ChessPiece piece, BoardPosition startCellId, BoardPosition endCellId)
+   {
+          if (piece.Type == ChessPieceType.Knight)
+                return true;
+    
+          int startCol = startCellId.ToColumn();
+          int endCol = endCellId.ToColumn();
+          int startRow = (int)startCellId.ToRow();
+          int endRow = (int)endCellId.ToRow();
+    
+          int colDiff = endCol - startCol;
+          int rowDiff = endRow - startRow;
+    
+          int colDir = colDiff == 0 ? 0 : colDiff / Math.Abs(colDiff);
+          int rowDir = rowDiff == 0 ? 0 : rowDiff / Math.Abs(rowDiff);
+    
+          int col = startCol + colDir;
+          int row = startRow + rowDir;
+
+          while (col != endCol || row != endRow)
+          {
+                var cellId = GetBoardPosition($"{(char)(col + 96)}{row}");
+                var pieceAtCell = game.ChessPieces.FirstOrDefault(p => p.CellId == cellId);
+                if (pieceAtCell != null)
+                 return false;
+    
+                col += colDir;
+                row += rowDir;
+          }
+    
+          return true;
+     }
 
    private static int ToColumn(this BoardPosition position)
    {
