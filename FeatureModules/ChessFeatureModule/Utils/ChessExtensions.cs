@@ -40,6 +40,10 @@ public static class ChessExtensions
         
         }
 
+        var pieceAtDestination = game.ChessPieces.FirstOrDefault(p => p.CellId == endCellId);
+        if (pieceAtDestination != null && pieceAtDestination.Color == piece.Color)
+            return false;
+
         return piece.Type switch
         {
             ChessPieceType.Pawn => IsPawnMoveAllowed(game,piece, startCellId, endCellId),
