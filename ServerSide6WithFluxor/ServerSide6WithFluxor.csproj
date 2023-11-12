@@ -7,6 +7,8 @@
 		<UserSecretsId>aspnet-ServerSide6WithFluxor-a4f31af0-3a48-41ef-8a4a-eba25d0a1e53</UserSecretsId>
 	</PropertyGroup>
 
+	
+
 	<ItemGroup>
 		<PackageReference Include="Fluxor" Version="5.9.1" />
 		<PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1" />

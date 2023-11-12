@@ -1,0 +1,39 @@
+﻿body{
+   
+   
+}
+
+p{
+    font-family: 'Long Cang', cursive;
+    font-size: 2em;
+    line-height: 80px;
+    margin-left: 5em ;
+    margin-right: 18rem ;
+}
+
+p img {
+    height: 2em;
+}
+
+
+.bg-image {
+    background-image: url('/Images/Scrol-middle.png');
+    background-repeat: repeat-y;
+    
+}
+/*img {
+    height: 10rem;
+    width: 10rem;
+}
+
+
+p {
+    font-family: 'Long Cang', cursive;
+    font-size: 4em;*/ */ /* You can adjust the size as needed */
+    /*line-height: 80px;*/ /* This gives a nice readable line height */
+    /*color: #333;*/ /* A standard text color for readability */
+    /*margin: 1em 0;*/ /* Standard spacing above and below paragraphs */
+/*}
+
+
+
