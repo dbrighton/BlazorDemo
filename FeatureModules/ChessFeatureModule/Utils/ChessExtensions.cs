@@ -20,12 +20,10 @@ public static class ChessExtensions
         };
     }
 
-
-   public static bool IsMoveAllowed(this ChessGame game, BoardPosition startCellId, BoardPosition endCellId)
+    public static bool IsMoveAllowed(this ChessGame game, BoardPosition startCellId, BoardPosition endCellId)
     {
         var piece = game.ChessPieces.FirstOrDefault(p => p.CellId == startCellId);
 
-       
         if (piece == null || piece.IsCaptured)
             return false;
 
@@ -34,10 +32,9 @@ public static class ChessExtensions
 
         if (piece.Type != ChessPieceType.Knight)
         {
-                        var isPathClear = IsPathClear(game, piece, startCellId, endCellId);
+            var isPathClear = IsPathClear(game, piece, startCellId, endCellId);
             if (!isPathClear)
                 return false;
-        
         }
 
         var pieceAtDestination = game.ChessPieces.FirstOrDefault(p => p.CellId == endCellId);
@@ -46,51 +43,51 @@ public static class ChessExtensions
 
         return piece.Type switch
         {
-            ChessPieceType.Pawn => IsPawnMoveAllowed(game,piece, startCellId, endCellId),
-            ChessPieceType.Rook => IsRookMoveAllowed(game,piece, startCellId, endCellId),
+            ChessPieceType.Pawn => IsPawnMoveAllowed(game, piece, startCellId, endCellId),
+            ChessPieceType.Rook => IsRookMoveAllowed(game, piece, startCellId, endCellId),
             ChessPieceType.Knight => IsKnightMoveAllowed(game, piece, startCellId, endCellId),
-            ChessPieceType.Bishop => IsBishopMoveAllowed(game,piece, startCellId, endCellId),
-            ChessPieceType.Queen => IsQueenMoveAllowed(game,piece, startCellId, endCellId),
-            ChessPieceType.King => IsKingMoveAllowed(game,piece, startCellId, endCellId),
+            ChessPieceType.Bishop => IsBishopMoveAllowed(game, piece, startCellId, endCellId),
+            ChessPieceType.Queen => IsQueenMoveAllowed(game, piece, startCellId, endCellId),
+            ChessPieceType.King => IsKingMoveAllowed(game, piece, startCellId, endCellId),
             _ => false
         };
     }
 
-   private static bool IsPathClear(ChessGame game, ChessPiece piece, BoardPosition startCellId, BoardPosition endCellId)
-   {
-          if (piece.Type == ChessPieceType.Knight)
-                return true;
-    
-          int startCol = startCellId.ToColumn();
-          int endCol = endCellId.ToColumn();
-          int startRow = (int)startCellId.ToRow();
-          int endRow = (int)endCellId.ToRow();
-    
-          int colDiff = endCol - startCol;
-          int rowDiff = endRow - startRow;
-    
-          int colDir = colDiff == 0 ? 0 : colDiff / Math.Abs(colDiff);
-          int rowDir = rowDiff == 0 ? 0 : rowDiff / Math.Abs(rowDiff);
-    
-          int col = startCol + colDir;
-          int row = startRow + rowDir;
+    private static bool IsPathClear(ChessGame game, ChessPiece piece, BoardPosition startCellId, BoardPosition endCellId)
+    {
+        if (piece.Type == ChessPieceType.Knight)
+            return true;
 
-          while (col != endCol || row != endRow)
-          {
-                var cellId = GetBoardPosition($"{(char)(col + 96)}{row}");
-                var pieceAtCell = game.ChessPieces.FirstOrDefault(p => p.CellId == cellId);
-                if (pieceAtCell != null)
-                 return false;
-    
-                col += colDir;
-                row += rowDir;
-          }
-    
-          return true;
-     }
+        int startCol = startCellId.ToColumn();
+        int endCol = endCellId.ToColumn();
+        int startRow = (int)startCellId.ToRow();
+        int endRow = (int)endCellId.ToRow();
 
-   private static int ToColumn(this BoardPosition position)
-   {
+        int colDiff = endCol - startCol;
+        int rowDiff = endRow - startRow;
+
+        int colDir = colDiff == 0 ? 0 : colDiff / Math.Abs(colDiff);
+        int rowDir = rowDiff == 0 ? 0 : rowDiff / Math.Abs(rowDiff);
+
+        int col = startCol + colDir;
+        int row = startRow + rowDir;
+
+        while (col != endCol || row != endRow)
+        {
+            var cellId = GetBoardPosition($"{(char)(col + 96)}{row}");
+            var pieceAtCell = game.ChessPieces.FirstOrDefault(p => p.CellId == cellId);
+            if (pieceAtCell != null)
+                return false;
+
+            col += colDir;
+            row += rowDir;
+        }
+
+        return true;
+    }
+
+    private static int ToColumn(this BoardPosition position)
+    {
         var col = position.ToString().Substring(0, 1);
         switch (col)
         {
@@ -105,247 +102,234 @@ public static class ChessExtensions
         }
 
         return -1;
-   }
+    }
 
-   private static int ToRow(this BoardPosition position)
-   {
-       var row = position.ToString().Substring(1, 1);
-       return int.Parse(row);
-   }
+    private static int ToRow(this BoardPosition position)
+    {
+        var row = position.ToString().Substring(1, 1);
+        return int.Parse(row);
+    }
 
-   private static ChessPiece? GetPieceAt(this ChessGame game, BoardPosition position)
-   {
-       return game.ChessPieces.FirstOrDefault(p => p.CellId == position);
-   }
+    private static ChessPiece? GetPieceAt(this ChessGame game, BoardPosition position)
+    {
+        return game.ChessPieces.FirstOrDefault(p => p.CellId == position);
+    }
 
-   private static bool IsPawnMoveAllowed(ChessGame game, ChessPiece pawn, BoardPosition start, BoardPosition end)
-   {
-     
+    private static bool IsPawnMoveAllowed(ChessGame game, ChessPiece pawn, BoardPosition start, BoardPosition end)
+    {
+        int startCol = start.ToColumn();
+        int endCol = end.ToColumn();
+        int startRow = (int)start.ToRow();
+        int endRow = (int)end.ToRow();
 
-       int startCol = start.ToColumn();
-       int endCol = end.ToColumn();
-       int startRow = (int)start.ToRow();
-       int endRow = (int)end.ToRow();
+        int direction = pawn.Color == ChessPieceColor.White ? 1 : -1;
 
-       int direction = pawn.Color == ChessPieceColor.White ? 1 : -1;
-
-       // Check for initial two-space move
-       if ((pawn.Color == ChessPieceColor.White && startRow == 2) ||
-           (pawn.Color == ChessPieceColor.Black && startRow == 7))
-       {
-           int twoSpaceMoveRow = startRow + (2 * direction);
-           if (endCol == startCol && endRow == twoSpaceMoveRow)
-           {
+        // Check for initial two-space move
+        if ((pawn.Color == ChessPieceColor.White && startRow == 2) ||
+            (pawn.Color == ChessPieceColor.Black && startRow == 7))
+        {
+            int twoSpaceMoveRow = startRow + (2 * direction);
+            if (endCol == startCol && endRow == twoSpaceMoveRow)
+            {
                 // Check if the destination is empty
                 return game.GetPieceAt(end) == null;
             }
-       }
+        }
 
-       // Check if the pawn is moving forward
-       if (endCol == startCol && endRow == startRow + direction)
-       {
-           // Check if the destination is empty
-           return game.GetPieceAt(end) == null;
-       }
+        // Check if the pawn is moving forward
+        if (endCol == startCol && endRow == startRow + direction)
+        {
+            // Check if the destination is empty
+            return game.GetPieceAt(end) == null;
+        }
 
-       // Check if the pawn is capturing a piece diagonally
-       if ((endCol == startCol + 1 || endCol == startCol - 1) && endRow == startRow + direction)
-       {
-           ChessPiece? targetPiece = game.GetPieceAt(end);
-           if (targetPiece != null && targetPiece.Color != pawn.Color)
-               return true;
-       }
+        // Check if the pawn is capturing a piece diagonally
+        if ((endCol == startCol + 1 || endCol == startCol - 1) && endRow == startRow + direction)
+        {
+            ChessPiece? targetPiece = game.GetPieceAt(end);
+            if (targetPiece != null && targetPiece.Color != pawn.Color)
+                return true;
+        }
 
-       return false;
-   }
+        return false;
+    }
 
-    
+    private static bool IsRookMoveAllowed(ChessGame game, ChessPiece rook, BoardPosition startCellId, BoardPosition endCellId)
+    {
+        // Check if the piece is indeed a rook
+        if (rook.Type != ChessPieceType.Rook)
+        {
+            return false;
+        }
 
+        // Rooks move in straight lines, either horizontally or vertically.
+        bool isVerticalMove = startCellId.ToColumn() == endCellId.ToColumn();
+        bool isHorizontalMove = startCellId.ToRow() == endCellId.ToRow();
 
-private static bool IsRookMoveAllowed(ChessGame game, ChessPiece rook, BoardPosition startCellId, BoardPosition endCellId)
-  {
-      // Check if the piece is indeed a rook
-      if (rook.Type != ChessPieceType.Rook)
-      {
-          return false;
-      }
+        if (!isVerticalMove && !isHorizontalMove)
+        {
+            return false; // Not a straight line move
+        }
 
-      // Rooks move in straight lines, either horizontally or vertically.
-      bool isVerticalMove = startCellId.ToColumn() == endCellId.ToColumn();
-      bool isHorizontalMove = startCellId.ToRow() == endCellId.ToRow();
+        // Check for other pieces in the path (excluding the end cell)
+        // Implement the logic to iterate through the cells between startCellId and endCellId
+        // and check if any cell contains a piece that is not captured.
 
-      if (!isVerticalMove && !isHorizontalMove)
-      {
-          return false; // Not a straight line move
-      }
+        // If the move is to a cell occupied by an opponent's piece, it's allowed (capture).
+        // If the move is to an empty cell, it's also allowed.
+        // Check the endCellId for these conditions.
 
-      // Check for other pieces in the path (excluding the end cell)
-      // Implement the logic to iterate through the cells between startCellId and endCellId
-      // and check if any cell contains a piece that is not captured.
+        return true; // If all conditions are met, the move is allowed
+    }
 
-      // If the move is to a cell occupied by an opponent's piece, it's allowed (capture).
-      // If the move is to an empty cell, it's also allowed.
-      // Check the endCellId for these conditions.
+    private static bool IsKnightMoveAllowed(ChessGame game, ChessPiece knight, BoardPosition startCellId, BoardPosition endCellId)
+    {
+        // Check if the piece is indeed a knight
+        if (knight.Type != ChessPieceType.Knight)
+        {
+            return false;
+        }
 
-      return true; // If all conditions are met, the move is allowed
-  }
+        // Calculate the difference in rows and columns between the start and end positions
+        int rowDifference = Math.Abs(startCellId.ToRow() - endCellId.ToRow());
+        int columnDifference = Math.Abs(startCellId.ToColumn() - endCellId.ToColumn());
 
+        // Knight moves in an L-shape: two squares in one direction and one square perpendicular
+        bool isValidKnightMove = (rowDifference == 2 && columnDifference == 1) || (rowDifference == 1 && columnDifference == 2);
 
-  private static bool IsKnightMoveAllowed( ChessGame game, ChessPiece knight, BoardPosition startCellId, BoardPosition endCellId)
-  {
-      // Check if the piece is indeed a knight
-      if (knight.Type != ChessPieceType.Knight)
-      {
-          return false;
-      }
+        if (!isValidKnightMove)
+        {
+            return false; // Not a valid L-shaped move
+        }
 
-      // Calculate the difference in rows and columns between the start and end positions
-      int rowDifference = Math.Abs(startCellId.ToRow() - endCellId.ToRow());
-      int columnDifference = Math.Abs(startCellId.ToColumn() - endCellId.ToColumn());
+        // Knights can jump over other pieces, so no need to check the path.
+        // However, check the conditions at the end cell.
+        // The move is allowed if the end cell is either empty or occupied by an opponent's piece for capture.
 
-      // Knight moves in an L-shape: two squares in one direction and one square perpendicular
-      bool isValidKnightMove = (rowDifference == 2 && columnDifference == 1) || (rowDifference == 1 && columnDifference == 2);
+        return true; // If all conditions are met, the move is allowed
+    }
 
-      if (!isValidKnightMove)
-      {
-          return false; // Not a valid L-shaped move
-      }
+    private static bool IsBishopMoveAllowed(ChessGame game, ChessPiece bishop, BoardPosition startCellId, BoardPosition endCellId)
+    {
+        // Check if the piece is indeed a bishop
+        if (bishop.Type != ChessPieceType.Bishop)
+        {
+            return false;
+        }
 
-      // Knights can jump over other pieces, so no need to check the path.
-      // However, check the conditions at the end cell.
-      // The move is allowed if the end cell is either empty or occupied by an opponent's piece for capture.
+        // Calculate the difference in rows and columns between the start and end positions
+        int rowDifference = Math.Abs(startCellId.ToRow() - endCellId.ToRow());
+        int columnDifference = Math.Abs(startCellId.ToColumn() - endCellId.ToColumn());
 
-      return true; // If all conditions are met, the move is allowed
-  }
+        // Bishop moves diagonally, so the absolute difference between rows and columns should be the same
+        if (rowDifference != columnDifference)
+        {
+            return false; // Not a diagonal move
+        }
 
+        // Check for other pieces in the path (excluding the end cell)
+        // Implement the logic to iterate through the cells between startCellId and endCellId
+        // and check if any cell contains a piece that is not captured.
 
-  private static bool IsBishopMoveAllowed( ChessGame game, ChessPiece bishop, BoardPosition startCellId, BoardPosition endCellId)
-  {
-      // Check if the piece is indeed a bishop
-      if (bishop.Type != ChessPieceType.Bishop)
-      {
-          return false;
-      }
+        // If the move is to a cell occupied by an opponent's piece, it's allowed (capture).
+        // If the move is to an empty cell, it's also allowed.
+        // Check the endCellId for these conditions.
 
-      // Calculate the difference in rows and columns between the start and end positions
-      int rowDifference = Math.Abs(startCellId.ToRow() - endCellId.ToRow());
-      int columnDifference = Math.Abs(startCellId.ToColumn() - endCellId.ToColumn());
+        return true; // If all conditions are met, the move is allowed
+    }
 
-      // Bishop moves diagonally, so the absolute difference between rows and columns should be the same
-      if (rowDifference != columnDifference)
-      {
-          return false; // Not a diagonal move
-      }
+    private static bool IsQueenMoveAllowed(ChessGame game, ChessPiece queen, BoardPosition startCellId, BoardPosition endCellId)
+    {
+        // Check if the piece is indeed a queen
+        if (queen.Type != ChessPieceType.Queen)
+        {
+            return false;
+        }
 
-      // Check for other pieces in the path (excluding the end cell)
-      // Implement the logic to iterate through the cells between startCellId and endCellId
-      // and check if any cell contains a piece that is not captured.
+        // Calculate the difference in rows and columns between the start and end positions
+        int rowDifference = Math.Abs(startCellId.ToRow() - endCellId.ToRow());
+        int columnDifference = Math.Abs(startCellId.ToColumn() - endCellId.ToColumn());
 
-      // If the move is to a cell occupied by an opponent's piece, it's allowed (capture).
-      // If the move is to an empty cell, it's also allowed.
-      // Check the endCellId for these conditions.
+        // Queen moves horizontally, vertically, or diagonally.
+        bool isDiagonalMove = rowDifference == columnDifference;
+        bool isHorizontalMove = rowDifference == 0 && columnDifference != 0;
+        bool isVerticalMove = columnDifference == 0 && rowDifference != 0;
 
-      return true; // If all conditions are met, the move is allowed
-  }
+        if (!(isDiagonalMove || isHorizontalMove || isVerticalMove))
+        {
+            return false; // Not a valid queen move
+        }
 
+        // Check for other pieces in the path (excluding the end cell)
+        // Implement the logic to iterate through the cells between startCellId and endCellId
+        // and check if any cell contains a piece that is not captured.
 
-  private static bool IsQueenMoveAllowed( ChessGame game, ChessPiece queen, BoardPosition startCellId, BoardPosition endCellId)
-  {
-      // Check if the piece is indeed a queen
-      if (queen.Type != ChessPieceType.Queen)
-      {
-          return false;
-      }
+        // If the move is to a cell occupied by an opponent's piece, it's allowed (capture).
+        // If the move is to an empty cell, it's also allowed.
+        // Check the endCellId for these conditions.
 
-      // Calculate the difference in rows and columns between the start and end positions
-      int rowDifference = Math.Abs(startCellId.ToRow() - endCellId.ToRow());
-      int columnDifference = Math.Abs(startCellId.ToColumn() - endCellId.ToColumn());
+        return true; // If all conditions are met, the move is allowed
+    }
 
-      // Queen moves horizontally, vertically, or diagonally.
-      bool isDiagonalMove = rowDifference == columnDifference;
-      bool isHorizontalMove = rowDifference == 0 && columnDifference != 0;
-      bool isVerticalMove = columnDifference == 0 && rowDifference != 0;
+    private static bool IsKingMoveAllowed(ChessGame game, ChessPiece king, BoardPosition startCellId, BoardPosition endCellId)
+    {
+        // Check if the piece is indeed a king
+        if (king.Type != ChessPieceType.King)
+        {
+            return false;
+        }
 
-      if (!(isDiagonalMove || isHorizontalMove || isVerticalMove))
-      {
-          return false; // Not a valid queen move
-      }
+        // Calculate the difference in rows and columns between the start and end positions
+        int rowDifference = Math.Abs(startCellId.ToRow() - endCellId.ToRow());
+        int columnDifference = Math.Abs(startCellId.ToColumn() - endCellId.ToColumn());
 
-      // Check for other pieces in the path (excluding the end cell)
-      // Implement the logic to iterate through the cells between startCellId and endCellId
-      // and check if any cell contains a piece that is not captured.
+        // King moves exactly one square in any direction
+        bool isSingleSquareMove = (rowDifference <= 1 && columnDifference <= 1) && (rowDifference != 0 || columnDifference != 0);
 
-      // If the move is to a cell occupied by an opponent's piece, it's allowed (capture).
-      // If the move is to an empty cell, it's also allowed.
-      // Check the endCellId for these conditions.
+        if (!isSingleSquareMove)
+        {
+            return false; // Not a valid single square move
+        }
+        //else if (isCastlingMoveAllowed(game, king, startCellId, endCellId))
+        //{
+        //    return true;
+        //}
 
-      return true; // If all conditions are met, the move is allowed
-  }
+        // Additional checks can be added here for special moves like castling,
+        // or checks for moving into check (which is not allowed).
 
+        // Check the conditions at the end cell.
+        // The move is allowed if the end cell is either empty or occupied by an opponent's piece for capture.
 
-  private static bool IsKingMoveAllowed( ChessGame game, ChessPiece king, BoardPosition startCellId, BoardPosition endCellId)
-  {
-      // Check if the piece is indeed a king
-      if (king.Type != ChessPieceType.King)
-      {
-          return false;
-      }
+        return true; // If all conditions are met, the move is allowed
+    }
 
-      // Calculate the difference in rows and columns between the start and end positions
-      int rowDifference = Math.Abs(startCellId.ToRow() - endCellId.ToRow());
-      int columnDifference = Math.Abs(startCellId.ToColumn() - endCellId.ToColumn());
+    //private static bool IsCastlingMoveAllowed(ChessGame game, ChessPiece king, BoardPosition start, BoardPosition end)
+    //{
+    //    // Verify it's the king's first move
+    //    if (!king.IsFirstMove) return false;
 
-      // King moves exactly one square in any direction
-      bool isSingleSquareMove = (rowDifference <= 1 && columnDifference <= 1) && (rowDifference != 0 || columnDifference != 0);
+    //    // Check if the king is in check
+    //    if (game.IsKingInCheck(king.Color)) return false;
 
-      if (!isSingleSquareMove)
-      {
-          return false; // Not a valid single square move
-      }
-      //else if (isCastlingMoveAllowed(game, king, startCellId, endCellId))
-      //{
-      //    return true;
-      //}
+    //    // Determine if kingside or queenside castling
+    //    bool isKingside = end == BoardPositionExtensions.KingsideRookPosition(king.Color);
+    //    bool isQueenside = end == BoardPositionExtensions.QueensideRookPosition(king.Color);
 
-      // Additional checks can be added here for special moves like castling,
-      // or checks for moving into check (which is not allowed).
+    //    if (!isKingside && !isQueenside) return false;
 
+    //    // Find the corresponding rook and verify it's the rook's first move
+    //    ChessPiece rook = game.FindRookForCastling(king.Color, isKingside);
+    //    if (rook == null || !rook.IsFirstMove) return false;
 
+    //    // Verify there are no pieces between the king and the rook
+    //    if (!game.IsPathClear(king, rook)) return false;
 
-      // Check the conditions at the end cell.
-      // The move is allowed if the end cell is either empty or occupied by an opponent's piece for capture.
+    //    // Verify the king does not pass through check
+    //    if (game.DoesKingPassThroughCheck(king, start, end)) return false;
 
-      return true; // If all conditions are met, the move is allowed
-  }
-
-
-  private static bool IsCastlingMoveAllowed(ChessGame game, ChessPiece king, BoardPosition start, BoardPosition end)
-  {
-      // Verify it's the king's first move
-      if (!king.IsFirstMove) return false;
-
-      // Check if the king is in check
-      if (game.IsKingInCheck(king.Color)) return false;
-
-      // Determine if kingside or queenside castling
-      bool isKingside = end == BoardPositionExtensions.KingsideRookPosition(king.Color);
-      bool isQueenside = end == BoardPositionExtensions.QueensideRookPosition(king.Color);
-
-      if (!isKingside && !isQueenside) return false;
-
-      // Find the corresponding rook and verify it's the rook's first move
-      ChessPiece rook = game.FindRookForCastling(king.Color, isKingside);
-      if (rook == null || !rook.IsFirstMove) return false;
-
-      // Verify there are no pieces between the king and the rook
-      if (!game.IsPathClear(king, rook)) return false;
-
-      // Verify the king does not pass through check
-      if (game.DoesKingPassThroughCheck(king, start, end)) return false;
-
-      return true;
-  }
-
+    //    return true;
+    //}
 
     public static string PrintGame(this ChessGame game)
     {
@@ -374,6 +358,7 @@ private static bool IsRookMoveAllowed(ChessGame game, ChessPiece rook, BoardPosi
         sb.AppendLine("    a   b   c   d   e   f   g   h");
         return sb.ToString();
     }
+
     public static ChessGame ResetGame(this ChessGame game)
     {
         if (game.GameInfo == null)
@@ -383,11 +368,13 @@ private static bool IsRookMoveAllowed(ChessGame game, ChessPiece rook, BoardPosi
         game.CapturedChessPieces = new List<ChessPiece>();
         return game;
     }
+
     public static List<ChessPiece> ResetBoard(this ChessGame game)
     {
         game.CapturedChessPieces = new List<ChessPiece>();
         return InitChessBoard(game.GameInfo.GameId);
     }
+
     private static List<ChessPiece> InitChessBoard(Guid? gameId)
     {
         var list = new List<ChessPiece>
@@ -456,8 +443,6 @@ private static bool IsRookMoveAllowed(ChessGame game, ChessPiece rook, BoardPosi
                 IsWhite = true,
                 Type = ChessPieceType.Rook
             }
-
-
         };
 
         for (var i = 1; i <= 8; i++)
@@ -544,7 +529,6 @@ private static bool IsRookMoveAllowed(ChessGame game, ChessPiece rook, BoardPosi
             Type = ChessPieceType.Rook
         });
 
-
         return list;
     }
 
@@ -565,8 +549,7 @@ private static bool IsRookMoveAllowed(ChessGame game, ChessPiece rook, BoardPosi
     /// </summary>
     /// <param name="chessPieces"></param>
     /// <returns></returns>
-   
-  
+
     private static string GetCellColor(char col, int row)
     {
         bool isEvenRow = row % 2 == 0;
