@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserFeatureModule", "FeatureModules\UserFeatureModule\UserFeatureModule.csproj", "{93A717C9-77A0-44F2-9BC3-5CB53E410F60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessFeatureModule", "FeatureModules\ChessFeatureModule\ChessFeatureModule.csproj", "{FB53B249-5E1C-4D48-9FD1-F0336290F2E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChessFeatureModule", "FeatureModules\ChessFeatureModule\ChessFeatureModule.csproj", "{FB53B249-5E1C-4D48-9FD1-F0336290F2E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

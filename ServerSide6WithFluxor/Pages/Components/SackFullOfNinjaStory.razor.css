@@ -1,0 +1,80 @@
+﻿.scroll-background {
+    background-image: url('/images/Scroll-1.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: relative;
+    width: 25rem; /* or fixed width */
+    height: 600px; /* or height that matches your scroll image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.scroll-text {
+    width: 20rem; /* Adjust based on the width of the text area of the scroll */
+    height: 20rem; /* Adjust based on the height of the text area of the scroll */
+    overflow-y: auto; /* Enables scrolling within the text div */
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+    margin-left: -8rem;
+}
+
+.scroll-text img {
+    height: 2rem;
+}
+
+.pagination-controls {
+    position: absolute;
+    bottom: 10px; /* Adjust based on your needs */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+p {
+    font-family: 'Long Cang', cursive;
+    font-size: 2rem;
+    line-height: 80px;
+    margin-left: 5rem;
+    margin-right: 18rem;
+}
+
+/*body{
+   
+   
+}
+
+p{
+    font-family: 'Long Cang', cursive;
+    font-size: 2em;
+    line-height: 80px;
+    margin-left: 5em ;
+    margin-right: 18rem ;
+}
+
+p img {
+    height: 2em;
+}
+
+
+.bg-image {
+    background-image: url('/Images/Scrol-middle.png');
+    background-repeat: repeat-y;
+    margin-left: 6.6em;
+}*/
+/*img {
+    height: 10rem;
+    width: 10rem;
+}
+
+
+p {
+    font-family: 'Long Cang', cursive;
+    font-size: 4em;*/ /**/*/ /* You can adjust the size as needed */
+    /*line-height: 80px;*/ /* This gives a nice readable line height */
+    /*color: #333;*/ /* A standard text color for readability */
+    /*margin: 1em 0;*/ /* Standard spacing above and below paragraphs */
+/*}
+
+
+

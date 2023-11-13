@@ -89,7 +89,13 @@
     private void OnDragEnd(ChessPiece chessPiece)
     {
         var startCellId = chessPiece.CellId;
-        if (IsMoveAllowed(chessPiece))
+        var game = State.Value.CurrentGame;
+        if (game == null || _droppedCellId == null)
+        {
+            return;
+        }
+        
+        if (game.IsMoveAllowed(startCellId, (BoardPosition) _droppedCellId))
         {
             var enemy = (from i in ChessGame.ChessPieces
                 where i.CellId == _droppedCellId
@@ -103,7 +109,11 @@
                 ChessGame.CapturedChessPieces.Add(enemy);
             }
         }
-
+        else
+        {
+            Dispatcher.Dispatch(new GenericInfoAction("Invalid move"));
+            return;
+        }
         chessPiece.CellId = (BoardPosition) _droppedCellId;
 
 
@@ -117,10 +127,6 @@
         }
     }
 
-    private bool IsMoveAllowed(ChessPiece chessPiece)
-    {
-        return true;
-    }
 
 
     private void NewGame()
