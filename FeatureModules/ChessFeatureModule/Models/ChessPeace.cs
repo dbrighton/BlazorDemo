@@ -86,6 +86,8 @@ public class ChessPiece
         _ => throw new ArgumentException("Invalid column value")
     };
 
+    public bool IsFirstMove { get; set; } = true;
+
     // Method to update the source of the image of the chess piece.
     private void UpdateImageSrc()
     {

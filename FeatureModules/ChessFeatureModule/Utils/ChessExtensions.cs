@@ -302,9 +302,15 @@ private static bool IsRookMoveAllowed(ChessGame game, ChessPiece rook, BoardPosi
       {
           return false; // Not a valid single square move
       }
+      //else if (isCastlingMoveAllowed(game, king, startCellId, endCellId))
+      //{
+      //    return true;
+      //}
 
       // Additional checks can be added here for special moves like castling,
       // or checks for moving into check (which is not allowed).
+
+
 
       // Check the conditions at the end cell.
       // The move is allowed if the end cell is either empty or occupied by an opponent's piece for capture.
@@ -313,8 +319,32 @@ private static bool IsRookMoveAllowed(ChessGame game, ChessPiece rook, BoardPosi
   }
 
 
-    // Helper methods for movement logic (e.g., IsPathClear, IsWithinBoardBounds, etc.)
-    // ...
+  private static bool IsCastlingMoveAllowed(ChessGame game, ChessPiece king, BoardPosition start, BoardPosition end)
+  {
+      // Verify it's the king's first move
+      if (!king.IsFirstMove) return false;
+
+      // Check if the king is in check
+      if (game.IsKingInCheck(king.Color)) return false;
+
+      // Determine if kingside or queenside castling
+      bool isKingside = end == BoardPositionExtensions.KingsideRookPosition(king.Color);
+      bool isQueenside = end == BoardPositionExtensions.QueensideRookPosition(king.Color);
+
+      if (!isKingside && !isQueenside) return false;
+
+      // Find the corresponding rook and verify it's the rook's first move
+      ChessPiece rook = game.FindRookForCastling(king.Color, isKingside);
+      if (rook == null || !rook.IsFirstMove) return false;
+
+      // Verify there are no pieces between the king and the rook
+      if (!game.IsPathClear(king, rook)) return false;
+
+      // Verify the king does not pass through check
+      if (game.DoesKingPassThroughCheck(king, start, end)) return false;
+
+      return true;
+  }
 
 
     public static string PrintGame(this ChessGame game)

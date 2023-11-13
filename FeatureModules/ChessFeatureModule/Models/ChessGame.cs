@@ -24,5 +24,6 @@ public class ChessGame
      [JsonIgnore]
      public IClientProxy? HubClients { get; set; }
 
-    
+
+   
 }
